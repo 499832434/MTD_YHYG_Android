@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="text" format="string|reference"/>
+    <attr name="image" format="reference"/>
+    <declare-styleable name="ImageLabelView">
+        <attr name="text" />
+        <attr name="textColor" format="color|reference"/>
+        <attr name="textSize" format="dimension" />
+        <attr name="textMarginLeft" format="dimension"/>
+        <attr name="textMarginTop" format="dimension"/>
+        <attr name="textMarginRight" format="dimension"/>
+        <attr name="textMarginBottom" format="dimension"/>
+        <attr name="textPaddingLeft" format="dimension"/>
+        <attr name="textPaddingTop" format="dimension"/>
+        <attr name="textPaddingRight" format="dimension"/>
+        <attr name="textPaddingBottom" format="dimension"/>
+
+        <attr name="image" />
+        <attr name="imageWidth" format="dimension"/>
+        <attr name="imageHeight" format="dimension"/>
+        <attr name="imageMarginLeft" format="dimension"/>
+        <attr name="imageMarginTop" format="dimension"/>
+        <attr name="imageMarginRight" format="dimension"/>
+        <attr name="imageMarginBottom" format="dimension"/>
+        <attr name="imagePaddingLeft" format="dimension"/>
+        <attr name="imagePaddingTop" format="dimension"/>
+        <attr name="imagePaddingRight" format="dimension"/>
+        <attr name="imagePaddingBottom" format="dimension"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="CustomTitleBar">
+        <attr name="text" />
+        <attr name="sevenText" format="string"/>
+        <attr name="imageTitle" format="reference" />
+        <attr name="imageFirst" format="reference" />
+        <attr name="imageSecond" format="reference" />
+        <attr name="imageThird" format="reference" />
+        <attr name="imageForth" format="reference" />
+        <attr name="imageFive" format="reference" />
+        <attr name="imageSix" format="reference" />
+        <attr name="imageLeft" format="reference" />
+        <attr name="firstBtnEnabled" format="boolean"/>
+        <attr name="secondBtnEnabled" format="boolean"/>
+        <attr name="thirdBtnEnabled" format="boolean"/>
+        <attr name="forthBtnEnabled" format="boolean"/>
+        <attr name="leftBtnEnabled" format="boolean"/>
+        <attr name="fiveBtnEnabled" format="boolean"/>
+        <attr name="sixBtnEnabled" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="searchedit">
+        <attr name="imagewidth" format="dimension" />
+        <attr name="textSize1" format="dimension" />
+        <attr name="textColor1" format="color" />
+        <attr name="searchText" format="string"/>
+    </declare-styleable>
+</resources>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="transparent">#00000000</color>
+    <color name="bottom_text_color">#999999</color>
+    <color name="bottom_text_color_selected">#0398ff</color>
+    <color name="news_tab_text_color_selected">#64AC88</color>
+    <color name="news_tab_text_color">#606060</color>
+    <color name="home_icon_text_color">#393939</color>
+    <color name="detail_text_color">#393939</color>
+    <color name="logout_regist_normal">#f25424</color>
+    <color name="logout_regist_pressed">#8c3c00</color>
+    <color name="title_bg_color">#ffffff</color><!--标题栏背景颜色-->
+    <color name="list_title_text_color">#262626</color><!--列表的title字体颜色-->
+    <color name="list_time_text_color">#999999</color><!--列表的time字体颜色-->
+    <color name="transparent_background">#50000000</color>
+    <color name="home_line">#f2f2f2</color>
+    <integer-array name="gplus_colors">
+        <item>@color/gplus_color_1</item>
+        <item>@color/gplus_color_2</item>
+        <item>@color/gplus_color_3</item>
+        <item>@color/gplus_color_4</item>
+    </integer-array>
+    <color name="gplus_color_1">#3e802f</color>
+    <color name="gplus_color_2">#427fed</color>
+    <color name="gplus_color_3">#b23424</color>
+    <color name="gplus_color_4">#f4b400</color>
+
+    <color name="bg_home">#F2F2F3</color>
+    <color name="grey">#cccccc</color>
+    <color name="b_grey">#666666</color>
+    <color name="white">#ffffff</color>
+    <color name="order_choice_color">#F4756F</color>
+    <color name="agri_order_choice_color">#F8A232</color>
+    <color name="recent_word_color">#EEEEEE</color>
+
+    <color name="red_light">#ffff4444</color>
+    <color name="green_light">#ff99cc00</color>
+    <color name="orange_light">#ffffbb33</color>
+    <color name="blue_light">#ff33b5e5</color>
+    <color name="top_layout_pressed_bg">#20000000</color>
+    <color name="top_color">#64ac88</color>
+
+
+    <!--意见反馈-->
+    <color name="idea_back_success_title_text">#F19504</color>
+    <color name="idea_back_success_text">#666666</color>
+    <color name="idea_back_success_phone_text">#e85349</color>
+    <color name="idea_back_edit_hint">#999999</color>
+    <color name="idea_back_background">#F3F3F3</color>
+    <color name="idea_back_account_text">#393939</color>
+    <color name="add_score_notification_bg">#D21919</color>
+
+    <!--设置-->
+    <color name="setting_title_text">#868686</color>
+    <color name="setting_text">#161616</color>
+
+    <!--个人中心-->
+    <color name="personal_manager_phone">#e85349</color>
+
+    <!--云收藏-->
+    <color name="collect_radiobtn_normal">#BDBDBD</color>
+    <color name="collect_radiobtn_check_text">#F46D25</color>
+
+    <!--推送设置-->
+    <color name="push_setting_miandarao_text">#999999</color>
+    <color name="push_setting_tab_check_text">#f19504</color>
+
+    <!--电话色值-->
+    <color name="app_hot_phone_text">#0058d3</color>
+
+    <color name="title_line_color">#e1e1e1</color><!--标题栏底线颜色-->
+    <color name="title_tv_color">#36393e</color><!--标题栏字体颜色-->
+
+    <color name="bs_bt_color">#f5f5f5</color>
+    <color name="page_title_text_color">#282828</color>
+    <color name="news_price_text_color">#fe8d25</color>
+    <color name="home_news_title_color">#4d4d4d</color>
+    <color name="collect_normal_color">#333333</color>
+</resources>
