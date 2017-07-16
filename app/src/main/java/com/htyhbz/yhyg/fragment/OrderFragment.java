@@ -23,7 +23,8 @@ public class OrderFragment extends Fragment {
     private View currentView = null;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    public List<AccountFragment> fragments;
+    public List<OrderTypeFragment> fragments;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,13 +34,12 @@ public class OrderFragment extends Fragment {
     }
 
 
-    private void initView(){
-//设置tabLayout的属性
+    private void initView() {
         tabLayout = (TabLayout) currentView.findViewById(R.id.tabLayout);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         tabLayout.setBackgroundColor(Color.parseColor("#ffffff"));
-        //tabLayout.setTabTextColors(Color.parseColor("#000000"), Color.parseColor("#0ddcff"));//设置tab上文字的颜色，第一个参数表示没有选中状态下的文字颜色，第二个参数表示选中后的文字颜色
+        tabLayout.setTabTextColors(Color.parseColor("#2e2e2e"), Color.parseColor("#0398ff"));//设置tab上文字的颜色，第一个参数表示没有选中状态下的文字颜色，第二个参数表示选中后的文字颜色
         //tabLayout.setSelectedIndicatorColor(Color.parseColor("#0ddcff"));//设置tab选中的底部的指示条的颜色
         viewPager = (ViewPager) currentView.findViewById(R.id.paraViewPager);
         //viewPager.setOffscreenPageLimit(4);
@@ -50,11 +50,11 @@ public class OrderFragment extends Fragment {
 //                R.drawable.layout_divider_vertical));
 
 
-        fragments=new ArrayList<AccountFragment>();
-        fragments.add(new AccountFragment());
-        fragments.add(new AccountFragment());
-        fragments.add(new AccountFragment());
-        fragments.add(new AccountFragment());
+        fragments = new ArrayList<OrderTypeFragment>();
+        fragments.add(new OrderTypeFragment());
+        fragments.add(new OrderTypeFragment());
+        fragments.add(new OrderTypeFragment());
+        fragments.add(new OrderTypeFragment());
 
         //给viewPager设置适配器
         viewPager.setAdapter(new FragmentPagerAdapter(getActivity().getSupportFragmentManager()) {

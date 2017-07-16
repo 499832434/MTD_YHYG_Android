@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:background="#f7f7f7"
+              android:layout_width="match_parent"
+              android:layout_height="70dp">
+    <ImageView android:layout_width="52dp"
+               android:src="@drawable/zzz"
+               android:layout_marginLeft="15dp"
+               android:id="@+id/pictureIV"
+               android:scaleType="centerInside"
+               android:layout_centerVertical="true"
+               android:layout_height="52dp"/>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:paddingLeft="15dp"
+                    android:id="@+id/topRL"
+                    android:paddingRight="15dp"
+                    android:layout_toRightOf="@+id/pictureIV"
+                    android:layout_height="26dp">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:text="烟花名称1"
+                  android:id="@+id/productNameTV"
+                  android:textSize="15sp"
+                  android:textColor="#333333"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentRight="true"
+                  android:layout_centerVertical="true"
+                  android:text="¥500"
+                  android:id="@+id/productPriceTV"
+                  android:textSize="16sp"
+                  android:textColor="#4c4c4c"/>
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:layout_below="@+id/topRL"
+                    android:layout_toRightOf="@+id/pictureIV"
+                    android:layout_height="26dp">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentRight="true"
+                  android:layout_centerVertical="true"
+                  android:text="x1"
+                  android:id="@+id/orderProductionsCountTV"
+                  android:textSize="15sp"
+                  android:textColor="#878787"/>
+    </RelativeLayout>
+</RelativeLayout>

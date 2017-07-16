@@ -67,6 +67,7 @@
                                   android:layout_height="wrap_content">
                         <LinearLayout android:layout_width="0dp"
                                       android:layout_weight="1"
+                                      android:id="@+id/fireworksLL"
                                       android:orientation="horizontal"
                                       android:gravity="center_vertical"
                                       android:paddingTop="10dp"
@@ -93,6 +94,7 @@
                         <LinearLayout android:layout_width="0dp"
                                       android:layout_weight="1"
                                       android:paddingTop="10dp"
+                                      android:id="@+id/firecrackersLL"
                                       android:paddingBottom="10dp"
                                       android:orientation="horizontal"
                                       android:gravity="center_vertical"
@@ -122,6 +124,7 @@
                                   android:layout_height="wrap_content">
                         <LinearLayout android:layout_width="0dp"
                                       android:layout_weight="1"
+                                      android:id="@+id/comboClassLL"
                                       android:orientation="horizontal"
                                       android:gravity="center_vertical"
                                       android:paddingTop="10dp"
@@ -148,6 +151,7 @@
                         <LinearLayout android:layout_width="0dp"
                                       android:layout_weight="1"
                                       android:paddingTop="10dp"
+                                      android:id="@+id/smallFireworksLL"
                                       android:paddingBottom="10dp"
                                       android:orientation="horizontal"
                                       android:gravity="center_vertical"

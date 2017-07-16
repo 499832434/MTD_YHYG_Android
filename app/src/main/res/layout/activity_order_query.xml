@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:custom="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:background="#ffffff"
+              android:focusable="true"
+              android:focusableInTouchMode="true"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <com.htyhbz.yhyg.view.CustomTitleBar
+            android:id="@+id/customTitleBar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            custom:text="订单汇总查询"
+            />
+    <RadioGroup
+            android:id="@+id/navRadioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="3dp"
+            android:orientation="horizontal">
+        <RadioButton
+                android:id="@+id/timeRadioButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ic_bg_order_query_bottom_selector"
+                android:textColor="@color/order_query_color_selector"
+                android:text="时间段查询"
+                android:button="@null"
+                android:textSize="16sp"
+                android:gravity="center"/>
+        <View android:layout_width="0.6dp"
+              android:layout_height="20dp"
+              android:layout_gravity="center_vertical"
+              android:background="#e0e0e0"/>
+        <RadioButton
+                android:id="@+id/areaRadioButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ic_bg_order_query_bottom_selector"
+                android:textColor="@color/order_query_color_selector"
+                android:text="配送乡镇查询"
+                android:button="@null"
+                android:textSize="16sp"
+                android:gravity="center"/>
+
+    </RadioGroup>
+    <View android:layout_width="match_parent" android:layout_height="0.5dp"
+            android:background="#e1e1e1"/>
+    <android.support.v4.view.ViewPager
+            android:layout_width="match_parent"
+            android:id="@+id/currentViewPager"
+            android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
+</LinearLayout>

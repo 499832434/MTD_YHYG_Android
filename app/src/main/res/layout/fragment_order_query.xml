@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <LinearLayout android:layout_width="match_parent"
+                  android:orientation="vertical"
+                  android:background="#f7f7f7"
+                  android:paddingLeft="20dp"
+                  android:paddingRight="20dp"
+                  android:id="@+id/timeLL"
+                  android:paddingTop="10dp"
+                  android:layout_height="wrap_content">
+        <LinearLayout android:layout_width="match_parent"
+                      android:orientation="horizontal"
+                      android:layout_height="40dp">
+            <ImageView android:layout_width="40dp"
+                       android:src="@drawable/icon_time"
+                       android:scaleType="centerInside"
+                       android:layout_height="40dp"/>
+            <TextView android:layout_width="match_parent"
+                      android:gravity="center_vertical"
+                      android:textColor="#333333"
+                      android:id="@+id/startTimeTV"
+                      android:layout_marginRight="5dp"
+                      android:background="@drawable/ic_bg_order_query_bottom_line"
+                      android:text="18753319519"
+                      android:textSize="14sp"
+                      android:layout_height="40dp"/>
+
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent"
+                      android:orientation="horizontal"
+                      android:layout_marginTop="10dp"
+                      android:layout_height="40dp">
+            <ImageView android:layout_width="40dp"
+                       android:src="@drawable/icon_time"
+                       android:scaleType="centerInside"
+                       android:layout_height="40dp"/>
+            <TextView android:layout_width="match_parent"
+                      android:gravity="center_vertical"
+                      android:textColor="#333333"
+                      android:id="@+id/endTimeTV"
+                      android:layout_marginRight="5dp"
+                      android:background="@drawable/ic_bg_order_query_bottom_line"
+                      android:text="18753319519"
+                      android:textSize="14sp"
+                      android:layout_height="40dp"/>
+
+        </LinearLayout>
+        <Button android:layout_width="match_parent"
+                android:text="查询"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:layout_marginBottom="10dp"
+                android:textColor="#ffffff"
+                android:background="@drawable/ic_bg_login_button"
+                android:layout_height="35dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:orientation="vertical"
+                  android:background="#f7f7f7"
+                  android:visibility="gone"
+                  android:id="@+id/areaLL"
+                  android:paddingLeft="20dp"
+                  android:paddingRight="20dp"
+                  android:paddingTop="10dp"
+                  android:layout_height="wrap_content">
+        <LinearLayout android:layout_width="match_parent"
+                      android:orientation="horizontal"
+                      android:layout_height="40dp">
+            <ImageView android:layout_width="40dp"
+                       android:src="@drawable/icon_order_gprs"
+                       android:scaleType="centerInside"
+                       android:layout_height="40dp"/>
+            <TextView android:layout_width="match_parent"
+                      android:gravity="center_vertical"
+                      android:textColor="#333333"
+                      android:id="@+id/areaTV"
+                      android:layout_marginRight="5dp"
+                      android:background="@drawable/ic_bg_order_query_bottom_line"
+                      android:text="选择乡镇:"
+                      android:textSize="14sp"
+                      android:layout_height="40dp"/>
+
+        </LinearLayout>
+
+        <Button android:layout_width="match_parent"
+                android:text="查询"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:layout_marginBottom="10dp"
+                android:textColor="#ffffff"
+                android:background="@drawable/ic_bg_login_button"
+                android:layout_height="35dp"/>
+
+    </LinearLayout>
+
+    <View android:layout_width="match_parent"
+          android:layout_height="5dp"
+          android:background="#dcdcdc"/>
+    <ListView android:layout_width="match_parent"
+              android:id="@+id/orderLV"
+              android:divider="#f2f2f2"
+              android:dividerHeight="5dp"
+              android:layout_height="match_parent">
+    </ListView>
+
+</LinearLayout>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="300dp"
+        android:background="#ffffff"
+        android:layout_height="450dp">
+
+    <ImageView android:layout_width="match_parent"
+               android:layout_height="250dp"
+               android:src="@drawable/zzz"
+               android:scaleType="fitXY"
+               android:id="@+id/topIV"
+            />
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_below="@+id/topIV"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:id="@+id/centerRL"
+                    android:background="#ffffff"
+                    android:layout_height="40dp">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="烟花名称"
+                  android:textColor="#333333"
+                  android:textSize="15sp"
+                  android:layout_centerVertical="true"
+                />
+        <ImageView android:layout_width="40dp"
+                   android:layout_height="40dp"
+                   android:id="@+id/collectIV"
+                   android:layout_toLeftOf="@+id/videoIV"
+                   android:src="@drawable/icon_collection_grey"
+                   android:scaleType="centerInside"
+                />
+        <ImageView android:layout_width="40dp"
+                   android:layout_height="40dp"
+                   android:id="@+id/videoIV"
+                   android:src="@drawable/icon_video"
+                   android:scaleType="centerInside"
+                   android:layout_alignParentRight="true"/>
+        <View android:layout_width="match_parent"
+              android:layout_height="0.5dp"
+              android:background="#e9e9e9"
+              android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_marginRight="15dp"
+                    android:background="#ffffff"
+                    android:layout_marginTop="5dp"
+                    android:layout_above="@+id/bottomRL"
+                    android:layout_below="@+id/centerRL"
+                    android:layout_marginLeft="15dp"
+                    android:layout_height="wrap_content">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                android:textColor="#999999"
+                  android:id="@+id/tTV"
+                android:textSize="14sp"
+                  android:layout_marginRight="5dp"
+                android:text="简介:"/>
+        <ScrollView android:layout_width="match_parent"
+                    android:layout_toRightOf="@+id/tTV"
+                    android:layout_height="wrap_content">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textColor="#999999"
+                      android:textSize="14sp"
+                      android:text="@string/content"/>
+        </ScrollView>
+
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:id="@+id/bottomRL"
+                    android:layout_alignParentBottom="true"
+                    android:background="#f6f6f6"
+                    android:paddingLeft="15dp"
+                    android:layout_height="50dp">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textColor="#f78648"
+                  android:textSize="14sp"
+                  android:layout_centerVertical="true"
+                  android:text="￥100"
+                />
+        <TextView android:layout_width="wrap_content"
+                  android:textSize="16sp"
+                  android:text="加入购物车"
+                  android:id="@+id/showTV"
+                  android:gravity="center_vertical"
+                  android:layout_alignParentRight="true"
+                  android:textColor="#ffffff"
+                  android:drawablePadding="5dp"
+                  android:paddingRight="5dp"
+                  android:visibility="gone"
+                  android:layout_marginRight="14dp"
+                  android:drawableLeft="@drawable/ic_shopping_cart_white_24dp"
+                  android:background="@drawable/ic_bg_shoppingcat_add"
+                  android:layout_centerVertical="true"
+                  android:layout_height="30dp"/>
+        <RelativeLayout
+                android:id="@+id/showRL"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:visibility="gone"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+            <ImageView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/right_dish_remove"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_toLeftOf="@+id/right_dish_account"
+                    android:clickable="true"
+                    android:src="@drawable/ic_remove_circle_outline_blue" />
+            <TextView
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/right_dish_add"
+                    android:id="@+id/right_dish_account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text=""
+                    android:textSize="@dimen/item_dish_small_word_size"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="#333333" />
+            <ImageView
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/right_dish_add"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:clickable="true"
+                    android:src="@drawable/ic_add_circle_blue" />
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/left_menu_item"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:background="@drawable/selector_item_select"
+
+        >
+    <RelativeLayout android:layout_width="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_height="50dp">
+        <ImageView android:layout_width="wrap_content"
+                   android:layout_centerVertical="true"
+                   android:src="@drawable/icon_yanhualei"
+                   android:id="@+id/left_menu_imageview"
+                   android:scaleType="centerInside"
+                   android:layout_height="wrap_content"/>
+        <TextView
+                android:layout_toRightOf="@+id/left_menu_imageview"
+                android:id="@+id/left_menu_textview"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:text="@string/menu_name"
+                android:textSize="15sp"
+                android:textColor="#2c2c2c"/>
+    </RelativeLayout>
+
+    <View android:layout_width="match_parent"
+          android:layout_height="0.5dp"
+          android:layout_alignParentBottom="true"
+          android:background="@drawable/bg_dash_line"/>
+</RelativeLayout>

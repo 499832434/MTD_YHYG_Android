@@ -15,6 +15,7 @@ import com.htyhbz.yhyg.activity.MainActivity;
 import com.htyhbz.yhyg.activity.login.LoginActivity;
 import com.htyhbz.yhyg.activity.login.ModifyPasswordActivity;
 import com.htyhbz.yhyg.activity.login.ResetPasswordActivity;
+import com.htyhbz.yhyg.activity.order.OrderQueryActivity;
 
 /**
  * Created by zongshuo on 2017/7/3.
@@ -59,6 +60,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener{
             case R.id.integralLiftingRL:
                 break;
             case R.id.orderSummaryRL:
+                startActivity(new Intent(mActivity, OrderQueryActivity.class));
                 break;
             case R.id.currentRecordRL:
                 break;

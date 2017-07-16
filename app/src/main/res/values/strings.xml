@@ -7,4 +7,10 @@
 
     <string name="change_phone1">获取验证码</string>
     <string name="change">s后重试</string>
+
+    <string name="menu_name">菜单</string>
+    <string name="dish_name">菜名</string>
+    <string name="shopcart">购物车</string>
+    <string name="clear">清空购物车</string>
+    <string name="content">烟花又称花炮、烟火、焰火，中国劳动人民较早发明，常用于盛大的典礼或表演中，而现代全中国以及到全世界唯一能在同天同活动里施放烟花的活动则为跨年（除夕夜）活动。烟花其实和爆竹的结构类似，其结构都包含黑火药和药引。为了达到好的表演效果，焰火和礼花弹中填充了大量用于发射以及爆炸的火药，例如，一个直径为20厘米的礼花弹在发射后，要上升到大概200米的高空才会爆炸，而这些星星点点覆盖的半径大约可以有80米左右。</string>
 </resources>

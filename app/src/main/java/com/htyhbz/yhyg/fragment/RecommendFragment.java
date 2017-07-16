@@ -2,6 +2,7 @@ package com.htyhbz.yhyg.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import com.baidu.location.BDLocationListener;
 import com.htyhbz.yhyg.InitApp;
 import com.htyhbz.yhyg.R;
 import com.htyhbz.yhyg.activity.MainActivity;
+import com.htyhbz.yhyg.activity.shoppingcat.ShoppingCatActivity;
 import com.htyhbz.yhyg.adapter.HomeProductAdapter;
 import com.htyhbz.yhyg.service.LocationService;
 import com.htyhbz.yhyg.utils.DensityUtil;
@@ -30,7 +32,7 @@ import java.lang.reflect.Field;
 /**
  * Created by zongshuo on 2017/7/5.
  */
-public class RecommendFragment extends Fragment implements OnRefreshListener,MyScrollView.OnScrollListener {
+public class RecommendFragment extends Fragment implements OnRefreshListener,MyScrollView.OnScrollListener,View.OnClickListener{
     private View currentView = null;
     private SwipeToLoadLayout swipeToLoadLayout;
     private MyScrollView scrollView;
@@ -43,6 +45,7 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
     private MainActivity mActivity;
     private MyGridView homeGV;
     private HomeProductAdapter adapter;
+    private LinearLayout smallFireworksLL,comboClassLL,firecrackersLL,fireworksLL;
 
     @Nullable
     @Override
@@ -56,6 +59,14 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
     private void initView() {
         topHeight = getStatusBarHeight();
 
+        smallFireworksLL= (LinearLayout) currentView.findViewById(R.id.smallFireworksLL);
+        comboClassLL= (LinearLayout) currentView.findViewById(R.id.comboClassLL);
+        firecrackersLL= (LinearLayout) currentView.findViewById(R.id.firecrackersLL);
+        fireworksLL= (LinearLayout) currentView.findViewById(R.id.fireworksLL);
+        smallFireworksLL.setOnClickListener(this);
+        comboClassLL.setOnClickListener(this);
+        firecrackersLL.setOnClickListener(this);
+        fireworksLL.setOnClickListener(this);
         searchET = (ClearEditText) currentView.findViewById(R.id.searchET);
         tv2 = (TextView) currentView.findViewById(R.id.tv2);
         tv2.setOnClickListener(new View.OnClickListener() {
@@ -253,5 +264,23 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
             locationService.setLocationOption(locationService.getOption());
         }
         locationService.start();// 定位SDK
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.smallFireworksLL:
+                startActivity(new Intent(mActivity, ShoppingCatActivity.class));
+                break;
+            case R.id.comboClassLL:
+                startActivity(new Intent(mActivity, ShoppingCatActivity.class));
+                break;
+            case R.id.firecrackersLL:
+                startActivity(new Intent(mActivity, ShoppingCatActivity.class));
+                break;
+            case R.id.fireworksLL:
+                startActivity(new Intent(mActivity, ShoppingCatActivity.class));
+                break;
+        }
     }
 }

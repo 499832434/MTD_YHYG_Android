@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/right_menu_item"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="#ffffff"
+        >
+
+    <TextView
+            android:id="@+id/right_menu_tv"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="@string/menu_name"
+            android:textSize="14sp"
+            android:textColor="#8c8c8c"
+            />
+    <View android:layout_width="match_parent"
+          android:layout_height="0.5dp"
+          android:background="#f3f3f3"/>
+</LinearLayout>

@@ -7,7 +7,7 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
 
 /**
- * 
+ *
  * @author baidu
  *
  */
@@ -17,7 +17,7 @@ public class LocationService {
 	private Object  objLock = new Object();
 
 	/***
-	 * 
+	 *
 	 * @param locationContext
 	 */
 	public LocationService(Context locationContext){
@@ -28,13 +28,13 @@ public class LocationService {
 			}
 		}
 	}
-	
+
 	/***
-	 * 
+	 *
 	 * @param listener
 	 * @return
 	 */
-	
+
 	public boolean registerListener(BDLocationListener listener){
 		boolean isSuccess = false;
 		if(listener != null){
@@ -43,15 +43,15 @@ public class LocationService {
 		}
 		return  isSuccess;
 	}
-	
+
 	public void unregisterListener(BDLocationListener listener){
 		if(listener != null){
 			client.unRegisterLocationListener(listener);
 		}
 	}
-	
+
 	/***
-	 * 
+	 *
 	 * @param option
 	 * @return isSuccessSetOption
 	 */
@@ -65,35 +65,35 @@ public class LocationService {
 		}
 		return isSuccess;
 	}
-	
+
 	public LocationClientOption getOption(){
 		return DIYoption;
 	}
 	/***
-	 * 
+	 *
 	 * @return DefaultLocationClientOption
 	 */
 	public LocationClientOption getDefaultLocationClientOption(){
 		if(mOption == null){
 			mOption = new LocationClientOption();
-			mOption.setLocationMode(LocationMode.Hight_Accuracy);//¿ÉÑ¡£¬Ä¬ÈÏ¸ß¾«¶È£¬ÉèÖÃ¶¨Î»Ä£Ê½£¬¸ß¾«¶È£¬µÍ¹¦ºÄ£¬½öÉè±¸
-			mOption.setCoorType("bd09ll");//¿ÉÑ¡£¬Ä¬ÈÏgcj02£¬ÉèÖÃ·µ»ØµÄ¶¨Î»½á¹û×ø±êÏµ£¬Èç¹ûÅäºÏ°Ù¶ÈµØÍ¼Ê¹ÓÃ£¬½¨ÒéÉèÖÃÎªbd09ll;
-			mOption.setScanSpan(0);//¿ÉÑ¡£¬Ä¬ÈÏ0£¬¼´½ö¶¨Î»Ò»´Î£¬ÉèÖÃ·¢Æğ¶¨Î»ÇëÇóµÄ¼ä¸ôĞèÒª´óÓÚµÈÓÚ1000ms²ÅÊÇÓĞĞ§µÄ
-		    mOption.setIsNeedAddress(true);//¿ÉÑ¡£¬ÉèÖÃÊÇ·ñĞèÒªµØÖ·ĞÅÏ¢£¬Ä¬ÈÏ²»ĞèÒª
-		    mOption.setIsNeedLocationDescribe(true);//¿ÉÑ¡£¬ÉèÖÃÊÇ·ñĞèÒªµØÖ·ÃèÊö
-		    mOption.setNeedDeviceDirect(false);//¿ÉÑ¡£¬ÉèÖÃÊÇ·ñĞèÒªÉè±¸·½Ïò½á¹û
-		    mOption.setLocationNotify(false);//¿ÉÑ¡£¬Ä¬ÈÏfalse£¬ÉèÖÃÊÇ·ñµ±gpsÓĞĞ§Ê±°´ÕÕ1S1´ÎÆµÂÊÊä³öGPS½á¹û
-		    mOption.setIgnoreKillProcess(true);//¿ÉÑ¡£¬Ä¬ÈÏtrue£¬¶¨Î»SDKÄÚ²¿ÊÇÒ»¸öSERVICE£¬²¢·Åµ½ÁË¶ÀÁ¢½ø³Ì£¬ÉèÖÃÊÇ·ñÔÚstopµÄÊ±ºòÉ±ËÀÕâ¸ö½ø³Ì£¬Ä¬ÈÏ²»É±ËÀ
-		    mOption.setIsNeedLocationDescribe(true);//¿ÉÑ¡£¬Ä¬ÈÏfalse£¬ÉèÖÃÊÇ·ñĞèÒªÎ»ÖÃÓïÒå»¯½á¹û£¬¿ÉÒÔÔÚBDLocation.getLocationDescribeÀïµÃµ½£¬½á¹ûÀàËÆÓÚ¡°ÔÚ±±¾©Ìì°²ÃÅ¸½½ü¡±
-		    mOption.setIsNeedLocationPoiList(true);//¿ÉÑ¡£¬Ä¬ÈÏfalse£¬ÉèÖÃÊÇ·ñĞèÒªPOI½á¹û£¬¿ÉÒÔÔÚBDLocation.getPoiListÀïµÃµ½
-		    mOption.SetIgnoreCacheException(false);//¿ÉÑ¡£¬Ä¬ÈÏfalse£¬ÉèÖÃÊÇ·ñÊÕ¼¯CRASHĞÅÏ¢£¬Ä¬ÈÏÊÕ¼¯
+			mOption.setLocationMode(LocationMode.Hight_Accuracy);//å¯é€‰ï¼Œé»˜è®¤é«˜ç²¾åº¦ï¼Œè®¾ç½®å®šä½æ¨¡å¼ï¼Œé«˜ç²¾åº¦ï¼Œä½åŠŸè€—ï¼Œä»…è®¾å¤‡
+			mOption.setCoorType("bd09ll");//å¯é€‰ï¼Œé»˜è®¤gcj02ï¼Œè®¾ç½®è¿”å›çš„å®šä½ç»“æœåæ ‡ç³»ï¼Œå¦‚æœé…åˆç™¾åº¦åœ°å›¾ä½¿ç”¨ï¼Œå»ºè®®è®¾ç½®ä¸ºbd09ll;
+			mOption.setScanSpan(0);//å¯é€‰ï¼Œé»˜è®¤0ï¼Œå³ä»…å®šä½ä¸€æ¬¡ï¼Œè®¾ç½®å‘èµ·å®šä½è¯·æ±‚çš„é—´éš”éœ€è¦å¤§äºç­‰äº1000msæ‰æ˜¯æœ‰æ•ˆçš„
+			mOption.setIsNeedAddress(true);//å¯é€‰ï¼Œè®¾ç½®æ˜¯å¦éœ€è¦åœ°å€ä¿¡æ¯ï¼Œé»˜è®¤ä¸éœ€è¦
+			mOption.setIsNeedLocationDescribe(true);//å¯é€‰ï¼Œè®¾ç½®æ˜¯å¦éœ€è¦åœ°å€æè¿°
+			mOption.setNeedDeviceDirect(false);//å¯é€‰ï¼Œè®¾ç½®æ˜¯å¦éœ€è¦è®¾å¤‡æ–¹å‘ç»“æœ
+			mOption.setLocationNotify(false);//å¯é€‰ï¼Œé»˜è®¤falseï¼Œè®¾ç½®æ˜¯å¦å½“gpsæœ‰æ•ˆæ—¶æŒ‰ç…§1S1æ¬¡é¢‘ç‡è¾“å‡ºGPSç»“æœ
+			mOption.setIgnoreKillProcess(true);//å¯é€‰ï¼Œé»˜è®¤trueï¼Œå®šä½SDKå†…éƒ¨æ˜¯ä¸€ä¸ªSERVICEï¼Œå¹¶æ”¾åˆ°äº†ç‹¬ç«‹è¿›ç¨‹ï¼Œè®¾ç½®æ˜¯å¦åœ¨stopçš„æ—¶å€™æ€æ­»è¿™ä¸ªè¿›ç¨‹ï¼Œé»˜è®¤ä¸æ€æ­»
+			mOption.setIsNeedLocationDescribe(true);//å¯é€‰ï¼Œé»˜è®¤falseï¼Œè®¾ç½®æ˜¯å¦éœ€è¦ä½ç½®è¯­ä¹‰åŒ–ç»“æœï¼Œå¯ä»¥åœ¨BDLocation.getLocationDescribeé‡Œå¾—åˆ°ï¼Œç»“æœç±»ä¼¼äºâ€œåœ¨åŒ—äº¬å¤©å®‰é—¨é™„è¿‘â€
+			mOption.setIsNeedLocationPoiList(true);//å¯é€‰ï¼Œé»˜è®¤falseï¼Œè®¾ç½®æ˜¯å¦éœ€è¦POIç»“æœï¼Œå¯ä»¥åœ¨BDLocation.getPoiListé‡Œå¾—åˆ°
+			mOption.SetIgnoreCacheException(false);//å¯é€‰ï¼Œé»˜è®¤falseï¼Œè®¾ç½®æ˜¯å¦æ”¶é›†CRASHä¿¡æ¯ï¼Œé»˜è®¤æ”¶é›†
 
-		    mOption.setIsNeedAltitude(false);//¿ÉÑ¡£¬Ä¬ÈÏfalse£¬ÉèÖÃ¶¨Î»Ê±ÊÇ·ñĞèÒªº£°ÎĞÅÏ¢£¬Ä¬ÈÏ²»ĞèÒª£¬³ı»ù´¡¶¨Î»°æ±¾¶¼¿ÉÓÃ
-		 
+			mOption.setIsNeedAltitude(false);//å¯é€‰ï¼Œé»˜è®¤falseï¼Œè®¾ç½®å®šä½æ—¶æ˜¯å¦éœ€è¦æµ·æ‹”ä¿¡æ¯ï¼Œé»˜è®¤ä¸éœ€è¦ï¼Œé™¤åŸºç¡€å®šä½ç‰ˆæœ¬éƒ½å¯ç”¨
+
 		}
 		return mOption;
 	}
-	
+
 	public void start(){
 		synchronized (objLock) {
 			if(client != null && !client.isStarted()){
@@ -108,11 +108,11 @@ public class LocationService {
 			}
 		}
 	}
-	
+
 	public boolean requestHotSpotState(){
-		
+
 		return client.requestHotSpotState();
-		
+
 	}
-	
+
 }

@@ -3,10 +3,15 @@
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/htyhbz/yhyg/service/LocationService.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/htyhbz/yhyg/service/LocationService.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/htyhbz/yhyg/view/MTWMRefreshHeaderView.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/htyhbz/yhyg/vo/Dish.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/htyhbz/yhyg/vo/DishMenu.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/htyhbz/yhyg/vo/ShopCart.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/color/bottom_tab_text_selector.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/color/order_query_color_selector.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/color/pay_radio_color_selector.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/home_subscribe.png" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/ic_close.png" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/ic_product_search_l.png" charset="GBK" />
@@ -26,18 +31,36 @@
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/wm_common_img_loading_list7.png" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/wm_common_img_loading_list8.png" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/wm_common_img_loading_list9.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/ic_shopping_cart_grey_700_24dp.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/ic_shopping_cart_white_24dp.png" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/animation_list_refresh_mtwm.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_dash_line.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/circle_checked.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/circle_small_red.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/circle_uncheck.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_bg_account_login.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_bg_login_button.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_bg_login_button_un.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_bg_login_edittext.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_bg_order_query_bottom_selector.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_bg_order_type.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_bg_rest_password_edittext.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_bg_search_product_view.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_bg_shoppingcat_add.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_tab_account_selector.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_tab_order_selector.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_tab_recommend_selector.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/pay_radio_selector.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/selector_item_select.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/small_red_circle.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/cart_center_popupview.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/cart_popupview.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/custom_title_bar_view.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/layout_recommend_header.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/left_menu_item.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/popup_dish_item.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/right_dish_item.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/right_menu_item.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/values-v14" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/values/attrs.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml" charset="GBK" />
