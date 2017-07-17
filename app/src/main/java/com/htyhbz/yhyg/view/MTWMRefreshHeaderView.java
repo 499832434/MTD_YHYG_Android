@@ -13,7 +13,7 @@ import com.htyhbz.yhyg.R;
 
 /**
  * Created by maning on 2017/4/10.
- * 美团外卖下拉刷新
+ * 缇庡洟澶栧崠涓嬫媺鍒锋柊
  */
 public class MTWMRefreshHeaderView extends RelativeLayout implements SwipeTrigger, SwipeRefreshTrigger {
 
@@ -88,11 +88,13 @@ public class MTWMRefreshHeaderView extends RelativeLayout implements SwipeTrigge
 
     @Override
     public void onRelease() {
-        mAnimDrawable.stop();
+//        mAnimDrawable.stop();
     }
 
     @Override
     public void onComplete() {
+        mAnimDrawable.stop();
+        llRefresh.setAlpha(1.0f);
     }
 
     @Override

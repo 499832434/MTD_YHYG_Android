@@ -7,12 +7,12 @@ public class Dish {
 
     private String dishName;
     private double dishPrice;
-    private int dishAmount;//²úÆ·¿ÉÔö¼Ó×î´óÊı
-    private int dishRemain;//²úÆ·¿ÉÉ¾³ı×î´óÊı
+    private int dishAmount;//äº§å“å¯å¢åŠ æœ€å¤§æ•°
+    private int dishRemain;//äº§å“å¯åˆ é™¤æœ€å¤§æ•°
     private int dishId;
     private int dishType;
-    private String dishDetail;//²úÆ·¼ò½é
-    private int orderdishCount;//²úÆ·Ñ¡ÖĞÊıÁ¿
+    private String dishDetail;//äº§å“ç®€ä»‹
+    private int orderdishCount;//äº§å“é€‰ä¸­æ•°é‡
     private String dishPictureUrl;
 
 

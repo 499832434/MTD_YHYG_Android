@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.htyhbz.yhyg.R;
 import com.htyhbz.yhyg.activity.MainActivity;
+import com.htyhbz.yhyg.activity.integral.IntegralLiftingActivity;
+import com.htyhbz.yhyg.activity.integral.IntegralRecordActivity;
 import com.htyhbz.yhyg.activity.login.LoginActivity;
 import com.htyhbz.yhyg.activity.login.ModifyPasswordActivity;
 import com.htyhbz.yhyg.activity.login.ResetPasswordActivity;
@@ -58,11 +60,13 @@ public class AccountFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.integralLiftingRL:
+                startActivity(new Intent(mActivity,IntegralLiftingActivity.class));
                 break;
             case R.id.orderSummaryRL:
                 startActivity(new Intent(mActivity, OrderQueryActivity.class));
                 break;
             case R.id.currentRecordRL:
+                startActivity(new Intent(mActivity, IntegralRecordActivity.class));
                 break;
             case R.id.modifyPasswordRL:
                 startActivity(new Intent(mActivity, ModifyPasswordActivity.class));
