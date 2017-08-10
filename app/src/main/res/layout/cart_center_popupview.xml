@@ -3,14 +3,14 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="300dp"
         android:background="#ffffff"
-        android:layout_height="450dp">
+        android:layout_height="400dp">
 
     <ImageView android:layout_width="match_parent"
                android:layout_height="250dp"
                android:src="@drawable/zzz"
                android:scaleType="fitXY"
                android:id="@+id/topIV"
-            />
+    />
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_below="@+id/topIV"
                     android:layout_marginRight="15dp"
@@ -21,17 +21,18 @@
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:text="烟花名称"
+                  android:id="@+id/productNameTV"
                   android:textColor="#333333"
                   android:textSize="15sp"
                   android:layout_centerVertical="true"
-                />
+        />
         <ImageView android:layout_width="40dp"
                    android:layout_height="40dp"
                    android:id="@+id/collectIV"
                    android:layout_toLeftOf="@+id/videoIV"
                    android:src="@drawable/icon_collection_grey"
                    android:scaleType="centerInside"
-                />
+        />
         <ImageView android:layout_width="40dp"
                    android:layout_height="40dp"
                    android:id="@+id/videoIV"
@@ -45,7 +46,6 @@
     </RelativeLayout>
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_marginRight="15dp"
-                    android:background="#ffffff"
                     android:layout_marginTop="5dp"
                     android:layout_above="@+id/bottomRL"
                     android:layout_below="@+id/centerRL"
@@ -53,19 +53,22 @@
                     android:layout_height="wrap_content">
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                android:textColor="#999999"
+                  android:textColor="#999999"
                   android:id="@+id/tTV"
-                android:textSize="14sp"
+                  android:textSize="14sp"
                   android:layout_marginRight="5dp"
-                android:text="简介:"/>
+                  android:text="简介:"/>
         <ScrollView android:layout_width="match_parent"
                     android:layout_toRightOf="@+id/tTV"
                     android:layout_height="wrap_content">
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:textColor="#999999"
+                      android:maxLines="4"
+                      android:minLines="1"
+                      android:id="@+id/productDetailTV"
                       android:textSize="14sp"
-                      android:text="@string/content"/>
+                      android:text=""/>
         </ScrollView>
 
     </RelativeLayout>
@@ -79,9 +82,11 @@
                   android:layout_height="wrap_content"
                   android:textColor="#f78648"
                   android:textSize="14sp"
+                  android:textStyle="bold"
+                  android:id="@+id/productPriceTV"
                   android:layout_centerVertical="true"
                   android:text="￥100"
-                />
+        />
         <TextView android:layout_width="wrap_content"
                   android:textSize="16sp"
                   android:text="加入购物车"
@@ -114,7 +119,7 @@
                     android:layout_height="25dp"
                     android:layout_toLeftOf="@+id/right_dish_account"
                     android:clickable="true"
-                    android:src="@drawable/ic_remove_circle_outline_blue" />
+                    android:src="@drawable/ic_remove_circle_outline_blue"/>
             <TextView
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/right_dish_add"
@@ -126,7 +131,7 @@
                     android:textSize="@dimen/item_dish_small_word_size"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:textColor="#333333" />
+                    android:textColor="#333333"/>
             <ImageView
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
@@ -134,7 +139,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:clickable="true"
-                    android:src="@drawable/ic_add_circle_blue" />
+                    android:src="@drawable/ic_add_circle_blue"/>
         </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

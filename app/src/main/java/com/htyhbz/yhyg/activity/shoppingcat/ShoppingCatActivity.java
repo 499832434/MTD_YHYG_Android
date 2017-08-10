@@ -8,6 +8,7 @@ import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.*;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.htyhbz.yhyg.ApiConstants;
 import com.htyhbz.yhyg.InitApp;
 import com.htyhbz.yhyg.R;
@@ -29,6 +31,7 @@ import com.htyhbz.yhyg.imp.ShopCartImp;
 import com.htyhbz.yhyg.net.HighRequest;
 import com.htyhbz.yhyg.net.NetworkUtils;
 import com.htyhbz.yhyg.utils.PointFTypeEvaluator;
+import com.htyhbz.yhyg.utils.PrefUtils;
 import com.htyhbz.yhyg.view.CustomTitleBar;
 import com.htyhbz.yhyg.view.FakeAddImageView;
 import com.htyhbz.yhyg.view.ShopCartCenterDialog;
@@ -61,7 +64,6 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
     private ArrayList<ProductMenu> productMenuList;//数据源
     private boolean leftClickType = false;//左侧菜单点击引发的右侧联动
     private ShopCart shopCart;
-    //    private FakeAddImageView fakeAddImageView;
     private ImageView shoppingCartView;
     private FrameLayout shopingCartLayout;
     private TextView totalPriceTextView;
@@ -70,6 +72,9 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
     private int categoryId,productId,productType;
     private LinearLayoutManager rightMangear;
 
+    private JSONArray shoppinglist;
+    private  int shoppingAccount;
+    private double shoppingTotalPrice;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +83,6 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
 
         initData();
         initView();
-//        initAdapter();
         getShoppingCartList();
     }
 
@@ -86,25 +90,6 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
         ((CustomTitleBar)findViewById(R.id.customTitleBar)).setLeftImageOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShopCart cat=rightAdapter.getShopCart();
-                HashMap<String,Object> map=new HashMap<String, Object>();
-                map.put("shoppingAccount",cat.getShoppingAccount());
-                map.put("shoppingTotalPrice", cat.getShoppingTotalPrice());
-                Map<Product,Integer> shoppingSingle=cat.getShoppingSingleMap();
-                ArrayList<HashMap> list=new ArrayList<HashMap>();
-                for(Product product:shoppingSingle.keySet()){
-                    HashMap<String,Object> map1=new HashMap<String, Object>();
-                    map1.put("shoppingsingleTotal",shoppingSingle.get(product));
-                    map1.put("productId",product.getproductId());
-                    map1.put("productName",product.getproductName());
-                    map1.put("productDetail",product.getproductDetail());
-                    map1.put("productPictureUrl",product.getproductPictureUrl());
-                    map1.put("isCollected",product.getIsCollected());
-                    map1.put("productVideoUrl",product.getProductVideoUrl());
-                    map1.put("productPrice",product.getproductPrice());
-                    list.add(map1);
-                }
-                map.put("shoppinglist",list);
                 finish();
             }
         });
@@ -113,7 +98,6 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
         rightMenu = (RecyclerView)findViewById(R.id.right_menu);
         headerView = (TextView)findViewById(R.id.right_menu_tv);
         headerLayout = (LinearLayout)findViewById(R.id.right_menu_item);
-//        fakeAddImageView = (FakeAddImageView)findViewById(R.id.right_dish_fake_add);
         bottomLayout = (LinearLayout)findViewById(R.id.shopping_cart_bottom);
         shoppingCartView = (ImageView) findViewById(R.id.shopping_cart);
         shopingCartLayout = (FrameLayout) findViewById(R.id.shopping_cart_layout);
@@ -190,60 +174,25 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
     }
 
     private void initData(){
+        String str=getUserInfo(4);
+        if(!TextUtils.isEmpty(str)){
+            try{
+                JSONObject obj=new JSONObject(str);
+                shoppingTotalPrice=obj.getDouble("shoppingTotalPrice");
+                shoppingAccount=obj.getInt("shoppingAccount");
+                shoppinglist=obj.getJSONArray("shoppinglist");
+            }catch (Exception e){
+
+            }
+        }else {
+            shopCart = new ShopCart();
+        }
+
         categoryId=getIntent().getIntExtra("categoryId",-1);
         productId=getIntent().getIntExtra("productId",-1);
         productType=getIntent().getIntExtra("productType",-1);
-        shopCart = new ShopCart();
+
         productMenuList = new ArrayList<ProductMenu>();
-//        ArrayList<Product> dishs1 = new ArrayList<Product>();
-//        dishs1.add(new Product("烟花名称1",1.0,Integer.MAX_VALUE));
-//        dishs1.add(new Product("烟花名称2",1.0,Integer.MAX_VALUE));
-//        dishs1.add(new Product("烟花名称3",1.0,Integer.MAX_VALUE));
-//        dishs1.add(new Product("烟花名称4",1.0,Integer.MAX_VALUE));
-//        dishs1.add(new Product("烟花名称5",1.0,Integer.MAX_VALUE));
-//        dishs1.add(new Product("烟花名称6",1.0,Integer.MAX_VALUE));
-//        dishs1.add(new Product("烟花名称7",1.0,Integer.MAX_VALUE));
-//        dishs1.add(new Product("烟花名称8",1.0,Integer.MAX_VALUE));
-//        dishs1.add(new Product("烟花名称9",1.0,Integer.MAX_VALUE));
-//        Catagory cata1= new Catagory();
-//        cata1.setCatalog("烟花类");
-//        ProductMenu breakfast = new ProductMenu(cata1,dishs1);
-//
-//        ArrayList<Product> dishs2 = new ArrayList<Product>();
-//        dishs2.add(new Product("爆竹名称1",1.0,Integer.MAX_VALUE));
-//        dishs2.add(new Product("爆竹名称2", 1.0, Integer.MAX_VALUE));
-//        Catagory cata2= new Catagory();
-//        cata2.setCatalog("爆竹类");
-//        ProductMenu launch = new ProductMenu(cata2,dishs2);
-//
-//        ArrayList<Product> dishs3 = new ArrayList<Product>();
-//        dishs3.add(new Product("套餐名称1", 1.0, Integer.MAX_VALUE));
-//        Catagory cata3= new Catagory();
-//        cata3.setCatalog("套餐类");
-//        ProductMenu evening = new ProductMenu(cata3,dishs3);
-//
-//
-//
-//        ArrayList<Product> dishs4 = new ArrayList<Product>();
-//        dishs4.add(new Product("小烟花名称1",1.0,Integer.MAX_VALUE));
-//        dishs4.add(new Product("小烟花名称2",1.0,Integer.MAX_VALUE));
-//        dishs4.add(new Product("小烟花名称3",1.0,Integer.MAX_VALUE));
-//        dishs4.add(new Product("小烟花名称4",1.0,Integer.MAX_VALUE));
-//        dishs4.add(new Product("小烟花名称5",1.0,Integer.MAX_VALUE));
-//        dishs4.add(new Product("小烟花名称6",1.0,Integer.MAX_VALUE));
-//        dishs4.add(new Product("小烟花名称7",1.0,Integer.MAX_VALUE));
-//        dishs4.add(new Product("小烟花名称8", 1.0, Integer.MAX_VALUE));
-//        dishs4.add(new Product("小烟花名称9",1.0,Integer.MAX_VALUE));
-//        dishs4.add(new Product("小烟花名称10", 1.0, Integer.MAX_VALUE));
-//        Catagory cata4= new Catagory();
-//        cata4.setCatalog("小烟花");
-//        ProductMenu menu1 = new ProductMenu(cata4,dishs4);
-//
-//
-//        productMenuList.add(breakfast);
-//        productMenuList.add(launch);
-//        productMenuList.add(evening);
-//        productMenuList.add(menu1);
 
     }
 
@@ -252,6 +201,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
 
         leftAdapter = new LeftMenuAdapter(this, productMenuList);
         rightAdapter = new RightDishAdapter(this, productMenuList,shopCart);
+        showTotalPrice();
         rightMenu.setAdapter(rightAdapter);
         leftMenu.setAdapter(leftAdapter);
         leftAdapter.addItemSelectedListener(this);
@@ -261,7 +211,6 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
     }
 
     private void initHeadView(int leftPosition,int rightPosition){
-//        leftAdapter.setSelectedNum(leftPosition);
         headMenu = rightAdapter.getMenuOfMenuByPosition(0);
         headerLayout.setContentDescription("0");
         headerView.setText(headMenu.getCatagory().getCatalog());
@@ -271,7 +220,6 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
             onLeftItemSelected(leftPosition,null);
             MoveToPosition(rightMangear, rightMenu, rightPosition);
         }
-//        MoveToPosition(rightMangear,rightMenu,rightPosition);
     }
 
     @Override
@@ -460,6 +408,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
                                 int leftPosition = 0;
                                 JSONArray infoArr=jsonObject.getJSONArray("info");
                                 int num=0;
+                                Map<Product,Integer> shoppingSingle=new HashMap<Product, Integer>();
                                 for(int i=0;i<infoArr.length();i++){
                                     num+=1;
                                     ProductMenu menu=new ProductMenu();
@@ -491,13 +440,67 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
                                         product.setProductVideoUrl(data.getString("productVideoUrl"));
                                         product.setproductPrice(data.getDouble("productPrice"));
                                         productList.add(product);
+
+                                        for(int z=0;z<shoppinglist.length();z++){
+                                            JSONObject json=shoppinglist.getJSONObject(z);
+                                            if(json.getInt("productId")==data.getInt("productId")){
+                                                shoppingSingle.put(product,json.getInt("shoppingsingleTotal"));
+                                                break;
+                                            }
+                                        }
                                     }
                                     menu.setCatagory(cata);
                                     menu.setProductList(productList);
                                     productMenuList.add(menu);
                                 }
+                                shopCart = new ShopCart(shoppingAccount,shoppingTotalPrice,shoppingSingle);
                                 if(productMenuList.size()>0){
                                   initAdapter(leftPosition,rightPosition);
+                                }
+                            }else{
+                                toast(ShoppingCatActivity.this,jsonObject.getString("msg"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }
+        );
+        InitApp.initApp.addToRequestQueue(request);
+    }
+
+
+    public void collectProduction(Product product, final ImageView collectIV) {
+        if (!NetworkUtils.isNetworkAvailable(ShoppingCatActivity.this)) {
+            return;
+        }
+
+        final HashMap<String,String> params=getNetworkRequestHashMap();
+        params.put("userID", getUserInfo(0));
+        params.put("productId",product.getproductId()+"");
+        params.put("isCollected", collectIV.getTag()+"");
+        String url= InitApp.getUrlByParameter(ApiConstants.COLLECT_PRODUCTION_API, params, true);
+        Log.e("collectProductionURl", url);
+
+        HighRequest request = new HighRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("collectProductionRe", response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            if ("0".equals(jsonObject.getString("code"))) {
+                                if("1".equals(collectIV.getTag()+"")){
+                                    collectIV.setImageResource(R.drawable.icon_collection);
+                                    collectIV.setTag(0);
+                                }else{
+                                    collectIV.setImageResource(R.drawable.icon_collection_grey);
+                                    collectIV.setTag(1);
                                 }
                             }else{
                                 toast(ShoppingCatActivity.this,jsonObject.getString("msg"));
@@ -537,5 +540,32 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
             mRecyclerView.scrollToPosition(n);
         }
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ShopCart cat=rightAdapter.getShopCart();
+        if(cat.getProductAccount()==0||cat.getShoppingSingleMap().size()==0){
+            PrefUtils.putString(ShoppingCatActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.SHOPPING_CAT_DATA, "");
+            return;
+        }
+        HashMap<String,Object> map=new HashMap<String, Object>();
+        map.put("shoppingAccount",cat.getShoppingAccount());
+        map.put("shoppingTotalPrice", cat.getShoppingTotalPrice());
+        Map<Product,Integer> shoppingSingle=cat.getShoppingSingleMap();
+        ArrayList<HashMap> list=new ArrayList<HashMap>();
+        for(Product product:shoppingSingle.keySet()){
+            HashMap<String,Object> map1=new HashMap<String, Object>();
+            map1.put("shoppingsingleTotal",shoppingSingle.get(product));
+            map1.put("productId",product.getproductId());
+            list.add(map1);
+        }
+        map.put("shoppinglist",list);
+
+        Gson gson=new Gson();
+        String str=gson.toJson(map);
+        PrefUtils.putString(ShoppingCatActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.SHOPPING_CAT_DATA, str);
+        Log.e("str",str);
     }
 }

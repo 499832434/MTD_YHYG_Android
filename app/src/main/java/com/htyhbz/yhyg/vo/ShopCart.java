@@ -18,6 +18,11 @@ public class ShopCart  {
         this.shoppingTotalPrice = 0;
         this.shoppingSingle = new HashMap<Product,Integer>();
     }
+    public ShopCart(int shoppingAccount,double shoppingTotalPrice,Map<Product,Integer> shoppingSingle){
+        this.shoppingAccount = shoppingAccount;
+        this.shoppingTotalPrice = shoppingTotalPrice;
+        this.shoppingSingle = shoppingSingle;
+    }
 
     public int getShoppingAccount() {
         return shoppingAccount;
@@ -40,12 +45,19 @@ public class ShopCart  {
         if(shoppingSingle.containsKey(product)){
             num = shoppingSingle.get(product);
         }
+//        for(Product product1:shoppingSingle.keySet()){
+//            if(product1.getproductId()==product.getproductId()){
+//                num = shoppingSingle.get(product1);
+//                break;
+//            }
+//        }
         num+=1;
         shoppingSingle.put(product,num);
-        Log.e("TAG", "addShoppingSingle: " + shoppingSingle.get(product));
+//        Log.e("TAG", "addShoppingSingle: " + shoppingSingle.size()+"=="+product.getproductId());
 
         shoppingTotalPrice += product.getproductPrice();
         shoppingAccount++;
+        Log.e("TAG+",shoppingAccount+"");
         return true;
     }
 
@@ -63,6 +75,7 @@ public class ShopCart  {
 
         shoppingTotalPrice -= product.getproductPrice();
         shoppingAccount--;
+        Log.e("TAG-",shoppingAccount+"");
         return true;
     }
 
