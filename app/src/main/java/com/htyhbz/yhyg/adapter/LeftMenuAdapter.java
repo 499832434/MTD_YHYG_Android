@@ -1,17 +1,16 @@
 package com.htyhbz.yhyg.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.htyhbz.yhyg.R;
-import com.htyhbz.yhyg.vo.DishMenu;
+import com.htyhbz.yhyg.vo.ProductMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +20,12 @@ import java.util.List;
  */
 public class LeftMenuAdapter extends RecyclerView.Adapter {
     private Context mContext;
-    private ArrayList<DishMenu> mMenuList;
+    private ArrayList<ProductMenu> mMenuList;
     private int mSelectedNum;
     private List<onItemSelectedListener> mSelectedListenerList;
 
     public interface onItemSelectedListener{
-        public void onLeftItemSelected(int postion,DishMenu menu);
+        public void onLeftItemSelected(int postion,ProductMenu menu);
     }
 
     public void addItemSelectedListener(onItemSelectedListener listener){
@@ -39,7 +38,7 @@ public class LeftMenuAdapter extends RecyclerView.Adapter {
             mSelectedListenerList.remove(listener);
     }
 
-    public LeftMenuAdapter(Context mContext, ArrayList<DishMenu> mMenuList){
+    public LeftMenuAdapter(Context mContext, ArrayList<ProductMenu> mMenuList){
         this.mContext = mContext;
         this.mMenuList = mMenuList;
         this.mSelectedNum = -1;
@@ -57,9 +56,9 @@ public class LeftMenuAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        DishMenu dishMenu = mMenuList.get(position);
+        ProductMenu productMenu = mMenuList.get(position);
         LeftMenuViewHolder viewHolder = (LeftMenuViewHolder)holder;
-        viewHolder.menuName.setText(dishMenu.getMenuName());
+        viewHolder.menuName.setText(productMenu.getCatagory().getCatalog());
         switch (position){
             case 0:
                 viewHolder.menuNameIV.setImageResource(R.drawable.icon_yanhualei);

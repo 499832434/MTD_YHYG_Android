@@ -11,7 +11,7 @@ import com.htyhbz.yhyg.activity.BaseActivity;
 import com.htyhbz.yhyg.adapter.OrderTypeContentAdapter;
 import com.htyhbz.yhyg.view.CustomTitleBar;
 import com.htyhbz.yhyg.view.MyListView;
-import com.htyhbz.yhyg.vo.Dish;
+import com.htyhbz.yhyg.vo.Product;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -23,7 +23,7 @@ import java.util.List;
 public class OrderSettlementActivity extends BaseActivity{
     private MyListView orderMLV;
     private OrderTypeContentAdapter adapter;
-    private List<Dish> list =new ArrayList<Dish>();
+    private List<Product> list =new ArrayList<Product>();
     private EditText orderSendTimeET;
     private int mYear;
     private int mMonth;

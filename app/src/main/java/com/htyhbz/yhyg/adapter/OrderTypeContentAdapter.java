@@ -9,9 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.htyhbz.yhyg.R;
-import com.htyhbz.yhyg.view.MyListView;
-import com.htyhbz.yhyg.vo.Dish;
-import com.htyhbz.yhyg.vo.OrderInfo;
+import com.htyhbz.yhyg.vo.Product;
 
 import java.util.List;
 
@@ -21,10 +19,10 @@ import java.util.List;
 public class OrderTypeContentAdapter extends BaseAdapter{
 
     private LayoutInflater mInflater;
-    private List<Dish> mData;
+    private List<Product> mData;
     private Context context;
 
-    public OrderTypeContentAdapter(FragmentActivity context, List<Dish> data) {
+    public OrderTypeContentAdapter(FragmentActivity context, List<Product> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context=context;

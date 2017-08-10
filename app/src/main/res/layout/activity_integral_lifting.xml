@@ -36,6 +36,7 @@
                       android:layout_marginLeft="15dp"
                       android:textSize="24sp"
                       android:text="100"
+                      android:id="@+id/moneyET"
                       android:textStyle="bold"
                       android:textColor="#333333"
                       android:layout_toRightOf="@+id/moneyTV"
@@ -50,12 +51,14 @@
                   android:textColor="#9b9b9b"
                   android:text="最多可提现:1000"
                   android:textSize="12sp"
+                  android:id="@+id/moreTV"
                   android:layout_marginTop="10dp"
                   android:layout_height="wrap_content"/>
         <Button android:layout_width="match_parent"
                 android:text="提交申请"
                 android:layout_marginTop="40dp"
                 android:textSize="16sp"
+                android:id="@+id/commitB"
                 android:textColor="#ffffff"
                 android:background="@drawable/ic_bg_login_button"
                 android:layout_height="48dp"/>

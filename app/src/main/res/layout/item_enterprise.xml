@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:layout_height="wrap_content">
+    <ImageView android:layout_width="80dp"
+               android:src="@drawable/zzz"
+               android:scaleType="fitXY"
+               android:id="@+id/pictureIV"
+               android:layout_centerVertical="true"
+               android:layout_marginLeft="15dp"
+               android:layout_marginRight="10dp"
+               android:layout_height="80dp"/>
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="25dp"
+              android:layout_toRightOf="@+id/pictureIV"
+              android:id="@+id/nameTV"
+              android:text="山东烟花爆竹经贸公司"
+              android:textSize="16sp"
+              android:gravity="center_vertical"
+              android:textColor="#4d4d4d"/>
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="25dp"
+              android:layout_below="@+id/nameTV"
+              android:id="@+id/addressTV"
+              android:text="地址:山东省淄博市张店区"
+              android:textSize="14sp"
+              android:layout_toRightOf="@+id/pictureIV"
+              android:gravity="center_vertical"
+              android:textColor="#919191"/>
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="25dp"
+              android:layout_below="@+id/addressTV"
+              android:text="电话:18753319519"
+              android:textSize="14sp"
+              android:layout_toRightOf="@+id/pictureIV"
+              android:gravity="center_vertical"
+              android:textColor="#919191"/>
+
+</RelativeLayout>

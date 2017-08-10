@@ -2,13 +2,9 @@ package com.htyhbz.yhyg.fragment;
 
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +12,6 @@ import android.widget.ListView;
 import com.htyhbz.yhyg.R;
 import com.htyhbz.yhyg.activity.MainActivity;
 import com.htyhbz.yhyg.adapter.OrderTypeAdapter;
-import com.htyhbz.yhyg.vo.Dish;
 import com.htyhbz.yhyg.vo.OrderInfo;
 
 import java.util.ArrayList;

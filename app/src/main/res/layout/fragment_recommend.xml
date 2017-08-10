@@ -67,7 +67,7 @@
                                   android:layout_height="wrap_content">
                         <LinearLayout android:layout_width="0dp"
                                       android:layout_weight="1"
-                                      android:id="@+id/fireworksLL"
+                                      android:id="@+id/yanhuaLL"
                                       android:orientation="horizontal"
                                       android:gravity="center_vertical"
                                       android:paddingTop="10dp"
@@ -76,15 +76,17 @@
                             <ImageView
                                     android:layout_marginLeft="20dp"
                                     android:layout_marginRight="20dp"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="40dp"
+                                    android:id="@+id/yanhuaIV"
                                     android:src="@drawable/icon_home_yanhua"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="40dp"
                                     android:scaleType="centerInside"/>
                             <TextView
                                     android:layout_marginLeft="10dp"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="16sp"
+                                    android:id="@+id/yanhuaTV"
                                     android:textColor="#333333"
                                     android:text="烟花"/>
                         </LinearLayout>
@@ -94,7 +96,7 @@
                         <LinearLayout android:layout_width="0dp"
                                       android:layout_weight="1"
                                       android:paddingTop="10dp"
-                                      android:id="@+id/firecrackersLL"
+                                      android:id="@+id/baozhuLL"
                                       android:paddingBottom="10dp"
                                       android:orientation="horizontal"
                                       android:gravity="center_vertical"
@@ -102,12 +104,14 @@
                             <ImageView
                                     android:layout_marginLeft="20dp"
                                     android:layout_marginRight="20dp"
-                                    android:layout_width="wrap_content"
+                                    android:id="@+id/baozhuIV"
+                                    android:layout_width="40dp"
                                     android:src="@drawable/icon_home_baozhu"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="40dp"
                                     android:scaleType="centerInside"/>
                             <TextView
                                     android:layout_marginLeft="10dp"
+                                    android:id="@+id/baozhuTV"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="16sp"
@@ -124,24 +128,26 @@
                                   android:layout_height="wrap_content">
                         <LinearLayout android:layout_width="0dp"
                                       android:layout_weight="1"
-                                      android:id="@+id/comboClassLL"
+                                      android:id="@+id/taocanLL"
                                       android:orientation="horizontal"
                                       android:gravity="center_vertical"
                                       android:paddingTop="10dp"
                                       android:paddingBottom="10dp"
                                       android:layout_height="wrap_content">
                             <ImageView
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="40dp"
                                     android:layout_marginLeft="20dp"
                                     android:layout_marginRight="20dp"
+                                    android:id="@+id/taocanIV"
                                     android:src="@drawable/icon_home_taocanlei"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="40dp"
                                     android:scaleType="centerInside"/>
                             <TextView
                                     android:layout_marginLeft="10dp"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="16sp"
+                                    android:id="@+id/taocanTV"
                                     android:textColor="#333333"
                                     android:text="套餐类"/>
                         </LinearLayout>
@@ -151,7 +157,7 @@
                         <LinearLayout android:layout_width="0dp"
                                       android:layout_weight="1"
                                       android:paddingTop="10dp"
-                                      android:id="@+id/smallFireworksLL"
+                                      android:id="@+id/xiaoyanhuaLL"
                                       android:paddingBottom="10dp"
                                       android:orientation="horizontal"
                                       android:gravity="center_vertical"
@@ -159,15 +165,17 @@
                             <ImageView
                                     android:layout_marginLeft="20dp"
                                     android:layout_marginRight="20dp"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="40dp"
+                                    android:id="@+id/xiaoyanhuaIV"
                                     android:src="@drawable/icon_home_xiaoyanhua"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="40dp"
                                     android:scaleType="centerInside"/>
                             <TextView
                                     android:layout_marginLeft="10dp"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="16sp"
+                                    android:id="@+id/xiaoyanhuaTV"
                                     android:textColor="#333333"
                                     android:text="小烟花"/>
                         </LinearLayout>
@@ -235,6 +243,7 @@
                               android:layout_centerVertical="true"
                               android:textColor="#f8fcff"
                               android:textSize="16sp"
+                              android:text="山东省淄博市张店区"
                               android:id="@+id/tv2"
                             />
                     <TextView android:layout_width="wrap_content"

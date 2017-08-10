@@ -1,8 +1,6 @@
 package com.htyhbz.yhyg.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.htyhbz.yhyg.R;
+import com.htyhbz.yhyg.activity.BaseActivity;
 import com.htyhbz.yhyg.vo.Product;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,7 +31,7 @@ public class HomeProductAdapter extends BaseAdapter{
 
     @Override
     public int getCount() {
-        return 10;
+        return mData.size();
     }
 
     @Override
@@ -61,6 +57,9 @@ public class HomeProductAdapter extends BaseAdapter{
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        ((BaseActivity)context).getNetWorkPicture(mData.get(position).getproductPictureUrl(),holder.pictureIV);
+        holder.nameTV.setText(mData.get(position).getproductName());
+        holder.contentTV.setText(mData.get(position).getproductDetail());
         return convertView;
     }
 

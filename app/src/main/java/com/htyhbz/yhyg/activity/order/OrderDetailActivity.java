@@ -2,12 +2,13 @@ package com.htyhbz.yhyg.activity.order;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ScrollView;
 import com.htyhbz.yhyg.R;
 import com.htyhbz.yhyg.activity.BaseActivity;
 import com.htyhbz.yhyg.adapter.OrderTypeContentAdapter;
 import com.htyhbz.yhyg.view.CustomTitleBar;
 import com.htyhbz.yhyg.view.MyListView;
-import com.htyhbz.yhyg.vo.Dish;
+import com.htyhbz.yhyg.vo.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
 public class OrderDetailActivity extends BaseActivity{
     private MyListView orderMLV;
     private OrderTypeContentAdapter adapter;
-    private List<Dish> list =new ArrayList<Dish>();
+    private List<Product> list =new ArrayList<Product>();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,5 +37,6 @@ public class OrderDetailActivity extends BaseActivity{
         orderMLV= (MyListView) findViewById(R.id.orderMLV);
         adapter=new OrderTypeContentAdapter(OrderDetailActivity.this,list);
         orderMLV.setAdapter(adapter);
+        ((ScrollView)findViewById(R.id.SV)).smoothScrollTo(0, 20);
     }
 }

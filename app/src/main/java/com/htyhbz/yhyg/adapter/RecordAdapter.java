@@ -33,7 +33,7 @@ public class RecordAdapter extends BaseAdapter{
 
     @Override
     public int getCount() {
-        return 5;
+        return mData.size();
     }
 
     @Override
@@ -52,16 +52,21 @@ public class RecordAdapter extends BaseAdapter{
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.item_record, null);
+            holder.amountTV= (TextView) convertView.findViewById(R.id.amountTV);
+            holder.statusTV= (TextView) convertView.findViewById(R.id.statusTV);
+            holder.timeTV= (TextView) convertView.findViewById(R.id.timeTV);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
+        holder.amountTV.setText("提现:  "+mData.get(position).getWithdrawalAmount()+"元");
+        holder.statusTV.setText(mData.get(position).getWithdrawalStatus());
+        holder.timeTV.setText(mData.get(position).getWithdrawalTime());
         return convertView;
     }
 
     public final class ViewHolder {
-
+        public TextView amountTV,statusTV,timeTV;
     }
 
 }
