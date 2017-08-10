@@ -72,7 +72,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
     private int categoryId,productId,productType;
     private LinearLayoutManager rightMangear;
 
-    private JSONArray shoppinglist;
+    private JSONArray shoppinglist=new JSONArray();
     private  int shoppingAccount;
     private double shoppingTotalPrice;
     @Override
@@ -416,7 +416,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
                                     Catagory cata=new Catagory();
                                     cata.setCatalog(obj.getString("catalog"));
                                     cata.setCategoryId(obj.getString("categoryId"));
-                                    cata.setCategoryImageUrl(obj.getString("categoryImageUrl"));
+                                    cata.setCategoryImageUrl(ApiConstants.BASE_URL +obj.getString("categoryImageUrl"));
                                     JSONArray dataArr=obj.getJSONArray("data");
                                     if(categoryId==obj.getInt("categoryId")){
                                         leftPosition=i;

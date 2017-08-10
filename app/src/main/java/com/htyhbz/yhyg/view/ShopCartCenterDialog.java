@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import com.htyhbz.yhyg.R;
+import com.htyhbz.yhyg.activity.BaseActivity;
 import com.htyhbz.yhyg.activity.shoppingcat.ShoppingCatActivity;
 import com.htyhbz.yhyg.vo.Product;
 import com.htyhbz.yhyg.vo.ShopCart;
@@ -20,7 +21,7 @@ public class ShopCartCenterDialog extends Dialog  {
     private ShopCartCneterDialogImp shopCartDialogImp;
     private TextView showTV,productNameTV,productDetailTV,productPriceTV;
     private RelativeLayout showRL;
-    private ImageView addIV,removeIV,collectIV,videoIV;
+    private ImageView addIV,removeIV,collectIV,videoIV,topIV;
     private TextView numTV;
     private Context context;
 
@@ -61,7 +62,8 @@ public class ShopCartCenterDialog extends Dialog  {
             }
         });
         videoIV= (ImageView) findViewById(R.id.videoIV);
-
+        topIV= (ImageView) findViewById(R.id.topIV);
+        ((BaseActivity)context).getNetWorkPicture(product.getproductPictureUrl(),topIV);
         showTV= (TextView) findViewById(R.id.showTV);
         showTV.setOnClickListener(new View.OnClickListener() {
             @Override

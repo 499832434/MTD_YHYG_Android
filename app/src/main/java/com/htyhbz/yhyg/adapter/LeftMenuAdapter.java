@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.htyhbz.yhyg.R;
+import com.htyhbz.yhyg.activity.BaseActivity;
 import com.htyhbz.yhyg.vo.ProductMenu;
 
 import java.util.ArrayList;
@@ -59,20 +60,21 @@ public class LeftMenuAdapter extends RecyclerView.Adapter {
         ProductMenu productMenu = mMenuList.get(position);
         LeftMenuViewHolder viewHolder = (LeftMenuViewHolder)holder;
         viewHolder.menuName.setText(productMenu.getCatagory().getCatalog());
-        switch (position){
-            case 0:
-                viewHolder.menuNameIV.setImageResource(R.drawable.icon_yanhualei);
-                break;
-            case 1:
-                viewHolder.menuNameIV.setImageResource(R.drawable.icon_baozhulei);
-                break;
-            case 2:
-                viewHolder.menuNameIV.setImageResource(R.drawable.icon_taocanlei);
-                break;
-            case 3:
-                viewHolder.menuNameIV.setImageResource(R.drawable.icon_xiaoyanhua);
-                break;
-        }
+//        switch (position){
+//            case 0:
+//                viewHolder.menuNameIV.setImageResource(R.drawable.icon_yanhualei);
+//                break;
+//            case 1:
+//                viewHolder.menuNameIV.setImageResource(R.drawable.icon_baozhulei);
+//                break;
+//            case 2:
+//                viewHolder.menuNameIV.setImageResource(R.drawable.icon_taocanlei);
+//                break;
+//            case 3:
+//                viewHolder.menuNameIV.setImageResource(R.drawable.icon_xiaoyanhua);
+//                break;
+//        }
+        ((BaseActivity)mContext).getNetWorkPicture(productMenu.getCatagory().getCategoryImageUrl(),viewHolder.menuNameIV);
         if(mSelectedNum==position){
             viewHolder.menuLayout.setSelected(true);
         }else{
