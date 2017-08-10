@@ -1,21 +1,13 @@
 package com.htyhbz.yhyg.view;
 
-import android.animation.Animator;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.*;
 import com.htyhbz.yhyg.R;
 import com.htyhbz.yhyg.activity.shoppingcat.ShoppingCatActivity;
-import com.htyhbz.yhyg.adapter.PopupDishAdapter;
-import com.htyhbz.yhyg.imp.ShopCartImp;
-import com.htyhbz.yhyg.vo.Dish;
+import com.htyhbz.yhyg.vo.Product;
 import com.htyhbz.yhyg.vo.ShopCart;
 
 /**
@@ -24,7 +16,7 @@ import com.htyhbz.yhyg.vo.ShopCart;
 public class ShopCartCenterDialog extends Dialog  {
 
     private ShopCart shopCart;
-    private Dish dish;
+    private Product product;
     private ShopCartCneterDialogImp shopCartDialogImp;
     private TextView showTV;
     private RelativeLayout showRL;
@@ -32,10 +24,10 @@ public class ShopCartCenterDialog extends Dialog  {
     private TextView numTV;
     private Context context;
 
-    public ShopCartCenterDialog(Context context, ShopCart shopCart, Dish dish,int themeResId) {
+    public ShopCartCenterDialog(Context context, ShopCart shopCart, Product product,int themeResId) {
         super(context, themeResId);
         this.shopCart = shopCart;
-        this.dish = dish;
+        this.product = product;
         this.context=context;
     }
 
@@ -52,9 +44,9 @@ public class ShopCartCenterDialog extends Dialog  {
         showTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(shopCart!=null &&shopCart.addShoppingSingle(dish)) {
+                if(shopCart!=null &&shopCart.addShoppingSingle(product)) {
                     if(shopCart.getShoppingAccount()>0){
-                        numTV.setText(shopCart.getShoppingSingleMap().get(dish)+"");
+                        numTV.setText(shopCart.getShoppingSingleMap().get(product)+"");
                         ((ShoppingCatActivity)context).showTotalPrice();
                         showTV.setVisibility(View.GONE);
                         showRL.setVisibility(View.VISIBLE);
@@ -67,9 +59,9 @@ public class ShopCartCenterDialog extends Dialog  {
         addIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (shopCart != null && shopCart.addShoppingSingle(dish)) {
+                if (shopCart != null && shopCart.addShoppingSingle(product)) {
                     if (shopCart.getShoppingAccount() > 0) {
-                        numTV.setText(shopCart.getShoppingSingleMap().get(dish) + "");
+                        numTV.setText(shopCart.getShoppingSingleMap().get(product) + "");
                         showTV.setVisibility(View.GONE);
                         showRL.setVisibility(View.VISIBLE);
                     } else {
@@ -85,9 +77,9 @@ public class ShopCartCenterDialog extends Dialog  {
         removeIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(shopCart!=null &&shopCart.subShoppingSingle(dish)){
+                if(shopCart!=null &&shopCart.subShoppingSingle(product)){
                     if(shopCart.getShoppingAccount()>0){
-                        numTV.setText(shopCart.getShoppingSingleMap().get(dish) + "");
+                        numTV.setText(shopCart.getShoppingSingleMap().get(product) + "");
                         showTV.setVisibility(View.GONE);
                         showRL.setVisibility(View.VISIBLE);
                     }else{
@@ -103,8 +95,8 @@ public class ShopCartCenterDialog extends Dialog  {
     }
 
     private void initData(){
-        if(shopCart!=null && shopCart.getShoppingSingleMap().get(dish)!=null){
-            numTV.setText(shopCart.getShoppingSingleMap().get(dish)+"");
+        if(shopCart!=null && shopCart.getShoppingSingleMap().get(product)!=null){
+            numTV.setText(shopCart.getShoppingSingleMap().get(product)+"");
             showTV.setVisibility(View.GONE);
             showRL.setVisibility(View.VISIBLE);
         }else{

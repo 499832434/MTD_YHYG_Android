@@ -11,8 +11,8 @@ import android.widget.TextView;
 import com.htyhbz.yhyg.R;
 import com.htyhbz.yhyg.activity.shoppingcat.ShoppingCatActivity;
 import com.htyhbz.yhyg.imp.ShopCartImp;
-import com.htyhbz.yhyg.vo.Dish;
-import com.htyhbz.yhyg.vo.DishMenu;
+import com.htyhbz.yhyg.vo.Product;
+import com.htyhbz.yhyg.vo.ProductMenu;
 import com.htyhbz.yhyg.vo.ShopCart;
 
 import java.util.ArrayList;
@@ -26,29 +26,37 @@ public class RightDishAdapter extends RecyclerView.Adapter {
     private final int HEAD_TYPE = 2;
 
     private Context mContext;
-    private ArrayList<DishMenu> mMenuList;
+    private ArrayList<ProductMenu> mMenuList;
     private int mItemCount;
     private ShopCart shopCart;
     private ShopCartImp shopCartImp;
 
-    public RightDishAdapter(Context mContext, ArrayList<DishMenu> mMenuList, ShopCart shopCart){
+    public RightDishAdapter(Context mContext, ArrayList<ProductMenu> mMenuList, ShopCart shopCart){
         this.mContext = mContext;
         this.mMenuList = mMenuList;
         this.mItemCount = mMenuList.size();
         this.shopCart = shopCart;
-        for(DishMenu menu:mMenuList){
-            mItemCount+=menu.getDishList().size();
+        for(ProductMenu menu:mMenuList){
+            mItemCount+=menu.getProductList().size();
         }
+    }
+
+    public ShopCart getShopCart() {
+        return shopCart;
+    }
+
+    public void setShopCart(ShopCart shopCart) {
+        this.shopCart = shopCart;
     }
 
     @Override
     public int getItemViewType(int position) {
         int sum=0;
-        for(DishMenu menu:mMenuList){
+        for(ProductMenu menu:mMenuList){
             if(position==sum){
                 return MENU_TYPE;
             }
-            sum+=menu.getDishList().size()+1;
+            sum+=menu.getProductList().size()+1;
         }
         return DISH_TYPE;
     }
@@ -71,26 +79,26 @@ public class RightDishAdapter extends RecyclerView.Adapter {
         if(getItemViewType(position)==MENU_TYPE){
             MenuViewHolder menuholder = (MenuViewHolder)holder;
             if(menuholder!=null) {
-                menuholder.right_menu_title.setText(getMenuByPosition(position).getMenuName());
+                menuholder.right_menu_title.setText(getMenuByPosition(position).getCatagory().getCatalog());
                 menuholder.right_menu_layout.setContentDescription(position+"");
             }
         }else {
             final DishViewHolder dishholder = (DishViewHolder) holder;
             if (dishholder != null) {
 
-                final Dish dish = getDishByPosition(position);
-                dishholder.right_dish_name_tv.setText(dish.getDishName());
-                dishholder.right_dish_price_tv.setText(dish.getDishPrice()+"");
+                final Product product = getDishByPosition(position);
+                dishholder.right_dish_name_tv.setText(product.getproductName());
+                dishholder.right_dish_price_tv.setText(product.getproductPrice()+"");
                 dishholder.right_dish_layout.setContentDescription(position + "");
                 dishholder.right_dish_layout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ((ShoppingCatActivity)mContext).showCenterCart(view,dish);
+                        ((ShoppingCatActivity)mContext).showCenterCart(view, product);
                     }
                 });
                 int count = 0;
-                if(shopCart.getShoppingSingleMap().containsKey(dish)){
-                    count = shopCart.getShoppingSingleMap().get(dish);
+                if(shopCart.getShoppingSingleMap().containsKey(product)){
+                    count = shopCart.getShoppingSingleMap().get(product);
                 }
                 if(count<=0){
                     dishholder.right_dish_remove_iv.setVisibility(View.GONE);
@@ -103,7 +111,7 @@ public class RightDishAdapter extends RecyclerView.Adapter {
                 dishholder.right_dish_add_iv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(shopCart.addShoppingSingle(dish)) {
+                        if(shopCart.addShoppingSingle(product)) {
                             notifyItemChanged(position);
                             if(shopCartImp!=null)
                                 shopCartImp.add(view,position);
@@ -114,7 +122,7 @@ public class RightDishAdapter extends RecyclerView.Adapter {
                 dishholder.right_dish_remove_iv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(shopCart.subShoppingSingle(dish)){
+                        if(shopCart.subShoppingSingle(product)){
                             notifyItemChanged(position);
                             if(shopCartImp!=null)
                                 shopCartImp.remove(view,position);
@@ -125,37 +133,37 @@ public class RightDishAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public DishMenu getMenuByPosition(int position){
+    public ProductMenu getMenuByPosition(int position){
         int sum =0;
-        for(DishMenu menu:mMenuList){
+        for(ProductMenu menu:mMenuList){
             if(position==sum){
                 return menu;
             }
-            sum+=menu.getDishList().size()+1;
+            sum+=menu.getProductList().size()+1;
         }
         return null;
     }
 
-    public Dish getDishByPosition(int position){
-        for(DishMenu menu:mMenuList){
-            if(position>0 && position<=menu.getDishList().size()){
-                return menu.getDishList().get(position-1);
+    public Product getDishByPosition(int position){
+        for(ProductMenu menu:mMenuList){
+            if(position>0 && position<=menu.getProductList().size()){
+                return menu.getProductList().get(position-1);
             }
             else{
-                position-=menu.getDishList().size()+1;
+                position-=menu.getProductList().size()+1;
             }
         }
         return null;
     }
 
-    public DishMenu getMenuOfMenuByPosition(int position){
-        for(DishMenu menu:mMenuList){
+    public ProductMenu getMenuOfMenuByPosition(int position){
+        for(ProductMenu menu:mMenuList){
             if(position==0)return menu;
-            if(position>0 && position<=menu.getDishList().size()){
+            if(position>0 && position<=menu.getProductList().size()){
                 return menu;
             }
             else{
-                position-=menu.getDishList().size()+1;
+                position-=menu.getProductList().size()+1;
             }
         }
         return null;

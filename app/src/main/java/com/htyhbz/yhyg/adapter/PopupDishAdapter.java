@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.htyhbz.yhyg.R;
 import com.htyhbz.yhyg.imp.ShopCartImp;
-import com.htyhbz.yhyg.vo.Dish;
+import com.htyhbz.yhyg.vo.Product;
 import com.htyhbz.yhyg.vo.ShopCart;
 
 import java.util.ArrayList;
@@ -25,15 +25,15 @@ public class PopupDishAdapter extends RecyclerView.Adapter{
     private ShopCart shopCart;
     private Context context;
     private int itemCount;
-    private ArrayList<Dish> dishList;
+    private ArrayList<Product> productList;
     private ShopCartImp shopCartImp;
 
     public PopupDishAdapter(Context context, ShopCart shopCart){
         this.shopCart = shopCart;
         this.context = context;
-        this.itemCount = shopCart.getDishAccount();
-        this.dishList = new ArrayList<Dish>();
-        dishList.addAll(shopCart.getShoppingSingleMap().keySet());
+        this.itemCount = shopCart.getProductAccount();
+        this.productList = new ArrayList<Product>();
+        productList.addAll(shopCart.getShoppingSingleMap().keySet());
         Log.e(TAG, "PopupDishAdapter: " + this.itemCount);
     }
 
@@ -47,17 +47,17 @@ public class PopupDishAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         DishViewHolder dishholder = (DishViewHolder)holder;
-        final Dish dish = getDishByPosition(position);
-        if(dish!=null) {
-            dishholder.right_dish_name_tv.setText(dish.getDishName());
-            dishholder.right_dish_price_tv.setText(dish.getDishPrice() + "");
-            int num = shopCart.getShoppingSingleMap().get(dish);
+        final Product product = getDishByPosition(position);
+        if(product !=null) {
+            dishholder.right_dish_name_tv.setText(product.getproductName());
+            dishholder.right_dish_price_tv.setText(product.getproductPrice() + "");
+            int num = shopCart.getShoppingSingleMap().get(product);
             dishholder.right_dish_account_tv.setText(num+"");
 
             dishholder.right_dish_add_iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(shopCart.addShoppingSingle(dish)) {
+                    if(shopCart.addShoppingSingle(product)) {
                         notifyItemChanged(position);
                         if(shopCartImp!=null)
                             shopCartImp.add(view,position);
@@ -68,10 +68,10 @@ public class PopupDishAdapter extends RecyclerView.Adapter{
             dishholder.right_dish_remove_iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(shopCart.subShoppingSingle(dish)){
-                        dishList.clear();
-                        dishList.addAll(shopCart.getShoppingSingleMap().keySet());
-                        itemCount = shopCart.getDishAccount();;
+                    if(shopCart.subShoppingSingle(product)){
+                        productList.clear();
+                        productList.addAll(shopCart.getShoppingSingleMap().keySet());
+                        itemCount = shopCart.getProductAccount();;
                         notifyDataSetChanged();
                         if(shopCartImp!=null)
                             shopCartImp.remove(view,position);
@@ -86,8 +86,8 @@ public class PopupDishAdapter extends RecyclerView.Adapter{
         return this.itemCount;
     }
 
-    public Dish getDishByPosition(int position){
-        return dishList.get(position);
+    public Product getDishByPosition(int position){
+        return productList.get(position);
     }
 
     public ShopCartImp getShopCartImp() {

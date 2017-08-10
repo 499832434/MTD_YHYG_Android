@@ -26,4 +26,8 @@
     <dimen name="shopping_cart_total_price_word_size">20sp</dimen>
     <dimen name="shopping_cart_small_size">15sp</dimen>
     <dimen name="shopping_cart_bottom_recycle_height">250dp</dimen>
+
+    <dimen name="load_more_footer_height_classic">30dp</dimen>
+
+    <dimen name="refresh_header_height_twitter">80dp</dimen>
 </resources>

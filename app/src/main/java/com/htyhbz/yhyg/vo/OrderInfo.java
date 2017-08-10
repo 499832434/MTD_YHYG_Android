@@ -12,7 +12,7 @@ public class OrderInfo {
     private int useIntegralCount;
     private int orderType;
     private int orderAllPrice;
-    private List<Dish> list =new ArrayList<Dish>();
+    private List<Product> list =new ArrayList<Product>();
 
     public int getOrderID() {
         return orderID;
@@ -54,11 +54,11 @@ public class OrderInfo {
         this.orderAllPrice = orderAllPrice;
     }
 
-    public List<Dish> getList() {
+    public List<Product> getList() {
         return list;
     }
 
-    public void setList(List<Dish> list) {
+    public void setList(List<Product> list) {
         this.list = list;
     }
 }

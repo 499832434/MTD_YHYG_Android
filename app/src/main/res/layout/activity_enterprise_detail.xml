@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:custom="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:background="#ffffff"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <com.htyhbz.yhyg.view.CustomTitleBar
+            android:id="@+id/customTitleBar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            custom:text="山东烟花爆竹贸易公司"
+            />
+    <TextView android:layout_width="match_parent"
+              android:layout_marginLeft="15dp"
+              android:gravity="center_vertical"
+              android:layout_height="30dp"
+              android:layout_marginTop="10dp"
+              android:text="山东烟花爆竹贸易公司"
+              android:textColor="#4d4d4d"
+              android:textSize="15sp"/>
+    <TextView android:layout_width="match_parent"
+              android:layout_marginLeft="15dp"
+              android:gravity="center_vertical"
+              android:layout_height="30dp"
+              android:text="地址:山东省淄博市张店区"
+              android:textColor="#919191"
+              android:textSize="15sp"/>
+    <TextView android:layout_width="match_parent"
+              android:layout_marginLeft="15dp"
+              android:gravity="center_vertical"
+              android:layout_height="30dp"
+              android:text="电话:18753319519"
+              android:textColor="#919191"
+              android:textSize="15sp"/>
+    <TextView android:layout_width="match_parent"
+              android:layout_marginLeft="15dp"
+              android:gravity="center_vertical"
+              android:layout_height="30dp"
+              android:text="联系人:王先生"
+              android:layout_marginBottom="10dp"
+              android:textColor="#919191"
+              android:textSize="15sp"/>
+    <View android:layout_width="match_parent" android:layout_height="0.5dp"
+            android:background="#d6d6d6"/>
+    <RadioGroup
+            android:id="@+id/navRadioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="3dp"
+            android:orientation="horizontal">
+        <RadioButton
+                android:id="@+id/introductRB"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ic_bg_order_query_bottom_selector"
+                android:textColor="@color/order_query_color_selector"
+                android:text="厂家简介"
+                android:button="@null"
+                android:textSize="16sp"
+                android:gravity="center"/>
+        <View android:layout_width="0.6dp"
+              android:layout_height="20dp"
+              android:layout_gravity="center_vertical"
+              android:background="#e0e0e0"/>
+        <RadioButton
+                android:id="@+id/productRB"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ic_bg_order_query_bottom_selector"
+                android:textColor="@color/order_query_color_selector"
+                android:text="厂家产品"
+                android:button="@null"
+                android:textSize="16sp"
+                android:gravity="center"/>
+        <View android:layout_width="0.6dp"
+              android:layout_height="20dp"
+              android:layout_gravity="center_vertical"
+              android:background="#e0e0e0"/>
+        <RadioButton
+                android:id="@+id/addressRB"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ic_bg_order_query_bottom_selector"
+                android:textColor="@color/order_query_color_selector"
+                android:text="厂家地址"
+                android:button="@null"
+                android:textSize="16sp"
+                android:gravity="center"/>
+
+    </RadioGroup>
+    <View android:layout_width="match_parent" android:layout_height="0.5dp"
+          android:background="#e1e1e1"/>
+    <android.support.v4.view.ViewPager
+            android:layout_width="match_parent"
+            android:id="@+id/currentViewPager"
+            android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
+</LinearLayout>

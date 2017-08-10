@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="48dp">
+        <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:textColor="#000000"
+                android:singleLine="true"
+                android:text="厂家"
+                android:ellipsize="end"
+                android:maxEms="7"
+                android:gravity="center"
+                android:textSize="18sp"/>
+        <TextView
+                android:id="@+id/unLoginTV"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:textColor="#0398ff"
+                android:text="退出登录"
+                android:gravity="center"
+                android:textSize="16sp"/>
+    </RelativeLayout>
+    <View android:layout_width="match_parent"
+          android:layout_height="0.5dp"
+            android:background="#e1e1e1"/>∨
+    <RelativeLayout android:layout_width="match_parent"
+                    android:id="@+id/RL2"
+                    android:background="#f7f7f7"
+                    android:layout_height="50dp">
+        <ImageView android:layout_width="40dp"
+                   android:scaleType="centerInside"
+                   android:id="@+id/gprsIV"
+                   android:layout_centerVertical="true"
+                   android:src="@drawable/icon_gprs_red"
+                   android:layout_height="40dp"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_toRightOf="@+id/gprsIV"
+                  android:layout_height="wrap_content"
+                  android:drawablePadding="5dp"
+                  android:drawableRight="@drawable/icon_xiala"
+                  android:layout_centerVertical="true"
+                  android:textColor="#bababa"
+                  android:textSize="16sp"
+                  android:text="@string/choice_area"
+                  android:id="@+id/tv2"
+                />
+    </RelativeLayout>
+
+    <com.aspsine.swipetoloadlayout.SwipeToLoadLayout
+            android:id="@+id/swipeToLoadLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff">
+        <include
+                android:id="@id/swipe_refresh_header"
+                layout="@layout/layout_recommend_header" />
+
+        <ListView
+                android:id="@+id/swipe_target"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:divider="#ededed"
+                android:dividerHeight="1dp"/>
+
+        <include
+                android:id="@id/swipe_load_more_footer"
+                layout="@layout/layout_classic_footer" />
+    </com.aspsine.swipetoloadlayout.SwipeToLoadLayout>
+</LinearLayout>

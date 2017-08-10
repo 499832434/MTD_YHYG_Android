@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_height="40dp">
+        <TextView android:layout_width="wrap_content"
+                  android:textColor="#333333"
+                  android:textSize="16sp"
+                  android:id="@+id/amountTV"
+                  android:layout_centerVertical="true"
+                  android:text="提现:  100元"
+                  android:layout_height="wrap_content"/>
+        <TextView android:layout_width="wrap_content"
+                  android:textColor="#57b847"
+                  android:textSize="16sp"
+                  android:id="@+id/statusTV"
+                  android:layout_alignParentRight="true"
+                  android:layout_centerVertical="true"
+                  android:text="已完成"
+                  android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+    <TextView android:layout_width="wrap_content"
+              android:textColor="#999999"
+              android:textSize="14sp"
+              android:id="@+id/timeTV"
+              android:layout_marginLeft="20dp"
+              android:layout_centerVertical="true"
+              android:text="2017-12-12 18:57:09"
+              android:layout_height="wrap_content"/>
+</LinearLayout>

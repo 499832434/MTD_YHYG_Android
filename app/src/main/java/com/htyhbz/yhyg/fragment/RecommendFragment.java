@@ -7,27 +7,42 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.*;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.aspsine.swipetoloadlayout.OnRefreshListener;
 import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
+import com.htyhbz.yhyg.ApiConstants;
 import com.htyhbz.yhyg.InitApp;
 import com.htyhbz.yhyg.R;
 import com.htyhbz.yhyg.activity.MainActivity;
 import com.htyhbz.yhyg.activity.shoppingcat.ShoppingCatActivity;
 import com.htyhbz.yhyg.adapter.HomeProductAdapter;
+import com.htyhbz.yhyg.net.HighRequest;
+import com.htyhbz.yhyg.net.NetworkUtils;
 import com.htyhbz.yhyg.service.LocationService;
 import com.htyhbz.yhyg.utils.DensityUtil;
 import com.htyhbz.yhyg.view.ClearEditText;
 import com.htyhbz.yhyg.view.MyGridView;
 import com.htyhbz.yhyg.view.MyScrollView;
+import com.htyhbz.yhyg.vo.Product;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zongshuo on 2017/7/5.
@@ -45,35 +60,48 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
     private MainActivity mActivity;
     private MyGridView homeGV;
     private HomeProductAdapter adapter;
-    private LinearLayout smallFireworksLL,comboClassLL,firecrackersLL,fireworksLL;
-
+    private LinearLayout xiaoyanhuaLL,taocanLL,baozhuLL,yanhuaLL;
+    private List<Product> productList=new ArrayList<Product>();
+    private TextView yanhuaTV,baozhuTV,taocanTV,xiaoyanhuaTV;
+    private ImageView yanhuaIV,baozhuIV,taocanIV,xiaoyanhuaIV;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         currentView = inflater.inflate(R.layout.fragment_recommend, container, false);
         initView();
-        getPositon();
+        //getPositon();
+        getCategory();
+        getHotSaleProduction();
         return currentView;
     }
 
     private void initView() {
         topHeight = getStatusBarHeight();
 
-        smallFireworksLL= (LinearLayout) currentView.findViewById(R.id.smallFireworksLL);
-        comboClassLL= (LinearLayout) currentView.findViewById(R.id.comboClassLL);
-        firecrackersLL= (LinearLayout) currentView.findViewById(R.id.firecrackersLL);
-        fireworksLL= (LinearLayout) currentView.findViewById(R.id.fireworksLL);
-        smallFireworksLL.setOnClickListener(this);
-        comboClassLL.setOnClickListener(this);
-        firecrackersLL.setOnClickListener(this);
-        fireworksLL.setOnClickListener(this);
+        yanhuaTV= (TextView) currentView.findViewById(R.id.yanhuaTV);
+        baozhuTV= (TextView) currentView.findViewById(R.id.baozhuTV);
+        taocanTV= (TextView) currentView.findViewById(R.id.taocanTV);
+        xiaoyanhuaTV= (TextView) currentView.findViewById(R.id.xiaoyanhuaTV);
+
+        yanhuaIV= (ImageView) currentView.findViewById(R.id.yanhuaIV);
+        baozhuIV= (ImageView) currentView.findViewById(R.id.baozhuIV);
+        taocanIV= (ImageView) currentView.findViewById(R.id.taocanIV);
+        xiaoyanhuaIV= (ImageView) currentView.findViewById(R.id.xiaoyanhuaIV);
+        xiaoyanhuaLL= (LinearLayout) currentView.findViewById(R.id.xiaoyanhuaLL);
+        taocanLL= (LinearLayout) currentView.findViewById(R.id.taocanLL);
+        baozhuLL= (LinearLayout) currentView.findViewById(R.id.baozhuLL);
+        yanhuaLL= (LinearLayout) currentView.findViewById(R.id.yanhuaLL);
+        xiaoyanhuaLL.setOnClickListener(this);
+        taocanLL.setOnClickListener(this);
+        baozhuLL.setOnClickListener(this);
+        yanhuaLL.setOnClickListener(this);
         searchET = (ClearEditText) currentView.findViewById(R.id.searchET);
         tv2 = (TextView) currentView.findViewById(R.id.tv2);
         tv2.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                getPositon();// 定位SDK
+                //getPositon();// 定位SDK
             }
         });
         RL1= (RelativeLayout) currentView.findViewById(R.id.RL1);
@@ -100,8 +128,17 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
 
 
         homeGV= (MyGridView) currentView.findViewById(R.id.homeGV);
-        adapter=new HomeProductAdapter(mActivity,null);
+        adapter=new HomeProductAdapter(mActivity,productList);
         homeGV.setAdapter(adapter);
+        homeGV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent1=new Intent(mActivity, ShoppingCatActivity.class);
+                intent1.putExtra("productId",productList.get(i).getproductId());
+                intent1.putExtra("productType",productList.get(i).getproductType());
+                startActivity(intent1);
+            }
+        });
         swipeToLoadLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -233,16 +270,16 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
         }
     }
 
-    /***
-     * Stop location service
-     */
-    @Override
-    public void onStop() {
-        // TODO Auto-generated method stub
-        locationService.unregisterListener(mListener); //注销掉监听
-        locationService.stop(); //停止定位服务
-        super.onStop();
-    }
+//    /***
+//     * Stop location service
+//     */
+//    @Override
+//    public void onStop() {
+//        // TODO Auto-generated method stub
+//        locationService.unregisterListener(mListener); //注销掉监听
+//        locationService.stop(); //停止定位服务
+//        super.onStop();
+//    }
 
 
     @Override
@@ -269,18 +306,148 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.smallFireworksLL:
-                startActivity(new Intent(mActivity, ShoppingCatActivity.class));
+            case R.id.xiaoyanhuaLL:
+                Intent intent1=new Intent(mActivity, ShoppingCatActivity.class);
+                intent1.putExtra("categoryId",(Integer) xiaoyanhuaLL.getTag());
+                startActivity(intent1);
                 break;
-            case R.id.comboClassLL:
-                startActivity(new Intent(mActivity, ShoppingCatActivity.class));
+            case R.id.taocanLL:
+                Intent intent2=new Intent(mActivity, ShoppingCatActivity.class);
+                intent2.putExtra("categoryId",(Integer) taocanLL.getTag());
+                startActivity(intent2);
                 break;
-            case R.id.firecrackersLL:
-                startActivity(new Intent(mActivity, ShoppingCatActivity.class));
+            case R.id.yanhuaLL:
+                Intent intent3=new Intent(mActivity, ShoppingCatActivity.class);
+                intent3.putExtra("categoryId", (Integer) yanhuaLL.getTag());
+                startActivity(intent3);
                 break;
-            case R.id.fireworksLL:
-                startActivity(new Intent(mActivity, ShoppingCatActivity.class));
+            case R.id.baozhuLL:
+                Intent intent4=new Intent(mActivity, ShoppingCatActivity.class);
+                intent4.putExtra("categoryId", (Integer) baozhuLL.getTag());
+                startActivity(intent4);
                 break;
         }
     }
+
+    /**
+     * 网络请求
+     */
+    private void getCategory() {
+        if (!NetworkUtils.isNetworkAvailable(mActivity)) {
+            return;
+        }
+
+        HashMap<String,String> params=mActivity.getNetworkRequestHashMap();
+        params.put("userID", mActivity.getUserInfo(0));
+        params.put("areaID", mActivity.getUserInfo(1));
+        String url=InitApp.getUrlByParameter(ApiConstants.GET_CATEGPRY_API,params,true);
+        Log.e("getCategoryURl", url);
+
+        HighRequest request = new HighRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("getCategoryRe", response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            if (jsonObject.getString("code").equals("0")) {
+                                JSONArray array=jsonObject.getJSONArray("info");
+                                for(int i=0;i<4;i++){
+                                    JSONObject obj=array.getJSONObject(i);
+                                    switch (i){
+                                        case 0:
+                                            yanhuaTV.setText(obj.getString("catalog"));
+                                            mActivity.getNetWorkPicture(ApiConstants.BASE_URL + obj.getString("categoryImageUrl"), yanhuaIV);
+                                            yanhuaLL.setTag(obj.getInt("categoryId"));
+                                            break;
+                                        case 1:
+                                            baozhuTV.setText(obj.getString("catalog"));
+                                            mActivity.getNetWorkPicture(ApiConstants.BASE_URL + obj.getString("categoryImageUrl"), baozhuIV);
+                                            baozhuLL.setTag(obj.getInt("categoryId"));
+                                            break;
+                                        case 2:
+                                            taocanTV.setText(obj.getString("catalog"));
+                                            mActivity.getNetWorkPicture(ApiConstants.BASE_URL + obj.getString("categoryImageUrl"), taocanIV);
+                                            taocanLL.setTag(obj.getInt("categoryId"));
+                                            break;
+                                        case 3:
+                                            xiaoyanhuaTV.setText(obj.getString("catalog"));
+                                            mActivity.getNetWorkPicture(ApiConstants.BASE_URL + obj.getString("categoryImageUrl"), xiaoyanhuaIV);
+                                            xiaoyanhuaLL.setTag(obj.getInt("categoryId"));
+                                            break;
+                                    }
+                                }
+                            }else{
+                                mActivity.toast(mActivity, jsonObject.getString("msg"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }finally {
+                            swipeToLoadLayout.setRefreshing(false);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }
+        ) ;
+        InitApp.initApp.addToRequestQueue(request);
+    }
+
+    /**
+     * 网络请求
+     */
+    private void getHotSaleProduction() {
+        if (!NetworkUtils.isNetworkAvailable(mActivity)) {
+            return;
+        }
+
+        final HashMap<String,String> params=mActivity.getNetworkRequestHashMap();
+        params.put("areaID", mActivity.getUserInfo(1));
+        String url=InitApp.getUrlByParameter(ApiConstants.HOT_SALE_PRODUCTION_API,params,true);
+        Log.e("HotSaleProductionURl", url);
+
+        HighRequest request = new HighRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("HotSaleProductionRe", response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            if (jsonObject.getString("code").equals("0")) {
+                                JSONArray infoArr=jsonObject.getJSONArray("info");
+                                for(int i=0;i<infoArr.length();i++){
+                                    JSONObject obj= (JSONObject) infoArr.get(i);
+                                    Product product=new Product();
+                                    product.setproductId(obj.getInt("productId"));
+                                    product.setproductName(obj.getString("productName"));
+                                    product.setproductDetail(obj.getString("productDetail"));
+                                    product.setproductPictureUrl(ApiConstants.BASE_URL+obj.getString("productPictureUrl"));
+                                    product.setproductType(obj.getInt("productType"));
+                                    productList.add(product);
+                                }
+                                if(productList.size()>0){
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }else{
+                                mActivity.toast(mActivity, jsonObject.getString("msg"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }finally {
+                            swipeToLoadLayout.setRefreshing(false);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }
+        );
+        InitApp.initApp.addToRequestQueue(request);
+    }
+
 }

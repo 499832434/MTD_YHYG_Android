@@ -7,8 +7,8 @@
 
     <LinearLayout
         android:id="@+id/llRefresh"
-        android:layout_width="160dp"
-        android:layout_height="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true">
 
         <ImageView
