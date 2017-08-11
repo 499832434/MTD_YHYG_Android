@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.htyhbz.yhyg.R;
+import com.htyhbz.yhyg.activity.BaseActivity;
 import com.htyhbz.yhyg.activity.shoppingcat.ShoppingCatActivity;
 import com.htyhbz.yhyg.imp.ShopCartImp;
 import com.htyhbz.yhyg.vo.Product;
@@ -90,6 +91,7 @@ public class RightDishAdapter extends RecyclerView.Adapter {
                 dishholder.right_dish_name_tv.setText(product.getproductName());
                 dishholder.right_dish_price_tv.setText(product.getproductPrice()+"");
                 dishholder.right_dish_layout.setContentDescription(position + "");
+                ((BaseActivity)mContext).getNetWorkPicture(product.getproductPictureUrl(),dishholder.pictureIV);
                 dishholder.right_dish_layout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -199,9 +201,11 @@ public class RightDishAdapter extends RecyclerView.Adapter {
         private ImageView right_dish_remove_iv;
         private ImageView right_dish_add_iv;
         private TextView right_dish_account_tv;
+        private ImageView pictureIV;
 
         public DishViewHolder(View itemView) {
             super(itemView);
+            pictureIV= (ImageView) itemView.findViewById(R.id.pictureIV);
             right_dish_name_tv = (TextView)itemView.findViewById(R.id.right_dish_name);
             right_dish_price_tv = (TextView)itemView.findViewById(R.id.right_dish_price);
             right_dish_layout = (LinearLayout)itemView.findViewById(R.id.right_dish_item);

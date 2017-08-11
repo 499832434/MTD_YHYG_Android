@@ -19,6 +19,7 @@ import com.htyhbz.yhyg.activity.enterprise.EnterpriseMainActivity;
 import com.htyhbz.yhyg.net.HighRequest;
 import com.htyhbz.yhyg.net.NetworkUtils;
 import com.htyhbz.yhyg.utils.PrefUtils;
+import com.htyhbz.yhyg.vo.Product;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,6 +42,26 @@ public class LoginActivity extends BaseActivity{
             finish();
         }
         initView();
+//        initData();
+
+    }
+
+    private void initData(){
+        HashMap<Product,Integer> map=new HashMap<Product, Integer>();
+        Product product1=new Product();
+        product1.setproductId(1);
+        product1.setproductName("1");
+        product1.setproductPrice(1);
+        Product product2=new Product();
+        product2.setproductId(1);
+        product2.setproductName("1");
+        product2.setproductPrice(1);
+        map.put(product1,1);
+        if(map.containsKey(product2)){
+            Log.e("aaa","111");
+        }else{
+            Log.e("aaa","2222");
+        }
 
     }
 

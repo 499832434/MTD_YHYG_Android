@@ -7,8 +7,8 @@ public class Product {
 
     private String productName;
     private double productPrice;
-    private int productAmount=Integer.MAX_VALUE;//产品可增加最大数
-    private int productRemain=Integer.MAX_VALUE;//产品可删除最大数
+    private int productAmount=100000;//产品可增加最大数
+    private int productRemain=100000;//产品可删除最大数
     private int productId;
     private int productType;
     private String productDetail;//产品简介
@@ -81,6 +81,7 @@ public class Product {
         this.productRemain = productAmount;
     }
     public Product(){
+
     }
 
 

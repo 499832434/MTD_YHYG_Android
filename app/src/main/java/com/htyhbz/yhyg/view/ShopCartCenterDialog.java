@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import com.htyhbz.yhyg.R;
+import com.htyhbz.yhyg.activity.BaseActivity;
 import com.htyhbz.yhyg.activity.shoppingcat.ShoppingCatActivity;
 import com.htyhbz.yhyg.vo.Product;
 import com.htyhbz.yhyg.vo.ShopCart;
@@ -18,9 +19,9 @@ public class ShopCartCenterDialog extends Dialog  {
     private ShopCart shopCart;
     private Product product;
     private ShopCartCneterDialogImp shopCartDialogImp;
-    private TextView showTV;
+    private TextView showTV,productNameTV,productDetailTV,productPriceTV;
     private RelativeLayout showRL;
-    private ImageView addIV,removeIV;
+    private ImageView addIV,removeIV,collectIV,videoIV,topIV;
     private TextView numTV;
     private Context context;
 
@@ -40,12 +41,35 @@ public class ShopCartCenterDialog extends Dialog  {
     }
 
     private void initView(){
+        productNameTV= (TextView) findViewById(R.id.productNameTV);
+        productNameTV.setText(product.getproductName());
+        productDetailTV= (TextView) findViewById(R.id.productDetailTV);
+        productDetailTV.setText(product.getproductDetail());
+        productPriceTV= (TextView) findViewById(R.id.productPriceTV);
+        productPriceTV.setText("￥"+product.getproductPrice());
+        collectIV= (ImageView) findViewById(R.id.collectIV);
+        if(0==product.getIsCollected()){
+            collectIV.setImageResource(R.drawable.icon_collection_grey);
+            collectIV.setTag(1);
+        }else{
+            collectIV.setImageResource(R.drawable.icon_collection);
+            collectIV.setTag(0);
+        }
+        collectIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((ShoppingCatActivity)context).collectProduction(product,collectIV);
+            }
+        });
+        videoIV= (ImageView) findViewById(R.id.videoIV);
+        topIV= (ImageView) findViewById(R.id.topIV);
+        ((BaseActivity)context).getNetWorkPicture(product.getproductPictureUrl(),topIV);
         showTV= (TextView) findViewById(R.id.showTV);
         showTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(shopCart!=null &&shopCart.addShoppingSingle(product)) {
-                    if(shopCart.getShoppingAccount()>0){
+                    if(shopCart.getShoppingSingleMap().get(product) > 0){
                         numTV.setText(shopCart.getShoppingSingleMap().get(product)+"");
                         ((ShoppingCatActivity)context).showTotalPrice();
                         showTV.setVisibility(View.GONE);
@@ -60,13 +84,10 @@ public class ShopCartCenterDialog extends Dialog  {
             @Override
             public void onClick(View view) {
                 if (shopCart != null && shopCart.addShoppingSingle(product)) {
-                    if (shopCart.getShoppingAccount() > 0) {
+                    if (shopCart.getShoppingSingleMap().get(product) > 0) {
                         numTV.setText(shopCart.getShoppingSingleMap().get(product) + "");
                         showTV.setVisibility(View.GONE);
                         showRL.setVisibility(View.VISIBLE);
-                    } else {
-                        showTV.setVisibility(View.VISIBLE);
-                        showRL.setVisibility(View.GONE);
                     }
                     ((ShoppingCatActivity) context).showTotalPrice();
                 }
@@ -78,7 +99,7 @@ public class ShopCartCenterDialog extends Dialog  {
             @Override
             public void onClick(View view) {
                 if(shopCart!=null &&shopCart.subShoppingSingle(product)){
-                    if(shopCart.getShoppingAccount()>0){
+                    if((shopCart.getShoppingSingleMap().get(product)!=null)&&shopCart.getShoppingSingleMap().get(product) > 0){
                         numTV.setText(shopCart.getShoppingSingleMap().get(product) + "");
                         showTV.setVisibility(View.GONE);
                         showRL.setVisibility(View.VISIBLE);
@@ -86,6 +107,7 @@ public class ShopCartCenterDialog extends Dialog  {
                         showTV.setVisibility(View.VISIBLE);
                         showRL.setVisibility(View.GONE);
                     }
+
                     ((ShoppingCatActivity)context).showTotalPrice();
                 }
 

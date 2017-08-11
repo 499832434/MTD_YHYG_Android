@@ -37,6 +37,7 @@ public class InitApp extends Application {
     public static final String USER_INTEGRAL_KEY = "USER_INTEGRAL_KEY";
     public static final String SCORE_SCALE_KEY = "SCORE_SCALE_KEY";
     public static final String ACCESS_TOKEN_KEY = "ACCESS_TOKEN_KEY";
+    public static final String SHOPPING_CAT_DATA = "SHOPPING_CAT_DATA";
 
     public static LocationService locationService;
     public Vibrator mVibrator;

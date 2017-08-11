@@ -30,7 +30,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
 
-
     /**
      * 拨打电话
      */
@@ -91,6 +90,8 @@ public abstract class BaseActivity extends AppCompatActivity {
                 return PrefUtils.getString(BaseActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.USER_INTEGRAL_KEY, "");
             case 3:
                 return PrefUtils.getString(BaseActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.SCORE_SCALE_KEY, "");
+            case 4:
+                return PrefUtils.getString(BaseActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.SHOPPING_CAT_DATA, "");
         }
         return  "";
     }
