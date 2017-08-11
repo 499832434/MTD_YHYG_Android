@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,8 @@ import com.htyhbz.yhyg.activity.enterprise.EnterpriseDetailActivity;
 public class EnAddressFragment extends Fragment {
     private View currentView = null;
     private EnterpriseDetailActivity mActivity;
+    private final static String LONGITUDE = "LONGITUDE";
+    private final static String LATITUDE = "LATITUDE";
     SupportMapFragment map;
     private MapView mMapView;
     private BaiduMap mBaiduMap;
@@ -37,17 +41,27 @@ public class EnAddressFragment extends Fragment {
         return currentView;
     }
 
+    public static EnAddressFragment newInstance(String param1,String param2) {
+        EnAddressFragment fragment = new EnAddressFragment();
+        Bundle args = new Bundle();
+        args.putString(LONGITUDE,param1);
+        args.putString(LATITUDE,param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     private void initView() {
+        String enterpriseLongitude = getArguments().getString(LONGITUDE);
+        String enterpriseLatitude = getArguments().getString(LATITUDE);
+        if(TextUtils.isEmpty(enterpriseLongitude)||TextUtils.isEmpty(enterpriseLatitude)){
+            return;
+        }
+        if("null".equals(enterpriseLongitude)||"null".equals(enterpriseLatitude)){
+            return;
+        }
         Intent intent = mActivity.getIntent();
         MapStatus.Builder builder = new MapStatus.Builder();
-//        if (intent.hasExtra("x") && intent.hasExtra("y")) {
-//            // 当用intent参数时，设置中心点为指定点
-//            Bundle b = intent.getExtras();
-//            LatLng p = new LatLng(b.getDouble("y"), b.getDouble("x"));
-//            builder.target(p);
-//        }
-        final  LatLng p = new LatLng(36.847835,118.038579);
+        final  LatLng p = new LatLng(Double.parseDouble(enterpriseLatitude),Double.parseDouble(enterpriseLongitude));
         builder.target(p);
         builder.overlook(-20).zoom(15);
         BaiduMapOptions bo = new BaiduMapOptions().mapStatus(builder.build())

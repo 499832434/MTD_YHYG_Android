@@ -55,6 +55,7 @@
                               android:layout_marginLeft="40dp"
                               android:background="@drawable/ic_bg_order_bottom"
                               android:text="中润华侨城"
+                              android:id="@+id/townET"
                               android:textSize="14sp"
                               android:layout_height="40dp"/>
 

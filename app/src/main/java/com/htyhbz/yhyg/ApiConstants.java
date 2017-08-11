@@ -15,4 +15,12 @@ public interface ApiConstants {
     String HOT_SALE_PRODUCTION_API="http://59.110.163.137/api/hotSaleProduction?";//首页热销产品
     String SHOPPING_CART_LIST_API="http://59.110.163.137/api/shoppingCartList?";//修改密码
     String COLLECT_PRODUCTION_API="http://59.110.163.137/api/collectProduction?";//产品收藏
+    String GET_TOWN_API="http://59.110.163.137/api/town?";//乡镇获取
+    String SEARCH_PRODUCTION_API="http://59.110.163.137/api/searchProduction?";//产品搜索
+    String GET_ENTERPRISE_CITY_API="http://59.110.163.137/api/enterpriseCity?";//批发企业城市获取
+    String GET_FACTORY_CITY_API="http://59.110.163.137/api/factoryCity?";//厂家城市获取
+    String ENTERPRISE_CITY_LIST_API="http://59.110.163.137/api/enterpriseList?";//批发企业列表
+    String ENTERPRISE_DETAIL_API="http://59.110.163.137/api/enterpriseDetail?";//批发企业详情
+    String ENTERPRISE_PRODUCT_LIST_API="http://59.110.163.137/api/enterpriseProducts?";//批发企业详情
+
 }

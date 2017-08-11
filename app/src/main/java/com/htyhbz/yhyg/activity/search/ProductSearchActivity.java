@@ -1,115 +1,100 @@
-package com.htyhbz.yhyg.activity.collect;
+package com.htyhbz.yhyg.activity.search;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
-import com.aspsine.swipetoloadlayout.OnRefreshListener;
-import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
 import com.htyhbz.yhyg.ApiConstants;
 import com.htyhbz.yhyg.InitApp;
 import com.htyhbz.yhyg.R;
 import com.htyhbz.yhyg.activity.BaseActivity;
-import com.htyhbz.yhyg.activity.MainActivity;
-import com.htyhbz.yhyg.activity.enterprise.EnterpriseMainActivity;
+import com.htyhbz.yhyg.activity.shoppingcat.ShoppingCatActivity;
 import com.htyhbz.yhyg.adapter.HomeProductAdapter;
 import com.htyhbz.yhyg.net.HighRequest;
 import com.htyhbz.yhyg.net.NetworkUtils;
-import com.htyhbz.yhyg.utils.PrefUtils;
-import com.htyhbz.yhyg.view.CustomTitleBar;
+import com.htyhbz.yhyg.view.ClearEditText;
 import com.htyhbz.yhyg.vo.Product;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
- * Created by zongshuo on 2017/7/17.
+ * Created by zongshuo on 2017/8/11.
  */
-public class CollectActivity extends BaseActivity implements OnRefreshListener, OnLoadMoreListener {
-    private GridView collectGV;
+public class ProductSearchActivity extends BaseActivity{
+    private ClearEditText searchET;
+    private TextView searchTV;
+    private GridView searchGV;
     private HomeProductAdapter adapter;
     private List<Product> productList=new ArrayList<Product>();
-    private SwipeToLoadLayout swipeToLoadLayout;
-    private int pageIndex=1;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_collect);
+        setContentView(R.layout.activity_product_search);
 
         initView();
     }
-
     private void initView(){
-        ((CustomTitleBar)findViewById(R.id.customTitleBar)).setLeftImageOnClickListener(new View.OnClickListener() {
+        searchET= (ClearEditText) findViewById(R.id.searchET);
+        searchTV= (TextView) findViewById(R.id.searchTV);
+        searchTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                if(TextUtils.isEmpty(searchET.getText().toString().trim())){
+                    toast(ProductSearchActivity.this,"请输入关键字");
+                }else{
+                    hiddenSoftInput();
+                    getSearchProduction(searchET.getText().toString().trim());
+                }
             }
         });
-        collectGV= (GridView) findViewById(R.id.swipe_target);
-        adapter=new HomeProductAdapter(CollectActivity.this,productList);
-        collectGV.setAdapter(adapter);
-
-        swipeToLoadLayout = (SwipeToLoadLayout) findViewById(R.id.swipeToLoadLayout);
-        swipeToLoadLayout.setOnRefreshListener(this);
-        swipeToLoadLayout.setOnLoadMoreListener(this);
-        swipeToLoadLayout.post(new Runnable() {
+        searchGV= (GridView) findViewById(R.id.searchGV);
+        adapter=new HomeProductAdapter(this,productList);
+        searchGV.setAdapter(adapter);
+        searchGV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void run() {
-                swipeToLoadLayout.setRefreshing(true);
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent1 = new Intent(ProductSearchActivity.this, ShoppingCatActivity.class);
+                intent1.putExtra("productId", productList.get(i).getproductId());
+                intent1.putExtra("productType", productList.get(i).getproductType());
+                startActivity(intent1);
             }
         });
-    }
-
-    @Override
-    public void onLoadMore() {
-        pageIndex++;
-        request();
-    }
-
-
-    @Override
-    public void onRefresh() {
-        pageIndex=1;
-        request();
     }
 
     /**
      * 网络请求
      */
-    private void request() {
-        if (!NetworkUtils.isNetworkAvailable(CollectActivity.this)) {
+    private void getSearchProduction(String keyword) {
+        if (!NetworkUtils.isNetworkAvailable(this)) {
             return;
         }
 
         final HashMap<String,String> params=getNetworkRequestHashMap();
+        params.put("areaID", getUserInfo(1));
+        params.put("keyword", keyword);
         params.put("userID", getUserInfo(0));
-        params.put("pageIndex", pageIndex+"");
-        params.put("pageSize", InitApp.PAGESIZE);
-        String url=InitApp.getUrlByParameter(ApiConstants.MY_COLLECTION_LIST_API,params,true);
-        Log.e("collectURl", url);
+        String url= InitApp.getUrlByParameter(ApiConstants.SEARCH_PRODUCTION_API, params, true);
+        Log.e("getSearchProductionURl", url);
 
         HighRequest request = new HighRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("collectRe", response);
+                        Log.e("getSearchProductionRe", response);
                         try {
-                            if(1==pageIndex){
-                                productList.clear();
-                            }
+                            productList.clear();
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getString("code").equals("0")) {
                                 JSONArray infoArr=jsonObject.getJSONArray("info");
@@ -124,16 +109,16 @@ public class CollectActivity extends BaseActivity implements OnRefreshListener, 
                                     productList.add(product);
                                 }
                                 if(productList.size()>0){
-                                    adapter.notifyDataSetChanged();
+
+                                }else{
+                                    toast(ProductSearchActivity.this,"无相关搜索结果");
                                 }
+                                adapter.notifyDataSetChanged();
                             }else{
-                                toast(CollectActivity.this,jsonObject.getString("msg"));
+                                toast(ProductSearchActivity.this, jsonObject.getString("msg"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                        }finally {
-                            swipeToLoadLayout.setRefreshing(false);
-                            swipeToLoadLayout.setLoadingMore(false);
                         }
                     }
                 }, new Response.ErrorListener() {

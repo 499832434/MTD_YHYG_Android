@@ -111,4 +111,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void getNetWorkPicture(String url,ImageView imageView){
         Glide.with(BaseActivity.this).load(url).into(imageView);
     }
+
+
 }

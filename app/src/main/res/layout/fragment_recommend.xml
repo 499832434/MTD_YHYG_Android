@@ -43,9 +43,8 @@
                                   android:background="#0398ff"
                                   android:orientation="horizontal">
                         <com.htyhbz.yhyg.view.ClearEditText
+                                android:textColorHint="#76c0f3"
                                 android:id="@+id/searchET"
-                                custom:textColor1="#76c0f3"
-                                custom:searchText="输入烟花爆竹名称进行搜索"
                                 android:layout_marginTop="6dp"
                                 android:layout_marginBottom="10dp"
                                 android:layout_width="match_parent"
@@ -59,7 +58,11 @@
                                 android:layout_marginLeft="15dp"
                                 android:layout_marginRight="15dp"
                                 android:textColor="#76c0f3"
+                                android:hint="输入烟花爆竹名称进行搜索"
+                                android:drawableLeft="@drawable/ic_product_search_l"
+                                android:drawablePadding="15dp"
                                 android:textSize="14sp"/>
+
                     </LinearLayout>
                     <LinearLayout android:layout_width="match_parent"
                                   android:orientation="horizontal"
@@ -246,15 +249,14 @@
                               android:text="山东省淄博市张店区"
                               android:id="@+id/tv2"
                             />
-                    <TextView android:layout_width="wrap_content"
-                               android:id="@+id/searchTV"
-                              android:gravity="center_vertical"
-                              android:layout_marginRight="10dp"
-                              android:textColor="#f8fcff"
-                              android:textSize="16sp"
-                              android:text="搜索"
+                    <ImageView android:layout_width="40dp"
+                               android:scaleType="centerInside"
+                               android:id="@+id/searchIV"
                                android:layout_alignParentRight="true"
-                               android:layout_height="50dp"/>
+                               android:layout_marginRight="10dp"
+                               android:layout_centerVertical="true"
+                               android:src="@drawable/ic_nav_search_product"
+                               android:layout_height="40dp"/>
                 </RelativeLayout>
 
             </FrameLayout>

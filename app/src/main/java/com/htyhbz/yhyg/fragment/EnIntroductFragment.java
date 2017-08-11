@@ -5,10 +5,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import com.htyhbz.yhyg.R;
 import com.htyhbz.yhyg.activity.MainActivity;
 import com.htyhbz.yhyg.activity.enterprise.EnterpriseDetailActivity;
@@ -24,6 +26,8 @@ import java.util.List;
 public class EnIntroductFragment extends Fragment {
     private View currentView = null;
     private EnterpriseDetailActivity mActivity;
+    private final static String INTRODUCT = "introduct";
+    private String content;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,9 +36,18 @@ public class EnIntroductFragment extends Fragment {
         return currentView;
     }
 
+    public static EnIntroductFragment newInstance(String param1) {
+        EnIntroductFragment fragment = new EnIntroductFragment();
+        Bundle args = new Bundle();
+        args.putString(INTRODUCT,param1);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 
     private void initView() {
-
+        content = getArguments().getString(INTRODUCT);
+        ((TextView)currentView.findViewById(R.id.contentTV)).setText(content);
     }
 
     @Override
