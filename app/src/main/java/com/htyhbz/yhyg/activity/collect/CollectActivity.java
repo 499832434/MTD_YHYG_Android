@@ -80,6 +80,7 @@ public class CollectActivity extends BaseActivity implements OnRefreshListener, 
         request();
     }
 
+
     @Override
     public void onRefresh() {
         pageIndex=1;
