@@ -2,12 +2,15 @@ package com.htyhbz.yhyg.view;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.*;
 import com.htyhbz.yhyg.R;
 import com.htyhbz.yhyg.activity.BaseActivity;
 import com.htyhbz.yhyg.activity.shoppingcat.ShoppingCatActivity;
+import com.htyhbz.yhyg.activity.video.VideoActivity;
 import com.htyhbz.yhyg.vo.Product;
 import com.htyhbz.yhyg.vo.ShopCart;
 
@@ -62,6 +65,18 @@ public class ShopCartCenterDialog extends Dialog  {
             }
         });
         videoIV= (ImageView) findViewById(R.id.videoIV);
+        videoIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!TextUtils.isEmpty(product.getProductVideoUrl())){
+                    Intent intent=new Intent(context, VideoActivity.class);
+                    intent.putExtra("url",product.getProductVideoUrl());
+                    context.startActivity(intent);
+                }else{
+                    ((BaseActivity)context).toast(context,"暂无此视频");
+                }
+            }
+        });
         topIV= (ImageView) findViewById(R.id.topIV);
         ((BaseActivity)context).getNetWorkPicture(product.getproductPictureUrl(),topIV);
         showTV= (TextView) findViewById(R.id.showTV);

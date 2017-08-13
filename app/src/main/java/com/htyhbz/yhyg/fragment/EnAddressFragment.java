@@ -59,6 +59,7 @@ public class EnAddressFragment extends Fragment {
         if("null".equals(enterpriseLongitude)||"null".equals(enterpriseLatitude)){
             return;
         }
+        Log.e("address",enterpriseLongitude+"=="+enterpriseLatitude);
         Intent intent = mActivity.getIntent();
         MapStatus.Builder builder = new MapStatus.Builder();
         final  LatLng p = new LatLng(Double.parseDouble(enterpriseLatitude),Double.parseDouble(enterpriseLongitude));

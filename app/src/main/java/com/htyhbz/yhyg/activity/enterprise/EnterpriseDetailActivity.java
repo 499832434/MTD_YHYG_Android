@@ -184,7 +184,12 @@ public class EnterpriseDetailActivity extends BaseActivity{
 
         final HashMap<String,String> params=getNetworkRequestHashMap();
         params.put("enterpriseID", enterpriseID+"");
-        String url= InitApp.getUrlByParameter(ApiConstants.ENTERPRISE_DETAIL_API, params, true);
+        String url;
+        if("2".equals(flag)){
+            url= InitApp.getUrlByParameter(ApiConstants.ENTERPRISE_DETAIL_API, params, true);
+        }else{
+            url= InitApp.getUrlByParameter(ApiConstants.FACTORY_DETAIL_API, params, true);
+        }
         Log.e("getEnterpriseDetailURl", url);
 
         HighRequest request = new HighRequest(Request.Method.GET, url,
@@ -202,7 +207,7 @@ public class EnterpriseDetailActivity extends BaseActivity{
                                 personTV.setText("联系人:"+obj.getString("enterpriseContactPerson"));
 
                                 adapter.addFragment(EnIntroductFragment.newInstance(obj.getString("enterpriseIntroduction")));
-                                adapter.addFragment(EnProductFragment.newInstance(obj.getString("enterpriseID")));
+                                adapter.addFragment(EnProductFragment.newInstance(obj.getString("enterpriseID"),flag));
                                 adapter.addFragment(EnAddressFragment.newInstance(obj.getString("enterpriseLongitude"),obj.getString("enterpriseLatitude")));
                                 currentViewPager.setAdapter(adapter);
                             }else{

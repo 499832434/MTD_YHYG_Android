@@ -98,6 +98,10 @@
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".activity.video.VideoActivity"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".activity.integral.IntegralRecordActivity"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:screenOrientation="portrait">
