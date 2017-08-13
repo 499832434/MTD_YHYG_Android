@@ -15,6 +15,7 @@
               android:layout_marginLeft="15dp"
               android:gravity="center_vertical"
               android:layout_height="30dp"
+              android:id="@+id/nameTV"
               android:layout_marginTop="10dp"
               android:text="山东烟花爆竹贸易公司"
               android:textColor="#4d4d4d"
@@ -23,6 +24,7 @@
               android:layout_marginLeft="15dp"
               android:gravity="center_vertical"
               android:layout_height="30dp"
+              android:id="@+id/addressTV"
               android:text="地址:山东省淄博市张店区"
               android:textColor="#919191"
               android:textSize="15sp"/>
@@ -30,6 +32,7 @@
               android:layout_marginLeft="15dp"
               android:gravity="center_vertical"
               android:layout_height="30dp"
+              android:id="@+id/phoneTV"
               android:text="电话:18753319519"
               android:textColor="#919191"
               android:textSize="15sp"/>
@@ -37,6 +40,7 @@
               android:layout_marginLeft="15dp"
               android:gravity="center_vertical"
               android:layout_height="30dp"
+              android:id="@+id/personTV"
               android:text="联系人:王先生"
               android:layout_marginBottom="10dp"
               android:textColor="#919191"

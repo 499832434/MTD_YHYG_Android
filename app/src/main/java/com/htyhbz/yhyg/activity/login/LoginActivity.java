@@ -37,33 +37,14 @@ public class LoginActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        if(getUserIsLogin()){
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
-        }
+//        if(getUserIsLogin()){
+//            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//            finish();
+//        }
         initView();
-//        initData();
 
     }
 
-    private void initData(){
-        HashMap<Product,Integer> map=new HashMap<Product, Integer>();
-        Product product1=new Product();
-        product1.setproductId(1);
-        product1.setproductName("1");
-        product1.setproductPrice(1);
-        Product product2=new Product();
-        product2.setproductId(1);
-        product2.setproductName("1");
-        product2.setproductPrice(1);
-        map.put(product1,1);
-        if(map.containsKey(product2)){
-            Log.e("aaa","111");
-        }else{
-            Log.e("aaa","2222");
-        }
-
-    }
 
     private void initView(){
         phoneNumberET= (EditText) findViewById(R.id.phoneNumberET);
@@ -117,11 +98,11 @@ public class LoginActivity extends BaseActivity{
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 }else if("3".equals(userPermission)){
                                     Intent intent = new Intent(LoginActivity.this, EnterpriseMainActivity.class);
-                                    intent.putExtra("flag", "0");
+                                    intent.putExtra("flag", "3");
                                     startActivity(intent);
                                 }else if("2".equals(userPermission)){
                                     Intent intent = new Intent(LoginActivity.this, EnterpriseMainActivity.class);
-                                    intent.putExtra("flag", "1");
+                                    intent.putExtra("flag", "2");
                                     startActivity(intent);
                                 }
                                 finish();

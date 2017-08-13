@@ -6,7 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 import com.htyhbz.yhyg.R;
+import com.htyhbz.yhyg.activity.BaseActivity;
 import com.htyhbz.yhyg.vo.Enterprise;
 import com.htyhbz.yhyg.vo.Product;
 
@@ -29,7 +32,7 @@ public class EnterpriseProductAdapter extends BaseAdapter{
 
     @Override
     public int getCount() {
-        return 5;
+        return mData.size();
     }
 
     @Override
@@ -48,16 +51,23 @@ public class EnterpriseProductAdapter extends BaseAdapter{
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.item_enterprise_product, null);
+            holder.contentTV= (TextView) convertView.findViewById(R.id.contentTV);
+            holder.nameTV= (TextView) convertView.findViewById(R.id.nameTV);
+            holder.pictureIV= (ImageView) convertView.findViewById(R.id.pictureIV);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        holder.contentTV.setText(mData.get(position).getproductDetail());
+        holder.nameTV.setText(mData.get(position).getproductName());
+        ((BaseActivity)context).getNetWorkPicture(mData.get(position).getproductPictureUrl(),holder.pictureIV);
         return convertView;
     }
 
     public final class ViewHolder {
-
+        public TextView contentTV,nameTV;
+        public ImageView pictureIV;
     }
 
 }

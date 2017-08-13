@@ -6,8 +6,9 @@
               android:layout_height="match_parent">
     <TextView android:layout_width="match_parent"
               android:textSize="14sp"
+              android:id="@+id/contentTV"
               android:lineSpacingExtra="10dp"
               android:textColor="#636363"
-              android:text="@string/content"
+              android:text=""
               android:layout_height="match_parent"/>
 </LinearLayout>

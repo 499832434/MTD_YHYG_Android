@@ -34,6 +34,7 @@
               android:layout_height="25dp"
               android:layout_below="@+id/addressTV"
               android:text="电话:18753319519"
+              android:id="@+id/telephoneTV"
               android:textSize="14sp"
               android:layout_toRightOf="@+id/pictureIV"
               android:gravity="center_vertical"

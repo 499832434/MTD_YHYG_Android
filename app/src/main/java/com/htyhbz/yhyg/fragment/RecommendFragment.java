@@ -24,6 +24,7 @@ import com.htyhbz.yhyg.ApiConstants;
 import com.htyhbz.yhyg.InitApp;
 import com.htyhbz.yhyg.R;
 import com.htyhbz.yhyg.activity.MainActivity;
+import com.htyhbz.yhyg.activity.search.ProductSearchActivity;
 import com.htyhbz.yhyg.activity.shoppingcat.ShoppingCatActivity;
 import com.htyhbz.yhyg.adapter.HomeProductAdapter;
 import com.htyhbz.yhyg.net.HighRequest;
@@ -56,7 +57,7 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
     private ClearEditText searchET;
     private LocationService locationService;
     private RelativeLayout RL1,RL2;
-    private TextView searchTV;
+    private ImageView searchIV;
     private MainActivity mActivity;
     private MyGridView homeGV;
     private HomeProductAdapter adapter;
@@ -70,8 +71,7 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
         currentView = inflater.inflate(R.layout.fragment_recommend, container, false);
         initView();
         //getPositon();
-        getCategory();
-        getHotSaleProduction();
+
         return currentView;
     }
 
@@ -96,6 +96,20 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
         baozhuLL.setOnClickListener(this);
         yanhuaLL.setOnClickListener(this);
         searchET = (ClearEditText) currentView.findViewById(R.id.searchET);
+        searchET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b){
+                    startActivity(new Intent(mActivity, ProductSearchActivity.class));
+                }
+            }
+        });
+        searchET.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(mActivity, ProductSearchActivity.class));
+            }
+        });
         tv2 = (TextView) currentView.findViewById(R.id.tv2);
         tv2.setOnClickListener(new View.OnClickListener() {
 
@@ -106,14 +120,17 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
         });
         RL1= (RelativeLayout) currentView.findViewById(R.id.RL1);
         RL2= (RelativeLayout) currentView.findViewById(R.id.RL2);
-        tv2Height = DensityUtil.dip2px(getActivity(), 50);
-        searchTV= (TextView) currentView.findViewById(R.id.searchTV);
-
+//        tv2Height = DensityUtil.dip2px(getActivity(), 50);
+        searchIV= (ImageView) currentView.findViewById(R.id.searchIV);
+        searchIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(mActivity, ProductSearchActivity.class));
+            }
+        });
         scrollView = (MyScrollView) currentView.findViewById(R.id.swipe_target);
         swipeToLoadLayout = (SwipeToLoadLayout) currentView.findViewById(R.id.swipeToLoadLayout);
-
         swipeToLoadLayout.setOnRefreshListener(this);
-
         scrollView.setOnScrollListener(this);
         //当布局的状态或者控件的可见性发生改变回调的接口
         currentView.findViewById(R.id.swipeToLoadLayout).getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -139,12 +156,12 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
                 startActivity(intent1);
             }
         });
-        swipeToLoadLayout.postDelayed(new Runnable() {
+        swipeToLoadLayout.post(new Runnable() {
             @Override
             public void run() {
                 swipeToLoadLayout.setRefreshing(true);
             }
-        }, 100);
+        });
 
     }
 
@@ -160,12 +177,15 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
 
     @Override
     public void onRefresh() {
-        swipeToLoadLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                swipeToLoadLayout.setRefreshing(false);
-            }
-        }, 3000);
+//        swipeToLoadLayout.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                swipeToLoadLayout.setRefreshing(false);
+//            }
+//        }, 3000);
+
+        getCategory();
+        getHotSaleProduction();
     }
 
     @Override
@@ -183,9 +203,9 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
         int y = location[1];
 
         if (y < topHeight) {
-            searchTV.setVisibility(View.VISIBLE);
+            searchIV.setVisibility(View.VISIBLE);
         } else {
-            searchTV.setVisibility(View.GONE);
+            searchIV.setVisibility(View.GONE);
         }
 
     }
@@ -415,6 +435,7 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
                     public void onResponse(String response) {
                         Log.e("HotSaleProductionRe", response);
                         try {
+                            productList.clear();
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getString("code").equals("0")) {
                                 JSONArray infoArr=jsonObject.getJSONArray("info");

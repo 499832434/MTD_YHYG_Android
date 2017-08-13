@@ -2,10 +2,6 @@ package com.htyhbz.yhyg.view;
 
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,14 +22,7 @@ public class ClearEditText extends EditText implements
      * 删除按钮的引用
      */
     private Drawable mClearDrawable;
-    private int count=20;
-    private Context context;
-    private float searchSize = 0;
-    private float textSize = 0;
-    private int textColor = 0xFF000000;
-    private Drawable mDrawable;
-    private Paint paint;
-    private String searchText;
+    private SkipListener skipListener;
     public ClearEditText(Context context) {
         this(context, null);
     }
@@ -41,14 +30,10 @@ public class ClearEditText extends EditText implements
     public ClearEditText(Context context, AttributeSet attrs) {
         //这里构造方法也很重要，不加这个很多属性不能再XML里面定义
         this(context, attrs, android.R.attr.editTextStyle);
-        InitResource(context, attrs);
-        InitPaint();
-
     }
 
     public ClearEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        this.context=context;
         init();
     }
 
@@ -65,7 +50,6 @@ public class ClearEditText extends EditText implements
         setOnFocusChangeListener(this);
         addTextChangedListener(this);
     }
-
 
 
     /**
@@ -106,7 +90,7 @@ public class ClearEditText extends EditText implements
      * 设置清除图标的显示与隐藏，调用setCompoundDrawables为EditText绘制上去
      * @param visible
      */
-    public void setClearIconVisible(boolean visible) {
+    protected void setClearIconVisible(boolean visible) {
         Drawable right = visible ? mClearDrawable : null;
         setCompoundDrawables(getCompoundDrawables()[0],
                 getCompoundDrawables()[1], right, getCompoundDrawables()[3]);
@@ -130,6 +114,9 @@ public class ClearEditText extends EditText implements
 
     @Override
     public void afterTextChanged(Editable s) {
+//        if((getText().length() <= 0)&&(skipListener!=null)){
+//            skipListener.onClick();
+//        }
     }
 
 
@@ -153,71 +140,15 @@ public class ClearEditText extends EditText implements
         return translateAnimation;
     }
 
-    private void InitResource(Context context, AttributeSet attrs) {
-        TypedArray mTypedArray = context.obtainStyledAttributes(attrs, R.styleable.searchedit);
-        float density = context.getResources().getDisplayMetrics().density;
-        searchSize = mTypedArray.getDimension(R.styleable.searchedit_imagewidth, 14 * density + 0.5F);
-        textColor = mTypedArray.getColor(R.styleable.searchedit_textColor1, Color.parseColor("#cccccc"));
-        textSize = mTypedArray.getDimension(R.styleable.searchedit_textSize1, 14 * density + 0.5F);
-        searchText=mTypedArray.getString(R.styleable.searchedit_searchText);
-        mTypedArray.recycle();
+
+    /**
+     * 设置方法
+     */
+    public interface SkipListener {
+        public void onClick();
     }
 
-    private void InitPaint() {
-        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setColor(textColor);
-        paint.setTextSize(textSize);
+    public void setSkipListener(SkipListener skipListener) {
+        this.skipListener = skipListener;
     }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        DrawSearchIcon(canvas);
-    }
-
-    private void DrawSearchIcon(Canvas canvas) {
-        if (this.getText().toString().length() == 0) {
-            float textWidth = paint.measureText(searchText);
-            float textHeight = getFontLeading(paint);
-
-            float dx = (getWidth() - searchSize - textWidth - 8) / 2;
-            float dy = (getHeight() - searchSize) / 2;
-
-            canvas.save();
-            canvas.translate(getScrollX() + dx, getScrollY() + dy);
-            if (mDrawable != null) {
-                mDrawable.draw(canvas);
-            }
-            canvas.drawText(searchText, getScrollX() + searchSize + 8, getScrollY() + (getHeight() - (getHeight() - textHeight) / 2) - paint.getFontMetrics().bottom - dy, paint);
-            canvas.restore();
-        }
-    }
-
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        if (mDrawable == null) {
-            try {
-                mDrawable = getContext().getResources().getDrawable(R.drawable.icon_home_search);
-                mDrawable.setBounds(0, 0, (int) searchSize, (int) searchSize);
-            } catch (Exception e) {
-
-            }
-        }
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        if (mDrawable != null) {
-            mDrawable.setCallback(null);
-            mDrawable = null;
-        }
-        super.onDetachedFromWindow();
-    }
-
-    public float getFontLeading(Paint paint) {
-        Paint.FontMetrics fm = paint.getFontMetrics();
-        return fm.bottom - fm.top;
-    }
-
 }

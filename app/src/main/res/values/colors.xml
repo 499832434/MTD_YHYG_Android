@@ -88,4 +88,6 @@
     <color name="black">#000</color>
     <color name="light_white">#e2e1e1</color>
     <color name="light_black">#fd383838</color>
+    <color name="bg_light_gray">#F2F2F2</color>
+    <color name="red_base">#FB5B81</color>
 </resources>
