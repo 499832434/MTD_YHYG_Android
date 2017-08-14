@@ -246,8 +246,8 @@
                               android:layout_centerVertical="true"
                               android:textColor="#f8fcff"
                               android:textSize="16sp"
-                              android:text="山东省淄博市张店区"
-                              android:id="@+id/tv2"
+                              android:text=""
+                              android:id="@+id/gprsTV"
                             />
                     <ImageView android:layout_width="40dp"
                                android:scaleType="centerInside"
