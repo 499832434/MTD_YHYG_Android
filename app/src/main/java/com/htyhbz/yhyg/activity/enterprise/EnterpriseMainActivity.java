@@ -364,7 +364,12 @@ public class EnterpriseMainActivity extends BaseActivity implements OnRefreshLis
 //        params.put("townID", "4121");
         params.put("pageIndex", pageIndex+"");
         params.put("pageSize", InitApp.PAGESIZE);
-        String url = InitApp.getUrlByParameter(ApiConstants.ENTERPRISE_CITY_LIST_API, params, true);
+        String url="";
+        if ("2".equals(flag)) {
+            url = InitApp.getUrlByParameter(ApiConstants.ENTERPRISE_CITY_LIST_API, params, true);
+        }else{
+            url = InitApp.getUrlByParameter(ApiConstants.ENTERPRISE_FACTORY_LIST_API, params, true);
+        }
         Log.e("getEnterpriseListURl", url);
 
         HighRequest request = new HighRequest(Request.Method.GET, url,

@@ -20,7 +20,10 @@ public interface ApiConstants {
     String GET_ENTERPRISE_CITY_API="http://59.110.163.137/api/enterpriseCity?";//批发企业城市获取
     String GET_FACTORY_CITY_API="http://59.110.163.137/api/factoryCity?";//厂家城市获取
     String ENTERPRISE_CITY_LIST_API="http://59.110.163.137/api/enterpriseList?";//批发企业列表
+    String ENTERPRISE_FACTORY_LIST_API="http://59.110.163.137/api/factoryList?";//厂家列表
     String ENTERPRISE_DETAIL_API="http://59.110.163.137/api/enterpriseDetail?";//批发企业详情
-    String ENTERPRISE_PRODUCT_LIST_API="http://59.110.163.137/api/enterpriseProducts?";//批发企业详情
+    String FACTORY_DETAIL_API="http://59.110.163.137/api/factoryDetail?";//厂家详情
+    String ENTERPRISE_PRODUCT_LIST_API="http://59.110.163.137/api/enterpriseProducts?";//批发企业产品列表
+    String FACTORY_PRODUCT_LIST_API="http://59.110.163.137/api/factoryProducts?";//厂家产品列表
 
 }

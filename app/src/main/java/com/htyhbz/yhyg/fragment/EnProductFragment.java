@@ -2,13 +2,16 @@ package com.htyhbz.yhyg.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -20,6 +23,7 @@ import com.htyhbz.yhyg.ApiConstants;
 import com.htyhbz.yhyg.InitApp;
 import com.htyhbz.yhyg.R;
 import com.htyhbz.yhyg.activity.enterprise.EnterpriseDetailActivity;
+import com.htyhbz.yhyg.activity.video.VideoActivity;
 import com.htyhbz.yhyg.adapter.EnterpriseAdapter;
 import com.htyhbz.yhyg.adapter.EnterpriseProductAdapter;
 import com.htyhbz.yhyg.net.HighRequest;
@@ -45,7 +49,8 @@ public class EnProductFragment extends Fragment implements OnRefreshListener, On
     private SwipeToLoadLayout swipeToLoadLayout;
     private int pageIndex=1;
     private final static String ENTERPRISEID = "enterpriseID";
-    private String enterpriseID;
+    private final static String FLAG = "FLAG";
+    private String enterpriseID,flag;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,19 +59,31 @@ public class EnProductFragment extends Fragment implements OnRefreshListener, On
         return currentView;
     }
 
-    public static EnProductFragment newInstance(String param1) {
+    public static EnProductFragment newInstance(String param1,String param2) {
         EnProductFragment fragment = new EnProductFragment();
         Bundle args = new Bundle();
         args.putString(ENTERPRISEID,param1);
+        args.putString(FLAG,param2);
         fragment.setArguments(args);
         return fragment;
     }
 
     private void initView() {
         enterpriseID = getArguments().getString(ENTERPRISEID);
+        flag = getArguments().getString(FLAG);
         productLV= (ListView) currentView.findViewById(R.id.swipe_target);
         adapter=new EnterpriseProductAdapter(mActivity,productList);
         productLV.setAdapter(adapter);
+        productLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(!TextUtils.isEmpty(productList.get(i).getProductVideoUrl())){
+                    Intent intent=new Intent(mActivity, VideoActivity.class);
+                    intent.putExtra("url",productList.get(i).getProductVideoUrl());
+                    startActivity(intent);
+                }
+            }
+        });
 
         swipeToLoadLayout = (SwipeToLoadLayout) currentView.findViewById(R.id.swipeToLoadLayout);
         swipeToLoadLayout.setOnRefreshListener(this);
@@ -109,7 +126,13 @@ public class EnProductFragment extends Fragment implements OnRefreshListener, On
         params.put("enterpriseID", enterpriseID);
         params.put("pageIndex", pageIndex+"");
         params.put("pageSize", InitApp.PAGESIZE);
-        String url=InitApp.getUrlByParameter(ApiConstants.ENTERPRISE_PRODUCT_LIST_API,params,true);
+        String url;
+        if("2".equals(flag)){
+            url=InitApp.getUrlByParameter(ApiConstants.ENTERPRISE_PRODUCT_LIST_API,params,true);
+        }else{
+            url=InitApp.getUrlByParameter(ApiConstants.FACTORY_PRODUCT_LIST_API,params,true);
+        }
+
         Log.e("enterpriseProductsURl", url);
 
         HighRequest request = new HighRequest(Request.Method.GET, url,
@@ -130,6 +153,7 @@ public class EnProductFragment extends Fragment implements OnRefreshListener, On
                                     product.setproductName(obj.getString("productName"));
                                     product.setproductDetail(obj.getString("productDetail"));
                                     product.setproductPictureUrl(ApiConstants.BASE_URL + obj.getString("productPictureUrl"));
+                                    product.setProductVideoUrl(ApiConstants.BASE_URL + obj.getString("productVideoUrl"));
                                     productList.add(product);
                                 }
                                 if(productList.size()>0){

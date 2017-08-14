@@ -10,5 +10,6 @@
               android:lineSpacingExtra="10dp"
               android:textColor="#636363"
               android:text=""
+              android:scrollbars = "vertical"
               android:layout_height="match_parent"/>
 </LinearLayout>
