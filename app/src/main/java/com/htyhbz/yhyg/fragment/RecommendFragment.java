@@ -55,7 +55,6 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
     private TextView  tv2;
     private int topHeight, tv2Height;
     private ClearEditText searchET;
-    private LocationService locationService;
     private RelativeLayout RL1,RL2;
     private ImageView searchIV;
     private MainActivity mActivity;
@@ -63,7 +62,7 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
     private HomeProductAdapter adapter;
     private LinearLayout xiaoyanhuaLL,taocanLL,baozhuLL,yanhuaLL;
     private List<Product> productList=new ArrayList<Product>();
-    private TextView yanhuaTV,baozhuTV,taocanTV,xiaoyanhuaTV;
+    private TextView yanhuaTV,baozhuTV,taocanTV,xiaoyanhuaTV,gprsTV;
     private ImageView yanhuaIV,baozhuIV,taocanIV,xiaoyanhuaIV;
     @Nullable
     @Override
@@ -78,6 +77,8 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
     private void initView() {
         topHeight = getStatusBarHeight();
 
+        gprsTV= (TextView) currentView.findViewById(R.id.gprsTV);
+        gprsTV.setText(mActivity.getUserInfo(5));
         yanhuaTV= (TextView) currentView.findViewById(R.id.yanhuaTV);
         baozhuTV= (TextView) currentView.findViewById(R.id.baozhuTV);
         taocanTV= (TextView) currentView.findViewById(R.id.taocanTV);
@@ -110,14 +111,7 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
                 startActivity(new Intent(mActivity, ProductSearchActivity.class));
             }
         });
-        tv2 = (TextView) currentView.findViewById(R.id.tv2);
-        tv2.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                //getPositon();// 定位SDK
-            }
-        });
         RL1= (RelativeLayout) currentView.findViewById(R.id.RL1);
         RL2= (RelativeLayout) currentView.findViewById(R.id.RL2);
 //        tv2Height = DensityUtil.dip2px(getActivity(), 50);
@@ -229,77 +223,8 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
 
 
 
-    /*****
-     *
-     * 定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
-     *
-     */
-    private BDLocationListener mListener = new BDLocationListener() {
-
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-            // TODO Auto-generated method stub
-            if (null != location && location.getLocType() != BDLocation.TypeServerError) {
-                if (location.getLocType() == BDLocation.TypeGpsLocation) {// GPS定位结果
-                    Toast.makeText(getActivity(),"gps定位成功",Toast.LENGTH_SHORT).show();
-                } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {// 网络定位结果
-                    Toast.makeText(getActivity(),"网络定位成功",Toast.LENGTH_SHORT).show();
-                } else if (location.getLocType() == BDLocation.TypeOffLineLocation) {// 离线定位结果
-                    Toast.makeText(getActivity(),"离线定位成功，离线定位结果也是有效的",Toast.LENGTH_SHORT).show();
-                } else if (location.getLocType() == BDLocation.TypeServerError) {
-                    Toast.makeText(getActivity(),"服务端网络定位失败，可以反馈IMEI号和大体定位时间到loc-bugs@baidu.com，会有人追查原因",Toast.LENGTH_SHORT).show();
-                } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
-                    Toast.makeText(getActivity(),"网络不同导致定位失败，请检查网络是否通畅",Toast.LENGTH_SHORT).show();
-                } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
-                    Toast.makeText(getActivity(),"无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机",Toast.LENGTH_SHORT).show();
-                }
-                logMsg(location.getAddrStr());
-            }
-        }
-
-        public void onConnectHotSpotMessage(String s, int i){
-        }
-    };
 
 
-    /**
-     * 显示请求字符串
-     *
-     * @param str
-     */
-    public void logMsg(String str) {
-        final String s = str;
-        try {
-            if (tv2 != null){
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        tv2.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                tv2.setText(s);
-                            }
-                        });
-
-                    }
-                }).start();
-            }
-            //LocationResult.setText(str);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-//    /***
-//     * Stop location service
-//     */
-//    @Override
-//    public void onStop() {
-//        // TODO Auto-generated method stub
-//        locationService.unregisterListener(mListener); //注销掉监听
-//        locationService.stop(); //停止定位服务
-//        super.onStop();
-//    }
 
 
     @Override
@@ -308,20 +233,7 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
         this.mActivity=(MainActivity)context;
     }
 
-    private void getPositon(){
-        // -----------location config ------------
-        locationService = InitApp.initApp.locationService;
-        //获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
-        locationService.registerListener(mListener);
-        //注册监听
-        int type = getActivity().getIntent().getIntExtra("from", 0);
-        if (type == 0) {
-            locationService.setLocationOption(locationService.getDefaultLocationClientOption());
-        } else if (type == 1) {
-            locationService.setLocationOption(locationService.getOption());
-        }
-        locationService.start();// 定位SDK
-    }
+
 
     @Override
     public void onClick(View view) {

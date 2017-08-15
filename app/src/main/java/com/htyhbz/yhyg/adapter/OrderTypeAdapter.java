@@ -9,12 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import com.google.gson.Gson;
 import com.htyhbz.yhyg.R;
 import com.htyhbz.yhyg.activity.MainActivity;
 import com.htyhbz.yhyg.activity.order.OrderDetailActivity;
+import com.htyhbz.yhyg.activity.order.OrderSettlementActivity;
+import com.htyhbz.yhyg.fragment.OrderTypeFragment;
 import com.htyhbz.yhyg.view.MyListView;
 import com.htyhbz.yhyg.vo.OrderInfo;
+import com.htyhbz.yhyg.vo.Product;
+import com.htyhbz.yhyg.vo.UserInfo;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -24,17 +31,19 @@ public class OrderTypeAdapter extends BaseAdapter{
 
     private LayoutInflater mInflater;
     private List<OrderInfo> mData;
+    private List<UserInfo> mData1;
     private Context context;
 
-    public OrderTypeAdapter(FragmentActivity context, List<OrderInfo> data) {
+    public OrderTypeAdapter(FragmentActivity context, List<OrderInfo> data,List<UserInfo> data1) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
+        this.mData1 = data1;
         this.context=context;
     }
 
     @Override
     public int getCount() {
-        return 5;
+        return mData.size();
     }
 
     @Override
@@ -48,7 +57,7 @@ public class OrderTypeAdapter extends BaseAdapter{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
@@ -63,13 +72,65 @@ public class OrderTypeAdapter extends BaseAdapter{
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.orderMLV.setAdapter(new OrderTypeContentAdapter((FragmentActivity)context,null));
+        if(mData.get(position).getList().size()>0){
+            holder.orderMLV.setAdapter(new OrderTypeContentAdapter((FragmentActivity) context, mData.get(position).getList()));
+        }
         holder.checkOrderTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(new Intent(context, OrderDetailActivity.class));
+                HashMap<String, Object> map = new HashMap<String, Object>();
+                map.put("shoppingAccount", "");
+                map.put("shoppingTotalPrice", mData.get(position).getOrderAllPrice());
+                ArrayList<HashMap> list = new ArrayList<HashMap>();
+                for (int i = 0; i < mData.get(position).getList().size(); i++) {
+                    Product product = mData.get(position).getList().get(i);
+                    HashMap<String, Object> map1 = new HashMap<String, Object>();
+                    map1.put("shoppingsingleTotal", product.getorderProductCount());
+                    map1.put("productId", product.getproductId());
+                    map1.put("productName", product.getproductName());
+                    map1.put("productPictureUrl", product.getproductPictureUrl());
+                    map1.put("productPrice", product.getproductPrice());
+                    list.add(map1);
+                }
+                map.put("shoppinglist", list);
+                Gson gson = new Gson();
+                String str = gson.toJson(map);
+
+                if ("0".equals(mData.get(position).getOrderType())) {
+                    Intent intent = new Intent(context, OrderSettlementActivity.class);
+                    intent.putExtra("flag", "order");
+                    intent.putExtra("map", str);
+                    intent.putExtra("userinfo", mData1.get(position));
+                    context.startActivity(intent);
+                } else {
+                    Intent intent=new Intent(context, OrderDetailActivity.class);
+                    intent.putExtra("flag",mData.get(position).getOrderType());
+                    intent.putExtra("map", str);
+                    intent.putExtra("useIntegralCount",mData.get(position).getUseIntegralCount());
+                    intent.putExtra("actualPayPrice",mData.get(position).getActualPayPrice());
+                    intent.putExtra("userinfo", mData1.get(position));
+                    context.startActivity(intent);
+                }
             }
         });
+        if("0".equals(mData.get(position).getOrderType())){
+            holder.deleteOrderTV.setVisibility(View.VISIBLE);
+            holder.deleteOrderTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try{
+                        ((MainActivity)context).getOrderFragment().getFragments().get(0).deleteOrder(mData.get(position).getOrderID());
+                    }catch (Exception e){
+
+                    }
+                }
+            });
+        }else{
+            holder.deleteOrderTV.setVisibility(View.INVISIBLE);
+        }
+        holder.orderIDTV.setText("订单号:"+mData.get(position).getOrderID());
+        holder.orderSendTimeTV.setText("提交时间:"+mData.get(position).getOrderSendTime());
+        holder.countTV.setText(mData.get(position).getOrderAllPrice());
         return convertView;
     }
 

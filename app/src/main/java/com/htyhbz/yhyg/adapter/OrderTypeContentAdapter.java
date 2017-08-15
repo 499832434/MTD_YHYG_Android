@@ -2,6 +2,7 @@ package com.htyhbz.yhyg.adapter;
 
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.htyhbz.yhyg.R;
+import com.htyhbz.yhyg.activity.BaseActivity;
 import com.htyhbz.yhyg.vo.Product;
 
 import java.util.List;
@@ -30,7 +32,7 @@ public class OrderTypeContentAdapter extends BaseAdapter{
 
     @Override
     public int getCount() {
-        return 5;
+        return mData.size();
     }
 
     @Override
@@ -57,6 +59,11 @@ public class OrderTypeContentAdapter extends BaseAdapter{
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        ((BaseActivity)context).getNetWorkPicture(mData.get(position).getproductPictureUrl(), holder.pictureIV);
+        holder.productNameTV.setText(mData.get(position).getproductName());
+        holder.orderProductionsCountTV.setText("×"+mData.get(position).getorderProductCount() + "");
+        holder.productPriceTV.setText("¥"+(int)mData.get(position).getproductPrice()+"");
+        ((BaseActivity)context).getNetWorkPicture(mData.get(position).getproductPictureUrl(), holder.pictureIV);
         return convertView;
     }
 

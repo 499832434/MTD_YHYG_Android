@@ -51,7 +51,6 @@ public class CollectActivity extends BaseActivity implements OnRefreshListener, 
         initView();
     }
 
-
     private void initView(){
         ((CustomTitleBar)findViewById(R.id.customTitleBar)).setLeftImageOnClickListener(new View.OnClickListener() {
             @Override

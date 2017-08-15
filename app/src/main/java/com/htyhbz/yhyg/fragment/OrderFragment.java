@@ -51,10 +51,10 @@ public class OrderFragment extends Fragment {
 
 
         fragments = new ArrayList<OrderTypeFragment>();
-        fragments.add(new OrderTypeFragment());
-        fragments.add(new OrderTypeFragment());
-        fragments.add(new OrderTypeFragment());
-        fragments.add(new OrderTypeFragment());
+        fragments.add(OrderTypeFragment.newInstance(0));
+        fragments.add(OrderTypeFragment.newInstance(1));
+        fragments.add(OrderTypeFragment.newInstance(2));
+        fragments.add(OrderTypeFragment.newInstance(3));
 
         //给viewPager设置适配器
         viewPager.setAdapter(new FragmentPagerAdapter(getActivity().getSupportFragmentManager()) {
@@ -89,5 +89,9 @@ public class OrderFragment extends Fragment {
 
         //然后让TabLayout和ViewPager关联，只需要一句话，简直也是没谁了.
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    public List<OrderTypeFragment> getFragments() {
+        return fragments;
     }
 }

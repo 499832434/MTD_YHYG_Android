@@ -7,18 +7,19 @@ import java.util.List;
  * Created by zongshuo on 2017/7/13.
  */
 public class OrderInfo {
-    private int orderID;
+    private String orderID;
     private String orderSendTime;
-    private int useIntegralCount;
-    private int orderType;
-    private int orderAllPrice;
+    private String useIntegralCount;
+    private String orderType;
+    private String orderAllPrice;
+    private String actualPayPrice;
     private List<Product> list =new ArrayList<Product>();
 
-    public int getOrderID() {
+    public String getOrderID() {
         return orderID;
     }
 
-    public void setOrderID(int orderID) {
+    public void setOrderID(String orderID) {
         this.orderID = orderID;
     }
 
@@ -30,28 +31,36 @@ public class OrderInfo {
         this.orderSendTime = orderSendTime;
     }
 
-    public int getUseIntegralCount() {
+    public String getUseIntegralCount() {
         return useIntegralCount;
     }
 
-    public void setUseIntegralCount(int useIntegralCount) {
+    public void setUseIntegralCount(String useIntegralCount) {
         this.useIntegralCount = useIntegralCount;
     }
 
-    public int getOrderType() {
+    public String getOrderType() {
         return orderType;
     }
 
-    public void setOrderType(int orderType) {
+    public void setOrderType(String orderType) {
         this.orderType = orderType;
     }
 
-    public int getOrderAllPrice() {
+    public String getOrderAllPrice() {
         return orderAllPrice;
     }
 
-    public void setOrderAllPrice(int orderAllPrice) {
+    public void setOrderAllPrice(String orderAllPrice) {
         this.orderAllPrice = orderAllPrice;
+    }
+
+    public String getActualPayPrice() {
+        return actualPayPrice;
+    }
+
+    public void setActualPayPrice(String actualPayPrice) {
+        this.actualPayPrice = actualPayPrice;
     }
 
     public List<Product> getList() {

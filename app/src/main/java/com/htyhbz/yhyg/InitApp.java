@@ -34,10 +34,13 @@ public class InitApp extends Application {
     public static final String USER_PRIVATE_DATA = "USER_PRIVATE_DATA";
     public static final String USER_ID_KEY = "USER_ID_KEY";
     public static final String AREA_ID_KEY = "AREA_ID_KEY";
+    public static final String USER_AREA_KEY = "USER_AREA_KEY";
     public static final String USER_INTEGRAL_KEY = "USER_INTEGRAL_KEY";
     public static final String SCORE_SCALE_KEY = "SCORE_SCALE_KEY";
     public static final String ACCESS_TOKEN_KEY = "ACCESS_TOKEN_KEY";
     public static final String SHOPPING_CAT_DATA = "SHOPPING_CAT_DATA";
+    public static final String LONGITUDE_KEY = "LONGITUDE_KEY";//经度
+    public static final String LATITUDE_KEY = "LATITUDE_KEY";//纬度
 
     public static LocationService locationService;
     public Vibrator mVibrator;

@@ -37,10 +37,7 @@ public class LoginActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-//        if(getUserIsLogin()){
-//            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//            finish();
-//        }
+        getPositon();
         initView();
 
     }
@@ -93,6 +90,7 @@ public class LoginActivity extends BaseActivity{
                                 JSONObject info=jsonObject.getJSONObject("info");
                                 PrefUtils.putString(LoginActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.USER_ID_KEY, info.getString("userID"));
                                 PrefUtils.putString(LoginActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.AREA_ID_KEY, info.getString("areaID"));
+                                PrefUtils.putString(LoginActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.USER_AREA_KEY, info.getString("userArea"));
                                 String userPermission=info.getString("userPermission");
                                 if("6".equals(userPermission)){
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
