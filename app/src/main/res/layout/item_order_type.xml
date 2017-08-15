@@ -4,26 +4,26 @@
               android:background="#ffffff"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <RelativeLayout android:layout_width="match_parent"
+    <LinearLayout android:layout_width="match_parent"
+                  android:orientation="vertical"
                     android:paddingRight="15dp"
                     android:paddingLeft="15dp"
-                    android:layout_height="35dp">
+                    android:layout_height="55dp">
         <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_centerVertical="true"
+                  android:layout_height="30dp"
+                  android:gravity="center_vertical"
                   android:text="订单号:NO.00001"
                   android:id="@+id/orderIDTV"
                   android:textSize="14sp"
                   android:textColor="#494949"/>
         <TextView android:layout_width="wrap_content"
                   android:id="@+id/orderSendTimeTV"
-                  android:layout_alignParentRight="true"
-                  android:layout_height="wrap_content"
-                  android:layout_centerVertical="true"
+                  android:gravity="center_vertical"
+                  android:layout_height="25dp"
                   android:text="2017-07-01 10:00:00"
                   android:textSize="14sp"
                   android:textColor="#959595"/>
-    </RelativeLayout>
+    </LinearLayout>
     <com.htyhbz.yhyg.view.MyListView
             android:id="@+id/orderMLV"
             android:dividerHeight="3dp"

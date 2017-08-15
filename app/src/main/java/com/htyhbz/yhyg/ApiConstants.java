@@ -25,5 +25,8 @@ public interface ApiConstants {
     String FACTORY_DETAIL_API="http://59.110.163.137/api/factoryDetail?";//厂家详情
     String ENTERPRISE_PRODUCT_LIST_API="http://59.110.163.137/api/enterpriseProducts?";//批发企业产品列表
     String FACTORY_PRODUCT_LIST_API="http://59.110.163.137/api/factoryProducts?";//厂家产品列表
+    String ORDER_LIST_API="http://59.110.163.137/api/orderList?";//订单列表
+    String COMMIT_ORDER_API="http://59.110.163.137/api/submitOrder?";//提交订单
+    String DELETE_ORDER_API="http://59.110.163.137/api/delWaitingPayOrder?";//删除订单
 
 }

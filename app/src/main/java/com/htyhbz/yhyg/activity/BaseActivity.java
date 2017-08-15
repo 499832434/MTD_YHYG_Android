@@ -7,15 +7,24 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.bumptech.glide.Glide;
+import com.htyhbz.yhyg.ApiConstants;
 import com.htyhbz.yhyg.InitApp;
+import com.htyhbz.yhyg.net.HighRequest;
+import com.htyhbz.yhyg.net.NetworkUtils;
 import com.htyhbz.yhyg.service.LocationService;
 import com.htyhbz.yhyg.utils.PrefUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -180,4 +189,5 @@ public abstract class BaseActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
 }

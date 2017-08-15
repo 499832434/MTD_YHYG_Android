@@ -23,6 +23,7 @@ public class MainActivity extends BaseActivity {
     public MyFragAdapter mAdapter;
     private FragmentManager mFragmentManager;
     public CustomViewPager masterViewPager;
+    public  OrderFragment orderFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,7 +31,6 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         initTabViewPager();
-
 
     }
 
@@ -85,7 +85,8 @@ public class MainActivity extends BaseActivity {
             if (position == 0) {
                 return new RecommendFragment();
             } else if (position == 1) {
-                return new OrderFragment();
+                orderFragment=new OrderFragment();
+                return orderFragment;
             } else if (position == 2) {
                 return new AccountFragment();
             }
@@ -127,5 +128,8 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    public OrderFragment getOrderFragment() {
+        return orderFragment;
+    }
 
 }

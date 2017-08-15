@@ -27,6 +27,7 @@ import com.htyhbz.yhyg.activity.BaseActivity;
 import com.htyhbz.yhyg.activity.order.OrderSettlementActivity;
 import com.htyhbz.yhyg.adapter.LeftMenuAdapter;
 import com.htyhbz.yhyg.adapter.RightDishAdapter;
+import com.htyhbz.yhyg.event.ShoppingcatRefreshEvent;
 import com.htyhbz.yhyg.imp.ShopCartImp;
 import com.htyhbz.yhyg.net.HighRequest;
 import com.htyhbz.yhyg.net.NetworkUtils;
@@ -40,6 +41,7 @@ import com.htyhbz.yhyg.vo.Catagory;
 import com.htyhbz.yhyg.vo.Product;
 import com.htyhbz.yhyg.vo.ProductMenu;
 import com.htyhbz.yhyg.vo.ShopCart;
+import de.greenrobot.event.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -81,6 +83,11 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
 
         setContentView(R.layout.activity_shoppingcat);
 
+        try {
+            EventBus.getDefault().register(this);
+        } catch (Exception e) {
+
+        }
         initData();
         initView();
         getShoppingCartList();
@@ -107,10 +114,13 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
         shoppingCatCommitTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ShoppingCatActivity.this, OrderSettlementActivity.class));
+                Intent intent=new Intent(ShoppingCatActivity.this,OrderSettlementActivity.class);
+                intent.putExtra("flag","shoppingcat");
+                intent.putExtra("map",mapToString());
+                startActivity(intent);
             }
         });
-        rightMangear=new LinearLayoutManager(this);
+        rightMangear = new LinearLayoutManager(this);
         leftMenu.setLayoutManager(new LinearLayoutManager(this));
         rightMenu.setLayoutManager(rightMangear);
 
@@ -175,6 +185,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
 
     private void initData(){
         String str=getUserInfo(4);
+        Log.e("shoppingSTR",str);
         if(!TextUtils.isEmpty(str)){
             try{
                 JSONObject obj=new JSONObject(str);
@@ -207,7 +218,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
         leftAdapter.addItemSelectedListener(this);
         rightAdapter.setShopCartImp(this);
         rightMenu.setItemAnimator(null);
-        initHeadView(leftPosition,rightPosition);
+        initHeadView(leftPosition, rightPosition);
     }
 
     private void initHeadView(int leftPosition,int rightPosition){
@@ -226,6 +237,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
     protected void onDestroy() {
         super.onDestroy();
         leftAdapter.removeItemSelectedListener(this);
+        EventBus.getDefault().unregister(this);
     }
 
     private void showHeadView(){
@@ -459,7 +471,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
                                 }
                                 shopCart = new ShopCart(shoppingAccount,shoppingTotalPrice,shoppingSingle);
                                 if(productMenuList.size()>0){
-                                  initAdapter(leftPosition,rightPosition);
+                                  initAdapter(leftPosition, rightPosition);
                                 }
                             }else{
                                 toast(ShoppingCatActivity.this,jsonObject.getString("msg"));
@@ -549,10 +561,16 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
     @Override
     protected void onPause() {
         super.onPause();
+        String str=mapToString();
+        PrefUtils.putString(ShoppingCatActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.SHOPPING_CAT_DATA, str);
+        Log.e("str",str);
+    }
+
+    private String mapToString(){
         ShopCart cat=rightAdapter.getShopCart();
         if(cat.getProductAccount()==0||cat.getShoppingSingleMap().size()==0){
             PrefUtils.putString(ShoppingCatActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.SHOPPING_CAT_DATA, "");
-            return;
+            return "";
         }
         HashMap<String,Object> map=new HashMap<String, Object>();
         map.put("shoppingAccount",cat.getShoppingAccount());
@@ -563,13 +581,21 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
             HashMap<String,Object> map1=new HashMap<String, Object>();
             map1.put("shoppingsingleTotal",shoppingSingle.get(product));
             map1.put("productId",product.getproductId());
+            map1.put("productName",product.getproductName());
+            map1.put("productPictureUrl",product.getproductPictureUrl());
+            map1.put("productPrice",product.getproductPrice());
             list.add(map1);
         }
-        map.put("shoppinglist",list);
+        map.put("shoppinglist", list);
 
         Gson gson=new Gson();
         String str=gson.toJson(map);
-        PrefUtils.putString(ShoppingCatActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.SHOPPING_CAT_DATA, str);
-        Log.e("str",str);
+        return str;
+    }
+
+    public void onEvent(ShoppingcatRefreshEvent event) {
+        rightAdapter.setShopCart(new ShopCart());
+        PrefUtils.putString(ShoppingCatActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.SHOPPING_CAT_DATA, "");
+        finish();
     }
 }
