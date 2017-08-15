@@ -29,4 +29,6 @@
                 layout="@layout/layout_classic_footer" />
 
     </com.aspsine.swipetoloadlayout.SwipeToLoadLayout>
+    <include layout="@layout/activity_errors"
+             android:id="@+id/layoutError"/>
 </LinearLayout>

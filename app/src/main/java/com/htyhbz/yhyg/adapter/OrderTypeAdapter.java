@@ -130,7 +130,7 @@ public class OrderTypeAdapter extends BaseAdapter{
         }
         holder.orderIDTV.setText("订单号:"+mData.get(position).getOrderID());
         holder.orderSendTimeTV.setText("提交时间:"+mData.get(position).getOrderSendTime());
-        holder.countTV.setText(mData.get(position).getOrderAllPrice());
+        holder.countTV.setText("¥"+mData.get(position).getOrderAllPrice());
         return convertView;
     }
 

@@ -54,7 +54,6 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
     private MyScrollView scrollView;
     private TextView  tv2;
     private int topHeight, tv2Height;
-    private ClearEditText searchET;
     private RelativeLayout RL1,RL2;
     private ImageView searchIV;
     private MainActivity mActivity;
@@ -96,21 +95,7 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
         taocanLL.setOnClickListener(this);
         baozhuLL.setOnClickListener(this);
         yanhuaLL.setOnClickListener(this);
-        searchET = (ClearEditText) currentView.findViewById(R.id.searchET);
-        searchET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if(b){
-                    startActivity(new Intent(mActivity, ProductSearchActivity.class));
-                }
-            }
-        });
-        searchET.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(mActivity, ProductSearchActivity.class));
-            }
-        });
+
 
         RL1= (RelativeLayout) currentView.findViewById(R.id.RL1);
         RL2= (RelativeLayout) currentView.findViewById(R.id.RL2);
@@ -122,6 +107,7 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
                 startActivity(new Intent(mActivity, ProductSearchActivity.class));
             }
         });
+        currentView.findViewById(R.id.searchLL).setOnClickListener(this);
         scrollView = (MyScrollView) currentView.findViewById(R.id.swipe_target);
         swipeToLoadLayout = (SwipeToLoadLayout) currentView.findViewById(R.id.swipeToLoadLayout);
         swipeToLoadLayout.setOnRefreshListener(this);
@@ -257,6 +243,9 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
                 Intent intent4=new Intent(mActivity, ShoppingCatActivity.class);
                 intent4.putExtra("categoryId", (Integer) baozhuLL.getTag());
                 startActivity(intent4);
+                break;
+            case R.id.searchLL:
+                startActivity(new Intent(mActivity, ProductSearchActivity.class));
                 break;
         }
     }

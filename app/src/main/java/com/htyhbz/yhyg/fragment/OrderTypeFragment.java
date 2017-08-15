@@ -19,6 +19,7 @@ import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
 import com.htyhbz.yhyg.ApiConstants;
 import com.htyhbz.yhyg.InitApp;
 import com.htyhbz.yhyg.R;
+import com.htyhbz.yhyg.activity.BaseActivity;
 import com.htyhbz.yhyg.activity.MainActivity;
 import com.htyhbz.yhyg.adapter.OrderTypeAdapter;
 import com.htyhbz.yhyg.net.HighRequest;
@@ -37,7 +38,7 @@ import java.util.List;
 /**
  * Created by zongshuo on 2017/7/6.
  */
-public class OrderTypeFragment extends Fragment implements OnRefreshListener, OnLoadMoreListener {
+public class OrderTypeFragment extends ErrorsFragment implements OnRefreshListener, OnLoadMoreListener {
     private View currentView = null;
     private ListView orderTypeLV;
     private OrderTypeAdapter adapter;
@@ -134,9 +135,9 @@ public class OrderTypeFragment extends Fragment implements OnRefreshListener, On
                                     info.setOrderID(obj.getString("orderID"));
                                     info.setOrderSendTime(obj.getString("orderTime"));
                                     info.setUseIntegralCount(obj.getString("useIntegralCount"));
-                                    info.setOrderAllPrice(obj.getString("orderAllPrice"));
+                                    info.setOrderAllPrice(obj.getInt("orderAllPrice")+"");
                                     info.setOrderType(obj.getString("orderType"));
-                                    info.setActualPayPrice(obj.getString("actualPayPrice"));
+                                    info.setActualPayPrice(obj.getInt("actualPayPrice")+"");
                                     JSONArray productArr=obj.getJSONArray("orderProductions");
                                     List<Product> productList=new ArrayList<Product>();
                                     for(int j=0;j<productArr.length();j++){
@@ -144,7 +145,7 @@ public class OrderTypeFragment extends Fragment implements OnRefreshListener, On
                                         Product product=new Product();
                                         product.setproductId(obj3.getInt("productId"));
                                         product.setproductName(obj3.getString("productName"));
-                                        product.setproductPrice(obj3.getDouble("productPrice"));
+                                        product.setproductPrice(obj3.getInt("productPrice"));
                                         product.setproductPictureUrl(ApiConstants.BASE_URL+obj3.getString("productPictureUrl"));
                                         product.setorderProductCount(obj3.getInt("orderProductionsCount"));
                                         productList.add(product);
@@ -162,6 +163,20 @@ public class OrderTypeFragment extends Fragment implements OnRefreshListener, On
                                     userInfo.setReceiverName(obj2.getString("receiverName"));
                                     userInfo.setMark(obj2.getString("mark"));
                                     userInfoList.add(userInfo);
+                                }
+                                if(orderInfoList.size()==0){
+                                    swipeToLoadLayout.setVisibility(View.GONE);
+                                    currentView.findViewById(R.id.layoutError).setVisibility(View.VISIBLE);
+                                    showErrorLayout(currentView.findViewById(R.id.layoutError), new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            pageIndex=1;
+                                            request();
+                                        }
+                                    },4);
+                                }else {
+                                    swipeToLoadLayout.setVisibility(View.VISIBLE);
+                                    currentView.findViewById(R.id.layoutError).setVisibility(View.GONE);
                                 }
                                 adapter.notifyDataSetChanged();
                             }else{
