@@ -28,5 +28,6 @@ public interface ApiConstants {
     String ORDER_LIST_API="http://59.110.163.137/api/orderList?";//订单列表
     String COMMIT_ORDER_API="http://59.110.163.137/api/submitOrder?";//提交订单
     String DELETE_ORDER_API="http://59.110.163.137/api/delWaitingPayOrder?";//删除订单
+    String QUERY_ORDER_API="http://59.110.163.137/api/queryOrder?";//查询订单
 
 }

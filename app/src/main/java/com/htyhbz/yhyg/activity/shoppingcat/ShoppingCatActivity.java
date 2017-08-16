@@ -454,7 +454,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
                                         }else{
                                             product.setProductVideoUrl(ApiConstants.BASE_URL + data.getString("productVideoUrl"));
                                         }
-                                        product.setproductPrice(data.getDouble("productPrice"));
+                                        product.setproductPrice(data.getInt("productPrice"));
                                         productList.add(product);
 
                                         for(int z=0;z<shoppinglist.length();z++){

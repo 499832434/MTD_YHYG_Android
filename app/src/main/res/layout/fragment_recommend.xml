@@ -42,26 +42,26 @@
                                   android:id="@+id/searchLL"
                                   android:background="#0398ff"
                                   android:orientation="horizontal">
-                        <com.htyhbz.yhyg.view.ClearEditText
-                                android:textColorHint="#76c0f3"
-                                android:id="@+id/searchET"
-                                android:layout_marginTop="6dp"
-                                android:layout_marginBottom="10dp"
-                                android:layout_width="match_parent"
-                                android:layout_height="34dp"
-                                android:background="@drawable/ic_bg_search_product_view"
-                                android:imeOptions="actionSearch"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"
-                                android:layout_centerVertical="true"
-                                android:singleLine="true"
-                                android:layout_marginLeft="15dp"
-                                android:layout_marginRight="15dp"
-                                android:textColor="#76c0f3"
-                                android:hint="输入烟花爆竹名称进行搜索"
-                                android:drawableLeft="@drawable/ic_product_search_l"
-                                android:drawablePadding="15dp"
-                                android:textSize="14sp"/>
+                        <LinearLayout android:layout_width="match_parent"
+                                      android:layout_marginLeft="15dp"
+                                      android:layout_marginRight="15dp"
+                                      android:layout_marginTop="6dp"
+                                      android:orientation="vertical"
+                                      android:layout_marginBottom="10dp"
+                                      android:gravity="center"
+                                      android:background="@drawable/ic_bg_search_product_view"
+                                      android:layout_height="34dp">
+                            <TextView android:layout_width="wrap_content"
+                                      android:layout_height="wrap_content"
+                                      android:textSize="14sp"
+                                      android:id="@+id/searchTV"
+                                      android:text="输入烟花爆竹名称进行搜索"
+                                      android:textColor="#76c0f3"
+                                      android:drawablePadding="5dp"
+                                      android:drawableLeft="@drawable/ic_product_search_l"
+                            />
+                        </LinearLayout>
+
 
                     </LinearLayout>
                     <LinearLayout android:layout_width="match_parent"

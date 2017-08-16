@@ -22,6 +22,7 @@ import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
 import com.htyhbz.yhyg.ApiConstants;
 import com.htyhbz.yhyg.InitApp;
 import com.htyhbz.yhyg.R;
+import com.htyhbz.yhyg.activity.BaseActivity;
 import com.htyhbz.yhyg.activity.enterprise.EnterpriseDetailActivity;
 import com.htyhbz.yhyg.activity.video.VideoActivity;
 import com.htyhbz.yhyg.adapter.EnterpriseAdapter;
@@ -81,6 +82,8 @@ public class EnProductFragment extends Fragment implements OnRefreshListener, On
                     Intent intent=new Intent(mActivity, VideoActivity.class);
                     intent.putExtra("url",productList.get(i).getProductVideoUrl());
                     startActivity(intent);
+                }else{
+                    ((BaseActivity)mActivity).toast(mActivity,"暂无此视频");
                 }
             }
         });
@@ -153,7 +156,11 @@ public class EnProductFragment extends Fragment implements OnRefreshListener, On
                                     product.setproductName(obj.getString("productName"));
                                     product.setproductDetail(obj.getString("productDetail"));
                                     product.setproductPictureUrl(ApiConstants.BASE_URL + obj.getString("productPictureUrl"));
-                                    product.setProductVideoUrl(ApiConstants.BASE_URL + obj.getString("productVideoUrl"));
+                                    if(TextUtils.isEmpty(obj.getString("productVideoUrl"))||"null".equals(obj.getString("productVideoUrl"))){
+                                        product.setProductVideoUrl("");
+                                    }else{
+                                        product.setProductVideoUrl(ApiConstants.BASE_URL + obj.getString("productVideoUrl"));
+                                    }
                                     productList.add(product);
                                 }
                                 if(productList.size()>0){

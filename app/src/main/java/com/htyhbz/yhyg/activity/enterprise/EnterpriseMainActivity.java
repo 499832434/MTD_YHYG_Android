@@ -352,7 +352,6 @@ public class EnterpriseMainActivity extends BaseActivity implements OnRefreshLis
         InitApp.initApp.addToRequestQueue(request);
     }
 
-
     private void getEnterpriseList() {
         if (!NetworkUtils.isNetworkAvailable(this)) {
             return;

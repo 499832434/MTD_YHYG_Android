@@ -60,7 +60,7 @@ public class OrderDetailActivity extends BaseActivity{
                 Product product=new Product();
                 product.setproductId(obj.getInt("productId"));
                 product.setproductName(obj.getString("productName"));
-                product.setproductPrice(obj.getDouble("productPrice"));
+                product.setproductPrice(obj.getInt("productPrice"));
                 product.setproductPictureUrl(obj.getString("productPictureUrl"));
                 product.setorderProductCount(obj.getInt("shoppingsingleTotal"));
                 productList.add(product);

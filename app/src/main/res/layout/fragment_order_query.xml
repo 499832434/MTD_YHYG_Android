@@ -18,13 +18,21 @@
                        android:src="@drawable/icon_time"
                        android:scaleType="centerInside"
                        android:layout_height="40dp"/>
+            <TextView android:layout_width="wrap_content"
+                      android:gravity="center_vertical"
+                      android:textColor="#333333"
+                      android:layout_marginRight="5dp"
+                      android:background="@drawable/ic_bg_order_query_bottom_line"
+                      android:text="开始时间:"
+                      android:textSize="14sp"
+                      android:layout_height="40dp"/>
             <TextView android:layout_width="match_parent"
                       android:gravity="center_vertical"
                       android:textColor="#333333"
                       android:id="@+id/startTimeTV"
                       android:layout_marginRight="5dp"
                       android:background="@drawable/ic_bg_order_query_bottom_line"
-                      android:text="18753319519"
+                      android:text=""
                       android:textSize="14sp"
                       android:layout_height="40dp"/>
 
@@ -37,19 +45,28 @@
                        android:src="@drawable/icon_time"
                        android:scaleType="centerInside"
                        android:layout_height="40dp"/>
+            <TextView android:layout_width="wrap_content"
+                      android:gravity="center_vertical"
+                      android:textColor="#333333"
+                      android:layout_marginRight="5dp"
+                      android:background="@drawable/ic_bg_order_query_bottom_line"
+                      android:text="结束时间:"
+                      android:textSize="14sp"
+                      android:layout_height="40dp"/>
             <TextView android:layout_width="match_parent"
                       android:gravity="center_vertical"
                       android:textColor="#333333"
                       android:id="@+id/endTimeTV"
                       android:layout_marginRight="5dp"
                       android:background="@drawable/ic_bg_order_query_bottom_line"
-                      android:text="18753319519"
+                      android:text=""
                       android:textSize="14sp"
                       android:layout_height="40dp"/>
 
         </LinearLayout>
         <Button android:layout_width="match_parent"
                 android:text="查询"
+                android:id="@+id/queryTimeB"
                 android:layout_marginTop="10dp"
                 android:textSize="16sp"
                 android:layout_marginBottom="10dp"
@@ -89,6 +106,7 @@
 
         <Button android:layout_width="match_parent"
                 android:text="查询"
+                android:id="@+id/querytownB"
                 android:layout_marginTop="10dp"
                 android:textSize="16sp"
                 android:layout_marginBottom="10dp"
@@ -107,5 +125,6 @@
               android:dividerHeight="5dp"
               android:layout_height="match_parent">
     </ListView>
-
+    <include layout="@layout/activity_errors"
+             android:id="@+id/layoutError"/>
 </LinearLayout>
