@@ -8,15 +8,16 @@
                 android:background="@drawable/selector_item_select"
 
         >
-    <RelativeLayout android:layout_width="wrap_content"
+    <RelativeLayout android:layout_width="match_parent"
                     android:layout_centerHorizontal="true"
                     android:layout_height="50dp">
-        <ImageView android:layout_width="wrap_content"
+        <ImageView android:layout_width="40dp"
+                   android:layout_marginLeft="10dp"
                    android:layout_centerVertical="true"
-                   android:src="@drawable/icon_yanhualei"
                    android:id="@+id/left_menu_imageview"
+                   android:src="@drawable/icon_loading"
                    android:scaleType="centerInside"
-                   android:layout_height="wrap_content"/>
+                   android:layout_height="40dp"/>
         <TextView
                 android:layout_toRightOf="@+id/left_menu_imageview"
                 android:id="@+id/left_menu_textview"

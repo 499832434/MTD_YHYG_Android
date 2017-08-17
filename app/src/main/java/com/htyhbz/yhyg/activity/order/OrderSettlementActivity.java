@@ -432,6 +432,7 @@ public class OrderSettlementActivity extends BaseActivity{
         }
         params.put("actualPayPrice", count+"");
         params.put("orderAllPrice", shoppingTotalPrice+"");
+        Log.e("orderProductionsID",orderProductionsID.toString());
         params.put("orderProductionsID", orderProductionsID.substring(0,orderProductionsID.length()-1).toString());
         params.put("orderProductionsCount", orderProductionsCount.substring(0, orderProductionsCount.length() - 1).toString());
 
@@ -449,7 +450,6 @@ public class OrderSettlementActivity extends BaseActivity{
                             if (jsonObject.getString("code").equals("0")) {
                                 toast(OrderSettlementActivity.this, "下单成功");
                                 if("shoppingcat".equals(flag)){
-                                    PrefUtils.putString(OrderSettlementActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.SHOPPING_CAT_DATA, "");
                                     EventBus.getDefault().post(new ShoppingcatRefreshEvent());
                                 }
                                 finish();

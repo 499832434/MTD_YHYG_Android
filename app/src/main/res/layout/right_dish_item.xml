@@ -15,7 +15,7 @@
                 android:layout_height="80dp"
                 android:scaleType="fitXY"
                 android:id="@+id/pictureIV"
-                android:src="@drawable/zzz"/>
+                android:src="@drawable/icon_loading"/>
 
         <LinearLayout android:layout_width="match_parent"
                       android:orientation="vertical"

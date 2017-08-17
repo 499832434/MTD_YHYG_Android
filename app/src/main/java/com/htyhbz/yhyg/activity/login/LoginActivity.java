@@ -92,7 +92,7 @@ public class LoginActivity extends BaseActivity{
                                 PrefUtils.putString(LoginActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.AREA_ID_KEY, info.getString("areaID"));
                                 PrefUtils.putString(LoginActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.USER_AREA_KEY, info.getString("userArea"));
                                 String userPermission=info.getString("userPermission");
-                                if("6".equals(userPermission)){
+                                if("6".equals(userPermission)||"7".equals(userPermission)){
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 }else if("3".equals(userPermission)){
                                     Intent intent = new Intent(LoginActivity.this, EnterpriseMainActivity.class);

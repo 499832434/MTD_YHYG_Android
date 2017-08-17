@@ -226,7 +226,11 @@ public class OrderQueryFragment extends ErrorsFragment {
                                         product.setproductId(obj3.getInt("productId"));
                                         product.setproductName(obj3.getString("productName"));
                                         product.setproductPrice(obj3.getInt("productPrice"));
-                                        product.setproductPictureUrl(ApiConstants.BASE_URL+obj3.getString("productPictureUrl"));
+                                        if(TextUtils.isEmpty(obj3.getString("productPictureUrl"))||"null".equals(obj3.getString("productPictureUrl"))){
+                                            product.setproductPictureUrl("");
+                                        }else{
+                                            product.setproductPictureUrl(ApiConstants.BASE_URL+obj3.getString("productPictureUrl"));
+                                        }
                                         product.setorderProductCount(obj3.getInt("orderProductionsCount"));
                                         productList.add(product);
                                     }

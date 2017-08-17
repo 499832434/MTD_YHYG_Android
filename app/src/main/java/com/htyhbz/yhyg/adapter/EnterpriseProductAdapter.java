@@ -2,6 +2,7 @@ package com.htyhbz.yhyg.adapter;
 
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +62,9 @@ public class EnterpriseProductAdapter extends BaseAdapter{
 
         holder.contentTV.setText(mData.get(position).getproductDetail());
         holder.nameTV.setText(mData.get(position).getproductName());
-        ((BaseActivity)context).getNetWorkPicture(mData.get(position).getproductPictureUrl(),holder.pictureIV);
+        if(!TextUtils.isEmpty(mData.get(position).getproductPictureUrl())){
+            ((BaseActivity)context).getNetWorkPicture(mData.get(position).getproductPictureUrl(),holder.pictureIV);
+        }
         return convertView;
     }
 

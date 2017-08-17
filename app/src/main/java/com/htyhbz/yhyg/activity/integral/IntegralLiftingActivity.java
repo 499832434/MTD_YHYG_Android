@@ -45,7 +45,8 @@ public class IntegralLiftingActivity extends BaseActivity{
             }
         });
         more=Integer.parseInt(getUserInfo(2))/Integer.parseInt(getUserInfo(3));
-        ((TextView)findViewById(R.id.moreTV)).setText("最多可提现:  "+more);
+        ((TextView)findViewById(R.id.moreTV)).setText("最多可提现:  "+more+"元");
+        ((TextView)findViewById(R.id.ruleTV)).setText("兑换规则:  "+getUserInfo(3)+"积分=1元");
         moneyET=((EditText) findViewById(R.id.moneyET));
         findViewById(R.id.commitB).setOnClickListener(new View.OnClickListener() {
             @Override

@@ -2,6 +2,7 @@ package com.htyhbz.yhyg.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +62,11 @@ public class RecordAdapter extends BaseAdapter{
         }
         holder.amountTV.setText("提现:  "+mData.get(position).getWithdrawalAmount()+"元");
         holder.statusTV.setText(mData.get(position).getWithdrawalStatus());
+        if("待转账".equals(mData.get(position).getWithdrawalStatus())){
+            holder.statusTV.setTextColor(Color.parseColor("#F4756F"));
+        }else{
+            holder.statusTV.setTextColor(Color.parseColor("#57b847"));
+        }
         holder.timeTV.setText(mData.get(position).getWithdrawalTime());
         return convertView;
     }

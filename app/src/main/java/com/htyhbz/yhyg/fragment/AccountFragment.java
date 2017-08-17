@@ -55,6 +55,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener{
         unLoginTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mActivity.clearLoginInfo();
+                startActivity(new Intent(mActivity,LoginActivity.class));
                 mActivity.finish();
             }
         });
