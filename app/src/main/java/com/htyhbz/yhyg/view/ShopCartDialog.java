@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.htyhbz.yhyg.R;
+import com.htyhbz.yhyg.activity.BaseActivity;
 import com.htyhbz.yhyg.adapter.PopupDishAdapter;
 import com.htyhbz.yhyg.imp.ShopCartImp;
 import com.htyhbz.yhyg.vo.ShopCart;
@@ -30,10 +31,12 @@ public class ShopCartDialog  extends Dialog implements View.OnClickListener,Shop
     private RecyclerView recyclerView;
     private PopupDishAdapter dishAdapter;
     private ShopCartDialogImp shopCartDialogImp;
+    private Context context;
 
     public ShopCartDialog(Context context, ShopCart shopCart,int themeResId) {
         super(context,themeResId);
         this.shopCart = shopCart;
+        this.context=context;
     }
 
     @Override
@@ -181,5 +184,6 @@ public class ShopCartDialog  extends Dialog implements View.OnClickListener,Shop
         if(shopCart.getShoppingAccount()==0){
             this.dismiss();
         }
+        ((BaseActivity)context).toast(context,"已清空购物车");
     }
 }

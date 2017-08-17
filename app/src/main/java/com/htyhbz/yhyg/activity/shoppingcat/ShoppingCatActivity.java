@@ -73,7 +73,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
     private TextView totalPriceNumTextView;
     private RelativeLayout mainLayout;
     private int categoryId,productId,productType;
-    private LinearLayoutManager rightMangear;
+    private LinearLayoutManager rightMangear,leftMangear;
 
     private JSONArray shoppinglist=new JSONArray();
     private  int shoppingAccount;
@@ -128,7 +128,8 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
             }
         });
         rightMangear = new LinearLayoutManager(this);
-        leftMenu.setLayoutManager(new LinearLayoutManager(this));
+        leftMangear= new LinearLayoutManager(this);
+        leftMenu.setLayoutManager(leftMangear);
         rightMenu.setLayoutManager(rightMangear);
 
         rightMenu.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -171,6 +172,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
                             for (int i = 0; i < productMenuList.size(); i++) {
                                 if (productMenuList.get(i) == headMenu) {
                                     leftAdapter.setSelectedNum(i);
+                                    MoveToPosition(leftMangear, leftMenu, i);
                                     break;
                                 }
                             }
@@ -236,7 +238,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
         Log.e("categoryId++",leftPosition+"=="+rightPosition);
 
         leftAdapter = new LeftMenuAdapter(this, productMenuList);
-        rightAdapter = new RightDishAdapter(this, productMenuList,shopCart);
+        rightAdapter = new RightDishAdapter(this, productMenuList,shopCart,rightPosition);
         showTotalPrice();
         rightMenu.setAdapter(rightAdapter);
         leftMenu.setAdapter(leftAdapter);
@@ -257,6 +259,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
             MoveToPosition(rightMangear, rightMenu, rightPosition);
         }
     }
+
 
     @Override
     protected void onDestroy() {
@@ -628,6 +631,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
                     list.add(map1);
                 }
                 map.put("shoppinglist", list);
+                mapParam=map;
                 shoppingcatList.add(map);
                 shoppingcatMap.put("shoppingcat",shoppingcatList);
                 Gson gson=new Gson();

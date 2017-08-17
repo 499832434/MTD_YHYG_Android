@@ -19,6 +19,7 @@ import com.htyhbz.yhyg.activity.enterprise.EnterpriseMainActivity;
 import com.htyhbz.yhyg.net.HighRequest;
 import com.htyhbz.yhyg.net.NetworkUtils;
 import com.htyhbz.yhyg.utils.PrefUtils;
+import com.htyhbz.yhyg.view.ClearEditText;
 import com.htyhbz.yhyg.vo.Product;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,8 +31,8 @@ import java.util.Map;
  * Created by zongshuo on 2017/7/10.
  */
 public class LoginActivity extends BaseActivity{
-    private EditText phoneNumberET;
-    private EditText passwordET;
+    private ClearEditText phoneNumberET;
+    private ClearEditText passwordET;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +45,9 @@ public class LoginActivity extends BaseActivity{
 
 
     private void initView(){
-        phoneNumberET= (EditText) findViewById(R.id.phoneNumberET);
-        passwordET= (EditText) findViewById(R.id.passwordET);
+        phoneNumberET= (ClearEditText) findViewById(R.id.phoneNumberET);
+        phoneNumberET.setText(getUserInfo(8));
+        passwordET= (ClearEditText) findViewById(R.id.passwordET);
         findViewById(R.id.forgotTV).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,6 +93,7 @@ public class LoginActivity extends BaseActivity{
                                 PrefUtils.putString(LoginActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.USER_ID_KEY, info.getString("userID"));
                                 PrefUtils.putString(LoginActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.AREA_ID_KEY, info.getString("areaID"));
                                 PrefUtils.putString(LoginActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.USER_AREA_KEY, info.getString("userArea"));
+                                PrefUtils.putString(LoginActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.USER_NAME_KEY, phoneNumberET.getText().toString());
                                 String userPermission=info.getString("userPermission");
                                 if("6".equals(userPermission)||"7".equals(userPermission)){
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class));

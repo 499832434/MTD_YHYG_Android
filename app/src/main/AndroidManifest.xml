@@ -92,7 +92,6 @@
         </activity>
         <activity android:name=".activity.search.ProductSearchActivity"
                   android:windowSoftInputMode="adjustPan"
-                  android:configChanges="orientation|keyboardHidden|screenSize"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".activity.order.OrderQueryActivity"

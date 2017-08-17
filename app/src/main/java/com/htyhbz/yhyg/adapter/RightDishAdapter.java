@@ -1,8 +1,10 @@
 package com.htyhbz.yhyg.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +34,9 @@ public class RightDishAdapter extends RecyclerView.Adapter {
     private int mItemCount;
     private ShopCart shopCart;
     private ShopCartImp shopCartImp;
+    private int checkPosition;
 
-    public RightDishAdapter(Context mContext, ArrayList<ProductMenu> mMenuList, ShopCart shopCart){
+    public RightDishAdapter(Context mContext, ArrayList<ProductMenu> mMenuList, ShopCart shopCart,int checkPosition){
         this.mContext = mContext;
         this.mMenuList = mMenuList;
         this.mItemCount = mMenuList.size();
@@ -41,6 +44,7 @@ public class RightDishAdapter extends RecyclerView.Adapter {
         for(ProductMenu menu:mMenuList){
             mItemCount+=menu.getProductList().size();
         }
+        this.checkPosition=checkPosition;
     }
 
     public ShopCart getShopCart() {
@@ -134,6 +138,13 @@ public class RightDishAdapter extends RecyclerView.Adapter {
                         }
                     }
                 });
+
+                Log.e("checkPosition",checkPosition+"==="+position);
+                if((checkPosition+1)==(position)){
+                    dishholder.rightLL.setBackgroundColor(Color.parseColor("#cccccc"));
+                }else{
+                    dishholder.rightLL.setBackgroundColor(Color.parseColor("#00000000"));
+                }
             }
         }
     }
@@ -205,6 +216,7 @@ public class RightDishAdapter extends RecyclerView.Adapter {
         private ImageView right_dish_add_iv;
         private TextView right_dish_account_tv;
         private ImageView pictureIV;
+        private LinearLayout rightLL;
 
         public DishViewHolder(View itemView) {
             super(itemView);
@@ -215,8 +227,11 @@ public class RightDishAdapter extends RecyclerView.Adapter {
             right_dish_remove_iv = (ImageView)itemView.findViewById(R.id.right_dish_remove);
             right_dish_add_iv = (ImageView)itemView.findViewById(R.id.right_dish_add);
             right_dish_account_tv = (TextView) itemView.findViewById(R.id.right_dish_account);
+            rightLL= (LinearLayout) itemView.findViewById(R.id.rightLL);
         }
-
     }
+
+
+
 }
 

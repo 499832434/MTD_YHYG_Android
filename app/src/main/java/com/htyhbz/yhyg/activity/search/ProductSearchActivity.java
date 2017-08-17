@@ -1,11 +1,14 @@
 package com.htyhbz.yhyg.activity.search;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 import com.android.volley.Request;
@@ -47,6 +50,11 @@ public class ProductSearchActivity extends BaseActivity{
     }
     private void initView(){
         searchET= (ClearEditText) findViewById(R.id.searchET);
+//        InputMethodManager imm = (InputMethodManager)ProductSearchActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+//        searchET.setFocusable(true);
+//        searchET.setFocusableInTouchMode(true);
+//        searchET.requestFocus();
         searchTV= (TextView) findViewById(R.id.searchTV);
         searchTV.setOnClickListener(new View.OnClickListener() {
             @Override

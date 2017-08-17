@@ -65,7 +65,7 @@ public class OrderSettlementActivity extends BaseActivity{
         initData();
         initView();
         if("order".equals(flag)){
-            getTown();
+            getTown(0);
         }
         getUserIntegral();
     }
@@ -134,7 +134,7 @@ public class OrderSettlementActivity extends BaseActivity{
         gprsTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getTown();
+                getTown(1);
             }
         });
         phoneET= (EditText) findViewById(R.id.phoneET);
@@ -244,7 +244,7 @@ public class OrderSettlementActivity extends BaseActivity{
     /**
      * 网络请求
      */
-    private void getTown() {
+    private void getTown(final int flagInt) {
         if (!NetworkUtils.isNetworkAvailable(this)) {
             return;
         }
@@ -272,7 +272,7 @@ public class OrderSettlementActivity extends BaseActivity{
                                         gprsTV.setText(Html.fromHtml(getUserInfo(5) + "<u>" +obj.getString("townName") + "</u>"));
                                     }
                                 }
-                                if("shoppingcat".equals(flag)){
+                                if("shoppingcat".equals(flag)||flagInt==1){
                                     if(list.size()>0){
                                         showTownDialog(list);
                                     }
@@ -387,6 +387,10 @@ public class OrderSettlementActivity extends BaseActivity{
         }
         if(TextUtils.isEmpty(phoneET.getText().toString())){
             toast(OrderSettlementActivity.this,"请输入您的联系方式");
+            return;
+        }
+        if(!isMobileNO(phoneET.getText().toString())){
+            toast(OrderSettlementActivity.this,"请输入正确的联系方式");
             return;
         }
         if(TextUtils.isEmpty(receiverNameET.getText().toString())){

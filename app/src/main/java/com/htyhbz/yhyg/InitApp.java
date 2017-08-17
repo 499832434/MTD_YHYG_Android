@@ -32,6 +32,7 @@ import java.util.*;
  */
 public class InitApp extends Application {
     public static final String USER_PRIVATE_DATA = "USER_PRIVATE_DATA";
+    public static final String USER_NAME_KEY = "USER_NAME_KEY";
     public static final String USER_ID_KEY = "USER_ID_KEY";
     public static final String AREA_ID_KEY = "AREA_ID_KEY";
     public static final String USER_AREA_KEY = "USER_AREA_KEY";

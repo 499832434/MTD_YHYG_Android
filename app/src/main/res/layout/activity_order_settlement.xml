@@ -98,6 +98,7 @@
                               android:layout_marginRight="5dp"
                               android:background="@drawable/ic_bg_order_bottom"
                               android:text=""
+                              android:numeric="integer"
                               android:id="@+id/phoneET"
                               android:hint="请输入您的联系方式"
                               android:textSize="14sp"

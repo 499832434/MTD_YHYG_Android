@@ -24,7 +24,8 @@
                           android:layout_height="match_parent">
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:text="账号:18753319519"
+                          android:text=""
+                          android:id="@+id/accountTV"
                           android:drawableLeft="@drawable/icon_account_telephone"
                           android:drawablePadding="5dp"
                           android:textColor="#ffffff"
@@ -38,7 +39,7 @@
                           android:layout_height="match_parent">
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:text="积分:10000积分"
+                          android:text=""
                           android:id="@+id/integralTV"
                           android:drawableLeft="@drawable/icon_account_integration"
                           android:drawablePadding="5dp"
