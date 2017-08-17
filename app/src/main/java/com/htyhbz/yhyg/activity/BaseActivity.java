@@ -115,6 +115,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         return  "";
     }
 
+
+    /**
+     * 退出登录
+     */
+    public void clearLoginInfo(){
+        PrefUtils.putString(BaseActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.USER_ID_KEY, "");
+    }
+
     /**
      * 判断用户是否登录
      */

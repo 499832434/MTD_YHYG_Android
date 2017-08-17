@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.DialogPreference;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import com.htyhbz.yhyg.ApiConstants;
 import com.htyhbz.yhyg.InitApp;
 import com.htyhbz.yhyg.R;
 import com.htyhbz.yhyg.activity.BaseActivity;
+import com.htyhbz.yhyg.activity.login.LoginActivity;
 import com.htyhbz.yhyg.adapter.EnterpriseAdapter;
 import com.htyhbz.yhyg.adapter.RecordAdapter;
 import com.htyhbz.yhyg.net.HighRequest;
@@ -101,6 +103,8 @@ public class EnterpriseMainActivity extends BaseActivity implements OnRefreshLis
         findViewById(R.id.unLoginTV).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                clearLoginInfo();
+                startActivity(new Intent(EnterpriseMainActivity.this,LoginActivity.class));
                 finish();
             }
         });
@@ -388,7 +392,11 @@ public class EnterpriseMainActivity extends BaseActivity implements OnRefreshLis
                                     Enterprise enterprise=new Enterprise();
                                     enterprise.setEnterpriseAddress(obj.getString("enterpriseAddress"));
                                     enterprise.setEnterpriseID(obj.getInt("enterpriseID"));
-                                    enterprise.setEnterpriseImageUrl(ApiConstants.BASE_URL+obj.getString("enterpriseImageUrl"));
+                                    if(TextUtils.isEmpty(obj.getString("enterpriseImageUrl"))||"null".equals(obj.getString("enterpriseImageUrl"))){
+                                        enterprise.setEnterpriseImageUrl("");
+                                    }else{
+                                        enterprise.setEnterpriseImageUrl(ApiConstants.BASE_URL + obj.getString("enterpriseImageUrl"));
+                                    }
                                     enterprise.setEnterpriseName(obj.getString("enterpriseName"));
                                     enterprise.setEnterprisePhone(obj.getString("enterprisePhone"));
                                     enterpriseList.add(enterprise);

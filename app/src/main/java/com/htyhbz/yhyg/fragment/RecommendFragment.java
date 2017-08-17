@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -327,7 +328,7 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
 
         final HashMap<String,String> params=mActivity.getNetworkRequestHashMap();
         params.put("areaID", mActivity.getUserInfo(1));
-        String url=InitApp.getUrlByParameter(ApiConstants.HOT_SALE_PRODUCTION_API,params,true);
+        String url=InitApp.getUrlByParameter(ApiConstants.HOT_SALE_PRODUCTION_API, params, true);
         Log.e("HotSaleProductionURl", url);
 
         HighRequest request = new HighRequest(Request.Method.GET, url,
@@ -346,7 +347,11 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
                                     product.setproductId(obj.getInt("productId"));
                                     product.setproductName(obj.getString("productName"));
                                     product.setproductDetail(obj.getString("productDetail"));
-                                    product.setproductPictureUrl(ApiConstants.BASE_URL+obj.getString("productPictureUrl"));
+                                    if(TextUtils.isEmpty(obj.getString("productPictureUrl"))||"null".equals(obj.getString("productPictureUrl"))){
+                                        product.setproductPictureUrl("");
+                                    }else{
+                                        product.setproductPictureUrl(ApiConstants.BASE_URL+obj.getString("productPictureUrl"));
+                                    }
                                     product.setproductType(obj.getInt("productType"));
                                     productList.add(product);
                                 }

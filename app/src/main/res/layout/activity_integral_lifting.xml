@@ -35,7 +35,7 @@
             <EditText android:layout_width="match_parent"
                       android:layout_marginLeft="15dp"
                       android:textSize="24sp"
-                      android:text="100"
+                      android:text=""
                       android:id="@+id/moneyET"
                       android:textStyle="bold"
                       android:textColor="#333333"
@@ -49,9 +49,16 @@
                 />
         <TextView android:layout_width="match_parent"
                   android:textColor="#9b9b9b"
-                  android:text="最多可提现:1000"
+                  android:text=""
                   android:textSize="12sp"
                   android:id="@+id/moreTV"
+                  android:layout_marginTop="10dp"
+                  android:layout_height="wrap_content"/>
+        <TextView android:layout_width="match_parent"
+                  android:textColor="#9b9b9b"
+                  android:text=""
+                  android:textSize="12sp"
+                  android:id="@+id/ruleTV"
                   android:layout_marginTop="10dp"
                   android:layout_height="wrap_content"/>
         <Button android:layout_width="match_parent"

@@ -2,6 +2,7 @@ package com.htyhbz.yhyg.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +61,7 @@ public class LeftMenuAdapter extends RecyclerView.Adapter {
         ProductMenu productMenu = mMenuList.get(position);
         LeftMenuViewHolder viewHolder = (LeftMenuViewHolder)holder;
         viewHolder.menuName.setText(productMenu.getCatagory().getCatalog());
-//        switch (position){
+//        switch (position%4){
 //            case 0:
 //                viewHolder.menuNameIV.setImageResource(R.drawable.icon_yanhualei);
 //                break;
@@ -74,7 +75,11 @@ public class LeftMenuAdapter extends RecyclerView.Adapter {
 //                viewHolder.menuNameIV.setImageResource(R.drawable.icon_xiaoyanhua);
 //                break;
 //        }
-        ((BaseActivity)mContext).getNetWorkPicture(productMenu.getCatagory().getCategoryImageUrl(),viewHolder.menuNameIV);
+        if(!TextUtils.isEmpty(productMenu.getCatagory().getCategoryImageUrl())){
+            ((BaseActivity)mContext).getNetWorkPicture(productMenu.getCatagory().getCategoryImageUrl(),viewHolder.menuNameIV);
+        }else{
+            viewHolder.menuNameIV.setImageResource(R.drawable.icon_loading);
+        }
         if(mSelectedNum==position){
             viewHolder.menuLayout.setSelected(true);
         }else{

@@ -2,6 +2,7 @@ package com.htyhbz.yhyg.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,9 +90,11 @@ public class RightDishAdapter extends RecyclerView.Adapter {
 
                 final Product product = getDishByPosition(position);
                 dishholder.right_dish_name_tv.setText(product.getproductName());
-                dishholder.right_dish_price_tv.setText(product.getproductPrice()+"");
+                dishholder.right_dish_price_tv.setText(product.getproductPrice() + "");
                 dishholder.right_dish_layout.setContentDescription(position + "");
-                ((BaseActivity)mContext).getNetWorkPicture(product.getproductPictureUrl(),dishholder.pictureIV);
+                if(!TextUtils.isEmpty(product.getproductPictureUrl())){
+                    ((BaseActivity)mContext).getNetWorkPicture(product.getproductPictureUrl(),dishholder.pictureIV);
+                }
                 dishholder.right_dish_layout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

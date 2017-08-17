@@ -48,6 +48,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -77,6 +78,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
     private JSONArray shoppinglist=new JSONArray();
     private  int shoppingAccount;
     private double shoppingTotalPrice;
+    private HashMap<String,Object> mapParam=new HashMap<String, Object>();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,10 +116,15 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
         shoppingCatCommitTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mapToString();
                 Intent intent=new Intent(ShoppingCatActivity.this,OrderSettlementActivity.class);
                 intent.putExtra("flag","shoppingcat");
-                intent.putExtra("map",mapToString());
+                Gson gson=new Gson();
+                String str=gson.toJson(mapParam);
+                intent.putExtra("map",str);
+                Log.e("str",str);
                 startActivity(intent);
+
             }
         });
         rightMangear = new LinearLayoutManager(this);
@@ -185,13 +192,31 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
 
     private void initData(){
         String str=getUserInfo(4);
-        Log.e("shoppingSTR",str);
+        Log.e("shoppingSTR1", str);
         if(!TextUtils.isEmpty(str)){
             try{
-                JSONObject obj=new JSONObject(str);
-                shoppingTotalPrice=obj.getDouble("shoppingTotalPrice");
-                shoppingAccount=obj.getInt("shoppingAccount");
-                shoppinglist=obj.getJSONArray("shoppinglist");
+                JSONObject shoppingcatObj=new JSONObject(str);
+                JSONArray shoppingcatArr=shoppingcatObj.getJSONArray("shoppingcat");
+                boolean flag=true;
+                for(int i=0;i<shoppingcatArr.length();i++){
+                    JSONObject obj=shoppingcatArr.getJSONObject(i);
+                    if(obj.getString("userid").equals(getUserInfo(0))){
+                        shoppingTotalPrice=obj.getDouble("shoppingTotalPrice");
+                        shoppingAccount=obj.getInt("shoppingAccount");
+                        shoppinglist=obj.getJSONArray("shoppinglist");
+                        flag=false;
+                        break;
+                    }
+                }
+                if(flag){
+                    shopCart = new ShopCart();
+                }
+
+
+//                JSONObject obj=new JSONObject(str);
+//                shoppingTotalPrice=obj.getDouble("shoppingTotalPrice");
+//                shoppingAccount=obj.getInt("shoppingAccount");
+//                shoppinglist=obj.getJSONArray("shoppinglist");
             }catch (Exception e){
 
             }
@@ -428,7 +453,11 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
                                     Catagory cata=new Catagory();
                                     cata.setCatalog(obj.getString("catalog"));
                                     cata.setCategoryId(obj.getString("categoryId"));
-                                    cata.setCategoryImageUrl(ApiConstants.BASE_URL +obj.getString("categoryImageUrl"));
+                                    if(TextUtils.isEmpty(obj.getString("categoryImageUrl"))||"null".equals(obj.getString("categoryImageUrl"))){
+                                        cata.setCategoryImageUrl("");
+                                    }else{
+                                        cata.setCategoryImageUrl(ApiConstants.BASE_URL + obj.getString("categoryImageUrl"));
+                                    }
                                     JSONArray dataArr=obj.getJSONArray("data");
                                     if(categoryId==obj.getInt("categoryId")){
                                         leftPosition=i;
@@ -441,13 +470,17 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
                                         num+=1;
                                         JSONObject data=dataArr.getJSONObject(j);
                                         Product product=new Product();
-                                        if(productId==data.getInt("productId")){
+                                        if(productId == data.getInt("productId")){
                                             rightPosition=num-2;
                                         }
                                         product.setproductId(data.getInt("productId"));
                                         product.setproductName(data.getString("productName"));
                                         product.setproductDetail(data.getString("productDetail"));
-                                        product.setproductPictureUrl(ApiConstants.BASE_URL + data.getString("productPictureUrl"));
+                                        if(TextUtils.isEmpty(data.getString("productPictureUrl"))||"null".equals(data.getString("productPictureUrl"))){
+                                            product.setproductPictureUrl("");
+                                        }else{
+                                            product.setproductPictureUrl(ApiConstants.BASE_URL + data.getString("productPictureUrl"));
+                                        }
                                         product.setIsCollected(data.getInt("isCollected"));
                                         if(TextUtils.isEmpty(data.getString("productVideoUrl"))||"null".equals(data.getString("productVideoUrl"))){
                                             product.setProductVideoUrl("");
@@ -562,40 +595,199 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
     protected void onPause() {
         super.onPause();
         String str=mapToString();
-        PrefUtils.putString(ShoppingCatActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.SHOPPING_CAT_DATA, str);
+        if(!TextUtils.isEmpty(str)){
+            PrefUtils.putString(ShoppingCatActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.SHOPPING_CAT_DATA, str);
+        }
         Log.e("str",str);
     }
 
     private String mapToString(){
         ShopCart cat=rightAdapter.getShopCart();
         if(cat.getProductAccount()==0||cat.getShoppingSingleMap().size()==0){
-            PrefUtils.putString(ShoppingCatActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.SHOPPING_CAT_DATA, "");
+            clearData();
             return "";
         }
-        HashMap<String,Object> map=new HashMap<String, Object>();
-        map.put("shoppingAccount",cat.getShoppingAccount());
-        map.put("shoppingTotalPrice", cat.getShoppingTotalPrice());
-        Map<Product,Integer> shoppingSingle=cat.getShoppingSingleMap();
-        ArrayList<HashMap> list=new ArrayList<HashMap>();
-        for(Product product:shoppingSingle.keySet()){
-            HashMap<String,Object> map1=new HashMap<String, Object>();
-            map1.put("shoppingsingleTotal",shoppingSingle.get(product));
-            map1.put("productId",product.getproductId());
-            map1.put("productName",product.getproductName());
-            map1.put("productPictureUrl",product.getproductPictureUrl());
-            map1.put("productPrice",product.getproductPrice());
-            list.add(map1);
-        }
-        map.put("shoppinglist", list);
+        try{
+            HashMap<String,Object> shoppingcatMap=new HashMap<String, Object>();
+            List<Object> shoppingcatList=new ArrayList<Object>();
+            String shoppingcatStr=PrefUtils.getString(ShoppingCatActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.SHOPPING_CAT_DATA, "");
+            if(TextUtils.isEmpty(shoppingcatStr)){
+                HashMap<String,Object> map=new HashMap<String, Object>();
+                map.put("userid",getUserInfo(0));
+                map.put("shoppingAccount",cat.getShoppingAccount());
+                map.put("shoppingTotalPrice", cat.getShoppingTotalPrice());
+                Map<Product,Integer> shoppingSingle=cat.getShoppingSingleMap();
+                ArrayList<HashMap> list=new ArrayList<HashMap>();
+                for(Product product:shoppingSingle.keySet()){
+                    HashMap<String,Object> map1=new HashMap<String, Object>();
+                    map1.put("shoppingsingleTotal",shoppingSingle.get(product));
+                    map1.put("productId",product.getproductId());
+                    map1.put("productName",product.getproductName());
+                    map1.put("productPictureUrl",product.getproductPictureUrl());
+                    map1.put("productPrice",product.getproductPrice());
+                    list.add(map1);
+                }
+                map.put("shoppinglist", list);
+                shoppingcatList.add(map);
+                shoppingcatMap.put("shoppingcat",shoppingcatList);
+                Gson gson=new Gson();
+                String str=gson.toJson(shoppingcatMap);
+                Log.e("shoppingSTR3", str);
+                return str;
+            }
 
-        Gson gson=new Gson();
-        String str=gson.toJson(map);
-        return str;
+            boolean flag=true;
+            JSONObject obj=new JSONObject(shoppingcatStr);
+            JSONArray shoppingcatArr=obj.getJSONArray("shoppingcat");
+            for(int i=0;i<shoppingcatArr.length();i++){
+                JSONObject shoppincatObj=shoppingcatArr.getJSONObject(i);
+                Log.e("shoppincatObj", shoppincatObj.toString());
+                if(shoppincatObj.getString("userid").equals(getUserInfo(0))){
+                    HashMap<String,Object> m1=new HashMap<String, Object>();
+                    m1.put("userid",getUserInfo(0));
+                    m1.put("shoppingAccount",cat.getShoppingAccount());
+                    m1.put("shoppingTotalPrice", cat.getShoppingTotalPrice());
+                    Map<Product,Integer> shoppingSingle=cat.getShoppingSingleMap();
+                    ArrayList<HashMap> list=new ArrayList<HashMap>();
+                    for(Product product:shoppingSingle.keySet()){
+                        HashMap<String,Object> map1=new HashMap<String, Object>();
+                        map1.put("shoppingsingleTotal",shoppingSingle.get(product));
+                        map1.put("productId",product.getproductId());
+                        map1.put("productName",product.getproductName());
+                        map1.put("productPictureUrl",product.getproductPictureUrl());
+                        map1.put("productPrice",product.getproductPrice());
+                        list.add(map1);
+                    }
+                    m1.put("shoppinglist", list);
+                    mapParam=m1;
+                    shoppingcatList.add(m1);
+                    flag=false;
+                }else{
+                    HashMap<String,Object> m2=new HashMap<String, Object>();
+                    m2.put("userid",shoppincatObj.getString("userid"));
+                    m2.put("shoppingAccount",shoppincatObj.getString("shoppingAccount"));
+                    m2.put("shoppingTotalPrice", shoppincatObj.getString("shoppingTotalPrice"));
+                    JSONArray shoppingListArr=shoppincatObj.getJSONArray("shoppinglist");
+                    List<Object> list=new ArrayList<Object>();
+                    for(int j=0;j<shoppingListArr.length();j++){
+                        JSONObject shoppingListObj=shoppingListArr.getJSONObject(j);
+                        HashMap<String,Object> map1=new HashMap<String, Object>();
+                        map1.put("shoppingsingleTotal",shoppingListObj.getString("shoppingsingleTotal"));
+                        map1.put("productId",shoppingListObj.getString("productId"));
+                        map1.put("productName",shoppingListObj.getString("productName"));
+                        map1.put("productPictureUrl",shoppingListObj.getString("productPictureUrl"));
+                        map1.put("productPrice",shoppingListObj.getString("productPrice"));
+                        list.add(map1);
+                    }
+                    m2.put("shoppinglist", list);
+                    shoppingcatList.add(m2);
+                }
+
+            }
+            if(flag){
+                HashMap<String,Object> m3=new HashMap<String, Object>();
+                m3.put("userid",getUserInfo(0));
+                m3.put("shoppingAccount",cat.getShoppingAccount());
+                m3.put("shoppingTotalPrice", cat.getShoppingTotalPrice());
+                Map<Product,Integer> shoppingSingle=cat.getShoppingSingleMap();
+                ArrayList<HashMap> list=new ArrayList<HashMap>();
+                for(Product product:shoppingSingle.keySet()){
+                    HashMap<String,Object> map1=new HashMap<String, Object>();
+                    map1.put("shoppingsingleTotal",shoppingSingle.get(product));
+                    map1.put("productId",product.getproductId());
+                    map1.put("productName",product.getproductName());
+                    map1.put("productPictureUrl",product.getproductPictureUrl());
+                    map1.put("productPrice",product.getproductPrice());
+                    list.add(map1);
+                }
+                m3.put("shoppinglist", list);
+                mapParam=m3;
+                shoppingcatList.add(m3);
+            }
+
+            shoppingcatMap.put("shoppingcat",shoppingcatList);
+            Gson gson=new Gson();
+            String str=gson.toJson(shoppingcatMap);
+            Log.e("shoppingSTR2",str);
+            return str;
+        }catch (Exception e){
+            return "";
+        }
+
+
+
+//        HashMap<String,Object> map=new HashMap<String, Object>();
+//        map.put("shoppingAccount",cat.getShoppingAccount());
+//        map.put("shoppingTotalPrice", cat.getShoppingTotalPrice());
+//        Map<Product,Integer> shoppingSingle=cat.getShoppingSingleMap();
+//        ArrayList<HashMap> list=new ArrayList<HashMap>();
+//        for(Product product:shoppingSingle.keySet()){
+//            HashMap<String,Object> map1=new HashMap<String, Object>();
+//            map1.put("shoppingsingleTotal",shoppingSingle.get(product));
+//            map1.put("productId",product.getproductId());
+//            map1.put("productName",product.getproductName());
+//            map1.put("productPictureUrl",product.getproductPictureUrl());
+//            map1.put("productPrice",product.getproductPrice());
+//            list.add(map1);
+//        }
+//        map.put("shoppinglist", list);
+//
+//        Gson gson=new Gson();
+//        String str=gson.toJson(map);
+//        return str;
     }
 
     public void onEvent(ShoppingcatRefreshEvent event) {
         rightAdapter.setShopCart(new ShopCart());
-        PrefUtils.putString(ShoppingCatActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.SHOPPING_CAT_DATA, "");
+        clearData();
         finish();
+    }
+
+    public void clearData(){
+        try{
+            HashMap<String,Object> shoppingcatMap=new HashMap<String, Object>();
+            List<Object> shoppingcatList=new ArrayList<Object>();
+            String shoppingcatStr=PrefUtils.getString(ShoppingCatActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.SHOPPING_CAT_DATA, "");
+            if(TextUtils.isEmpty(shoppingcatStr)){
+                return;
+            }
+
+            JSONObject obj=new JSONObject(shoppingcatStr);
+            JSONArray shoppingcatArr=obj.getJSONArray("shoppingcat");
+            for(int i=0;i<shoppingcatArr.length();i++){
+                JSONObject shoppincatObj=shoppingcatArr.getJSONObject(i);
+                Log.e("shoppincatObj", shoppincatObj.toString());
+                if(shoppincatObj.getString("userid").equals(getUserInfo(0))){
+
+                }else{
+                    HashMap<String,Object> m2=new HashMap<String, Object>();
+                    m2.put("userid",shoppincatObj.getString("userid"));
+                    m2.put("shoppingAccount",shoppincatObj.getString("shoppingAccount"));
+                    m2.put("shoppingTotalPrice", shoppincatObj.getString("shoppingTotalPrice"));
+                    JSONArray shoppingListArr=shoppincatObj.getJSONArray("shoppinglist");
+                    List<Object> list=new ArrayList<Object>();
+                    for(int j=0;j<shoppingListArr.length();j++){
+                        JSONObject shoppingListObj=shoppingListArr.getJSONObject(j);
+                        HashMap<String,Object> map1=new HashMap<String, Object>();
+                        map1.put("shoppingsingleTotal",shoppingListObj.getString("shoppingsingleTotal"));
+                        map1.put("productId",shoppingListObj.getString("productId"));
+                        map1.put("productName",shoppingListObj.getString("productName"));
+                        map1.put("productPictureUrl",shoppingListObj.getString("productPictureUrl"));
+                        map1.put("productPrice",shoppingListObj.getString("productPrice"));
+                        list.add(map1);
+                    }
+                    m2.put("shoppinglist", list);
+                    shoppingcatList.add(m2);
+                }
+
+            }
+
+            shoppingcatMap.put("shoppingcat",shoppingcatList);
+            Gson gson=new Gson();
+            String str=gson.toJson(shoppingcatMap);
+            PrefUtils.putString(ShoppingCatActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.SHOPPING_CAT_DATA, str);
+        }catch (Exception e){
+
+        }
     }
 }

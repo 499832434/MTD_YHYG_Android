@@ -7,7 +7,7 @@
     <ImageView android:layout_width="match_parent"
                android:scaleType="fitXY"
                android:id="@+id/pictureIV"
-               android:src="@drawable/zzz"
+               android:src="@drawable/icon_loading"
                android:layout_height="160dp"/>
     <TextView android:layout_width="wrap_content"
               android:layout_height="30dp"

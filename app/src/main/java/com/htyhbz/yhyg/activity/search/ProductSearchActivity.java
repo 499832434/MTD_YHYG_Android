@@ -104,7 +104,11 @@ public class ProductSearchActivity extends BaseActivity{
                                     product.setproductId(obj.getInt("productId"));
                                     product.setproductName(obj.getString("productName"));
                                     product.setproductDetail(obj.getString("productDetail"));
-                                    product.setproductPictureUrl(ApiConstants.BASE_URL+obj.getString("productPictureUrl"));
+                                    if(TextUtils.isEmpty(obj.getString("productPictureUrl"))||"null".equals(obj.getString("productPictureUrl"))){
+                                        product.setproductPictureUrl("");
+                                    }else{
+                                        product.setproductPictureUrl(ApiConstants.BASE_URL+obj.getString("productPictureUrl"));
+                                    }
                                     product.setproductType(obj.getInt("productType"));
                                     productList.add(product);
                                 }

@@ -4,7 +4,7 @@ package com.htyhbz.yhyg;
  * Created by zongshuo on 2017/7/21.
  */
 public interface ApiConstants {
-    String BASE_URL="http://59.110.163.137/";
+    String BASE_URL="http://59.110.163.137";
     String PHONE_LOGIN_API="http://59.110.163.137/api/login?";//手机号登录
     String GET_CATEGPRY_API="http://59.110.163.137/api/getCategory?";//手机号登录
     String MY_COLLECTION_LIST_API="http://59.110.163.137/api/myCollectionList?";//我的收藏

@@ -2,6 +2,7 @@ package com.htyhbz.yhyg.adapter;
 
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,8 +62,10 @@ public class EnterpriseAdapter extends BaseAdapter{
         }
         holder.addressTV.setText("地址:"+mData.get(position).getEnterpriseAddress());
         holder.nameTV.setText(mData.get(position).getEnterpriseName());
-        holder.telephoneTV.setText("电话:"+mData.get(position).getEnterprisePhone());
-        ((BaseActivity)context).getNetWorkPicture(mData.get(position).getEnterpriseImageUrl(),holder.pictureIV);
+        holder.telephoneTV.setText("电话:" + mData.get(position).getEnterprisePhone());
+        if(!TextUtils.isEmpty(mData.get(position).getEnterpriseImageUrl())){
+            ((BaseActivity)context).getNetWorkPicture(mData.get(position).getEnterpriseImageUrl(),holder.pictureIV);
+        }
         return convertView;
     }
 

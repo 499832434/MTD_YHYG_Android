@@ -78,7 +78,9 @@ public class ShopCartCenterDialog extends Dialog  {
             }
         });
         topIV= (ImageView) findViewById(R.id.topIV);
-        ((BaseActivity)context).getNetWorkPicture(product.getproductPictureUrl(),topIV);
+        if(!TextUtils.isEmpty(product.getproductPictureUrl())){
+            ((BaseActivity)context).getNetWorkPicture(product.getproductPictureUrl(),topIV);
+        }
         showTV= (TextView) findViewById(R.id.showTV);
         showTV.setOnClickListener(new View.OnClickListener() {
             @Override

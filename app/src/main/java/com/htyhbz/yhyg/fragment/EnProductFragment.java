@@ -155,7 +155,11 @@ public class EnProductFragment extends Fragment implements OnRefreshListener, On
                                     Product product=new Product();
                                     product.setproductName(obj.getString("productName"));
                                     product.setproductDetail(obj.getString("productDetail"));
-                                    product.setproductPictureUrl(ApiConstants.BASE_URL + obj.getString("productPictureUrl"));
+                                    if(TextUtils.isEmpty(obj.getString("productPictureUrl"))||"null".equals(obj.getString("productPictureUrl"))){
+                                        product.setproductPictureUrl("");
+                                    }else{
+                                        product.setproductPictureUrl(ApiConstants.BASE_URL+obj.getString("productPictureUrl"));
+                                    }
                                     if(TextUtils.isEmpty(obj.getString("productVideoUrl"))||"null".equals(obj.getString("productVideoUrl"))){
                                         product.setProductVideoUrl("");
                                     }else{

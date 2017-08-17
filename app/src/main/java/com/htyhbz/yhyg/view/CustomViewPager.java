@@ -25,4 +25,9 @@ public class CustomViewPager extends android.support.v4.view.ViewPager {
     public boolean onTouchEvent(MotionEvent ev) {
         return true;
     }
+
+    @Override
+    public void setCurrentItem(int item) {
+        super.setCurrentItem(item,false);
+    }
 }
