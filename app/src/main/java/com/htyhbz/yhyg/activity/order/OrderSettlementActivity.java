@@ -216,7 +216,7 @@ public class OrderSettlementActivity extends BaseActivity{
         mDay = c.get(Calendar.DAY_OF_MONTH);
 
         if("order".equals(flag)){
-            gprsTV.setText(getUserInfo(5)+userInfo.getTownId());
+            //gprsTV.setText(getUserInfo(5)+userInfo.getTownId());
             orderSendTimeET.setText(userInfo.getOrderSendTime());
             townET.setText(userInfo.getOrderDetailAddress());
             phoneET.setText(userInfo.getReceiverPhone());
@@ -269,7 +269,7 @@ public class OrderSettlementActivity extends BaseActivity{
                                     list.add(obj.getString("townName"));
                                     townList.add(obj.getString("townName")+"===="+obj.getString("townID"));
                                     if("order".equals(flag)&&userInfo.getTownId().equals(obj.getString("townID"))){
-                                        gprsTV.setText(getUserInfo(5)+obj.getString("townName"));
+                                        gprsTV.setText(Html.fromHtml(getUserInfo(5) + "<u>" +obj.getString("townName") + "</u>"));
                                     }
                                 }
                                 if("shoppingcat".equals(flag)){
@@ -313,7 +313,7 @@ public class OrderSettlementActivity extends BaseActivity{
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                gprsTV.setText(getUserInfo(5) + list.get(townPosition));
+                gprsTV.setText(Html.fromHtml(getUserInfo(5) + "<u>" +list.get(townPosition)+ "</u>"));
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
