@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.DialogPreference;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -103,6 +104,7 @@ public class EnterpriseMainActivity extends BaseActivity implements OnRefreshLis
         findViewById(R.id.unLoginTV).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                toast(EnterpriseMainActivity.this,"已退出账号");
                 clearLoginInfo();
                 startActivity(new Intent(EnterpriseMainActivity.this,LoginActivity.class));
                 finish();
@@ -124,6 +126,12 @@ public class EnterpriseMainActivity extends BaseActivity implements OnRefreshLis
         enterpriseLV.setAdapter(adapter);
         swipeToLoadLayout.setOnRefreshListener(this);
         swipeToLoadLayout.setOnLoadMoreListener(this);
+        swipeToLoadLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeToLoadLayout.setRefreshing(true);
+            }
+        });
 
     }
 
@@ -222,13 +230,11 @@ public class EnterpriseMainActivity extends BaseActivity implements OnRefreshLis
                     addr = addr + "-" + mCurrentDistrictName;
                     townId = provincesList.get(position1).getList().get(position2).getList().get(position3).getId();
                 }
-                cityTV.setText(addr + townId);
+                cityTV.setText(Html.fromHtml("<u>"+addr+"</u>"));
                 addrPopWindow.dismiss();
 
-                if (townId != -1) {
-                    enterpriseList.clear();
-                    getEnterpriseList();
-                }
+                enterpriseList.clear();
+                getEnterpriseList();
             }
         });
 
@@ -238,23 +244,13 @@ public class EnterpriseMainActivity extends BaseActivity implements OnRefreshLis
     @Override
     public void onLoadMore() {
         pageIndex++;
-        if (townId != -1) {
-            getEnterpriseList();
-        }else{
-            toast(EnterpriseMainActivity.this,"请选择地址");
-            swipeToLoadLayout.setLoadingMore(false);
-        }
+        getEnterpriseList();
     }
 
     @Override
     public void onRefresh() {
         pageIndex=1;
-        if (townId != -1) {
-            getEnterpriseList();
-        }else{
-            toast(EnterpriseMainActivity.this,"请选择地址");
-            swipeToLoadLayout.setRefreshing(false);
-        }
+        getEnterpriseList();
     }
 
     /**
@@ -363,8 +359,11 @@ public class EnterpriseMainActivity extends BaseActivity implements OnRefreshLis
 
         final HashMap<String, String> params = getNetworkRequestHashMap();
         params.put("userID", getUserInfo(0));
-        params.put("townID", townId+"");
-//        params.put("townID", "4121");
+        if(townId==-1){
+            params.put("townID", "");
+        }else{
+            params.put("townID", townId+"");
+        }
         params.put("pageIndex", pageIndex+"");
         params.put("pageSize", InitApp.PAGESIZE);
         String url="";

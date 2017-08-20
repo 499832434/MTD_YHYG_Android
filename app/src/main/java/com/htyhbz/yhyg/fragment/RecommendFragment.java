@@ -1,8 +1,11 @@
 package com.htyhbz.yhyg.fragment;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -35,6 +38,7 @@ import com.htyhbz.yhyg.utils.DensityUtil;
 import com.htyhbz.yhyg.view.ClearEditText;
 import com.htyhbz.yhyg.view.MyGridView;
 import com.htyhbz.yhyg.view.MyScrollView;
+import com.htyhbz.yhyg.view.StatusBarCompat;
 import com.htyhbz.yhyg.vo.Product;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,7 +78,9 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
         return currentView;
     }
 
+
     private void initView() {
+
         topHeight = getStatusBarHeight();
 
         gprsTV= (TextView) currentView.findViewById(R.id.gprsTV);
@@ -226,21 +232,33 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.xiaoyanhuaLL:
+                if(TextUtils.isEmpty(xiaoyanhuaTV.getText().toString())){
+                    return;
+                }
                 Intent intent1=new Intent(mActivity, ShoppingCatActivity.class);
                 intent1.putExtra("categoryId",(Integer) xiaoyanhuaLL.getTag());
                 startActivity(intent1);
                 break;
             case R.id.taocanLL:
+                if(TextUtils.isEmpty(taocanTV.getText().toString())){
+                    return;
+                }
                 Intent intent2=new Intent(mActivity, ShoppingCatActivity.class);
                 intent2.putExtra("categoryId",(Integer) taocanLL.getTag());
                 startActivity(intent2);
                 break;
             case R.id.yanhuaLL:
+                if(TextUtils.isEmpty(yanhuaTV.getText().toString())){
+                    return;
+                }
                 Intent intent3=new Intent(mActivity, ShoppingCatActivity.class);
                 intent3.putExtra("categoryId", (Integer) yanhuaLL.getTag());
                 startActivity(intent3);
                 break;
             case R.id.baozhuLL:
+                if(TextUtils.isEmpty(baozhuTV.getText().toString())){
+                    return;
+                }
                 Intent intent4=new Intent(mActivity, ShoppingCatActivity.class);
                 intent4.putExtra("categoryId", (Integer) baozhuLL.getTag());
                 startActivity(intent4);
@@ -274,7 +292,11 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getString("code").equals("0")) {
                                 JSONArray array=jsonObject.getJSONArray("info");
-                                for(int i=0;i<4;i++){
+                                int num=4;
+                                if(array.length()<4){
+                                    num=array.length();
+                                }
+                                for(int i=0;i<num;i++){
                                     JSONObject obj=array.getJSONObject(i);
                                     switch (i){
                                         case 0:

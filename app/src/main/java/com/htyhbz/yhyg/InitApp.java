@@ -42,6 +42,7 @@ public class InitApp extends Application {
     public static final String SHOPPING_CAT_DATA = "SHOPPING_CAT_DATA";
     public static final String LONGITUDE_KEY = "LONGITUDE_KEY";//经度
     public static final String LATITUDE_KEY = "LATITUDE_KEY";//纬度
+    public static final String USER_PREMISSION_KEY = "USER_PREMISSION_KEY";//用户权限
 
     public static LocationService locationService;
     public Vibrator mVibrator;

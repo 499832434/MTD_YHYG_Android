@@ -10,7 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 import android.widget.ListView;
+import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -75,12 +78,6 @@ public class OrderTypeFragment extends ErrorsFragment implements OnRefreshListen
         swipeToLoadLayout = (SwipeToLoadLayout) currentView.findViewById(R.id.swipeToLoadLayout);
         swipeToLoadLayout.setOnRefreshListener(this);
         swipeToLoadLayout.setOnLoadMoreListener(this);
-        swipeToLoadLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeToLoadLayout.setRefreshing(true);
-            }
-        });
     }
 
     @Override
@@ -125,6 +122,7 @@ public class OrderTypeFragment extends ErrorsFragment implements OnRefreshListen
                         try {
                             if(1==pageIndex){
                                 orderInfoList.clear();
+                                userInfoList.clear();
                             }
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getString("code").equals("0")) {
@@ -207,7 +205,7 @@ public class OrderTypeFragment extends ErrorsFragment implements OnRefreshListen
     /**
      * 网络请求
      */
-    public void deleteOrder(String orderID) {
+    public void deleteOrder(String orderID,final View v, final int index) {
         if (!NetworkUtils.isNetworkAvailable(mActivity)) {
             return;
         }
@@ -226,8 +224,9 @@ public class OrderTypeFragment extends ErrorsFragment implements OnRefreshListen
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getString("code").equals("0")) {
-                                pageIndex=1;
-                                request();
+//                                pageIndex=1;
+//                                request();
+                                deleteShow(v, index);
                             }else{
                                 mActivity.toast(mActivity, jsonObject.getString("msg"));
                             }
@@ -245,5 +244,75 @@ public class OrderTypeFragment extends ErrorsFragment implements OnRefreshListen
         }
         );
         InitApp.initApp.addToRequestQueue(request);
+    }
+
+    private void deleteShow(final View v, final int index) {
+        Animation.AnimationListener al = new Animation.AnimationListener() {
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+                orderInfoList.remove(index);
+                userInfoList.remove(index);
+
+                OrderTypeAdapter.ViewHolder vh = (OrderTypeAdapter.ViewHolder)v.getTag();
+                vh.needInflate = true;
+                if (orderInfoList.size() > 0) {
+                    adapter.notifyDataSetChanged();
+                } else {
+                    swipeToLoadLayout.setVisibility(View.GONE);
+                    currentView.findViewById(R.id.layoutError).setVisibility(View.VISIBLE);
+                    showErrorLayout(currentView.findViewById(R.id.layoutError), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            pageIndex=1;
+                            request();
+                        }
+                    },4);
+                }
+                Toast.makeText(getActivity(),"订单已删除", Toast.LENGTH_SHORT).show();
+            }
+            @Override public void onAnimationRepeat(Animation animation) {}
+            @Override public void onAnimationStart(Animation animation) {}
+        };
+
+        collapse(v, al);
+    }
+
+    private void collapse(final View v, Animation.AnimationListener al) {
+        final int initialHeight = v.getMeasuredHeight();
+
+        Animation anim = new Animation() {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                if (interpolatedTime == 1) {
+                    v.setVisibility(View.GONE);
+                }
+                else {
+                    v.getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
+                    v.requestLayout();
+                }
+            }
+
+            @Override
+            public boolean willChangeBounds() {
+                return true;
+            }
+        };
+
+        if (al!=null) {
+            anim.setAnimationListener(al);
+        }
+        anim.setDuration(1000);
+        v.startAnimation(anim);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        swipeToLoadLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeToLoadLayout.setRefreshing(true);
+            }
+        });
     }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/left_menu_item"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:clickable="true"
                 android:background="@drawable/selector_item_select"
 
@@ -30,8 +30,7 @@
                 android:textColor="#2c2c2c"/>
     </RelativeLayout>
 
-    <View android:layout_width="match_parent"
-          android:layout_height="0.5dp"
-          android:layout_alignParentBottom="true"
-          android:background="@drawable/bg_dash_line"/>
-</RelativeLayout>
+    <!--<View android:layout_width="match_parent"-->
+          <!--android:layout_height="0.5dp"-->
+          <!--android:background="@drawable/bg_dash_line"/>-->
+</LinearLayout>

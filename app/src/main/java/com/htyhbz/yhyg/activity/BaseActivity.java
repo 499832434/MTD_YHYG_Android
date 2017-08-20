@@ -2,12 +2,14 @@ package com.htyhbz.yhyg.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -23,6 +25,7 @@ import com.htyhbz.yhyg.net.HighRequest;
 import com.htyhbz.yhyg.net.NetworkUtils;
 import com.htyhbz.yhyg.service.LocationService;
 import com.htyhbz.yhyg.utils.PrefUtils;
+import com.htyhbz.yhyg.view.StatusBarCompat;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,6 +41,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            StatusBarCompat.setStatusBarColor(this, Color.parseColor("#F4A100"));
+//            StatusBarCompat.translucentStatusBar(this);
+//        }
     }
 
 
@@ -113,6 +120,8 @@ public abstract class BaseActivity extends AppCompatActivity {
                 return PrefUtils.getString(BaseActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.LATITUDE_KEY, "");
             case 8:
                 return PrefUtils.getString(BaseActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.USER_NAME_KEY, "");
+            case 9:
+                return PrefUtils.getString(BaseActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.USER_PREMISSION_KEY, "");
         }
         return  "";
     }
@@ -215,4 +224,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(mobiles)) return false;
         else return mobiles.matches(telRegex);
     }
+
+    public  void callPhone(String number){
+        Intent intent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+number));
+        startActivity(intent);
+    }
+
+
+
 }

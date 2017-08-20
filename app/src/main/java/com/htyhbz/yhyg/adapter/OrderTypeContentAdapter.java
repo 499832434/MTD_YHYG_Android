@@ -65,6 +65,8 @@ public class OrderTypeContentAdapter extends BaseAdapter{
         holder.productPriceTV.setText("¥" + (int) mData.get(position).getproductPrice() + "");
         if(!TextUtils.isEmpty(mData.get(position).getproductPictureUrl())){
             ((BaseActivity)context).getNetWorkPicture(mData.get(position).getproductPictureUrl(), holder.pictureIV);
+        }else{
+            holder.pictureIV.setImageResource(R.drawable.icon_loading);
         }
         return convertView;
     }

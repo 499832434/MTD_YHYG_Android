@@ -65,6 +65,8 @@ public class EnterpriseAdapter extends BaseAdapter{
         holder.telephoneTV.setText("电话:" + mData.get(position).getEnterprisePhone());
         if(!TextUtils.isEmpty(mData.get(position).getEnterpriseImageUrl())){
             ((BaseActivity)context).getNetWorkPicture(mData.get(position).getEnterpriseImageUrl(),holder.pictureIV);
+        }else{
+            holder.pictureIV.setImageResource(R.drawable.icon_loading);
         }
         return convertView;
     }

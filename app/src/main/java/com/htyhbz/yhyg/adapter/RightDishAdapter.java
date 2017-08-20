@@ -102,6 +102,8 @@ public class RightDishAdapter extends RecyclerView.Adapter {
                 dishholder.right_dish_layout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        checkPosition=position-1;
+                        notifyDataSetChanged();
                         ((ShoppingCatActivity)mContext).showCenterCart(view, product);
                     }
                 });
@@ -125,6 +127,8 @@ public class RightDishAdapter extends RecyclerView.Adapter {
                             if(shopCartImp!=null)
                                 shopCartImp.add(view,position);
                         }
+                        checkPosition=position-1;
+                        notifyDataSetChanged();
                     }
                 });
 
@@ -136,6 +140,8 @@ public class RightDishAdapter extends RecyclerView.Adapter {
                             if(shopCartImp!=null)
                                 shopCartImp.remove(view,position);
                         }
+                        checkPosition=position-1;
+                        notifyDataSetChanged();
                     }
                 });
 

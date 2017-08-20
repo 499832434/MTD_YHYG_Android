@@ -57,6 +57,7 @@ public class OrderSettlementActivity extends BaseActivity{
     private RelativeLayout alipayRadioBtnContainer, wechatRadioContainer;
     private StringBuffer orderProductionsID,orderProductionsCount;
     private UserInfo userInfo;
+    private String orderId="";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +97,7 @@ public class OrderSettlementActivity extends BaseActivity{
             }
             if("order".equals(flag)){
                 userInfo=getIntent().getParcelableExtra("userinfo");
+                orderId=getIntent().getStringExtra("orderId");
             }
         }catch (Exception e){
 
@@ -403,8 +405,10 @@ public class OrderSettlementActivity extends BaseActivity{
         params.put("orderAddress", gprsTV.getText().toString());
         if("order".equals(flag)){
             params.put("townID", userInfo.getTownId());
+            params.put("orderID", orderId);
         }else{
             params.put("townID", townList.get(townPosition).split("====")[1]);
+            params.put("orderID", "");
         }
         params.put("orderDetailAddress", townET.getText().toString());
         params.put("orderSendTime",orderSendTimeET.getText().toString());

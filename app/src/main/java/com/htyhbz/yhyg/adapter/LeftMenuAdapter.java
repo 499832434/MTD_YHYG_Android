@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.htyhbz.yhyg.R;
@@ -107,13 +108,13 @@ public class LeftMenuAdapter extends RecyclerView.Adapter {
 
         TextView menuName;
         ImageView menuNameIV;
-        RelativeLayout menuLayout;
+        LinearLayout menuLayout;
 
         public LeftMenuViewHolder(final View itemView) {
             super(itemView);
             menuName = (TextView)itemView.findViewById(R.id.left_menu_textview);
             menuNameIV= (ImageView) itemView.findViewById(R.id.left_menu_imageview);
-            menuLayout = (RelativeLayout)itemView.findViewById(R.id.left_menu_item);
+            menuLayout = (LinearLayout)itemView.findViewById(R.id.left_menu_item);
             menuLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

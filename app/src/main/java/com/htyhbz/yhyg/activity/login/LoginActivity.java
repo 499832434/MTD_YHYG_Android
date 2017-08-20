@@ -93,6 +93,7 @@ public class LoginActivity extends BaseActivity{
                                 PrefUtils.putString(LoginActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.USER_ID_KEY, info.getString("userID"));
                                 PrefUtils.putString(LoginActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.AREA_ID_KEY, info.getString("areaID"));
                                 PrefUtils.putString(LoginActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.USER_AREA_KEY, info.getString("userArea"));
+                                PrefUtils.putString(LoginActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.USER_PREMISSION_KEY, info.getString("userPermission"));
                                 PrefUtils.putString(LoginActivity.this, InitApp.USER_PRIVATE_DATA, InitApp.USER_NAME_KEY, phoneNumberET.getText().toString());
                                 String userPermission=info.getString("userPermission");
                                 if("6".equals(userPermission)||"7".equals(userPermission)){
