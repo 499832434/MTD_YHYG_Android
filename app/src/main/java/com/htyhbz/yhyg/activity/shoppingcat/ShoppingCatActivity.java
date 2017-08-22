@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -73,12 +74,14 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
     private TextView totalPriceNumTextView;
     private RelativeLayout mainLayout;
     private int categoryId,productId,productType;
-    private LinearLayoutManager rightMangear;
+    private LinearLayoutManager rightMangear,leftMangear;
 
     private JSONArray shoppinglist=new JSONArray();
     private  int shoppingAccount;
     private double shoppingTotalPrice;
     private HashMap<String,Object> mapParam=new HashMap<String, Object>();
+    private String priceLimit="0";
+    private int leftPositionFlag;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,7 +131,8 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
             }
         });
         rightMangear = new LinearLayoutManager(this);
-        leftMenu.setLayoutManager(new LinearLayoutManager(this));
+        leftMangear= new LinearLayoutManager(this);
+        leftMenu.setLayoutManager(leftMangear);
         rightMenu.setLayoutManager(rightMangear);
 
         rightMenu.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -171,6 +175,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
                             for (int i = 0; i < productMenuList.size(); i++) {
                                 if (productMenuList.get(i) == headMenu) {
                                     leftAdapter.setSelectedNum(i);
+                                    MoveToPosition(leftMangear, leftMenu, i);
                                     break;
                                 }
                             }
@@ -236,7 +241,11 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
         Log.e("categoryId++",leftPosition+"=="+rightPosition);
 
         leftAdapter = new LeftMenuAdapter(this, productMenuList);
-        rightAdapter = new RightDishAdapter(this, productMenuList,shopCart);
+        if(-1==productId){
+            rightAdapter = new RightDishAdapter(this, productMenuList,shopCart,-100);
+        }else {
+            rightAdapter = new RightDishAdapter(this, productMenuList,shopCart,rightPosition);
+        }
         showTotalPrice();
         rightMenu.setAdapter(rightAdapter);
         leftMenu.setAdapter(leftAdapter);
@@ -257,6 +266,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
             MoveToPosition(rightMangear, rightMenu, rightPosition);
         }
     }
+
 
     @Override
     protected void onDestroy() {
@@ -279,6 +289,15 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
 //                    break;
 //                }
 //            }
+//            for (int i = 0; i < productMenuList.size(); i++) {
+//                if (productMenuList.get(i) == headMenu) {
+//                    MoveToPosition(leftMangear, leftMenu, i);
+////                    leftAdapter.setSelectedNum(i);
+//                    break;
+//                }
+//            }
+//            onLeftItemSelected(10,null);
+            MoveToPosition(leftMangear, leftMenu, leftPositionFlag);
         }
     }
 
@@ -291,6 +310,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
         LinearLayoutManager layoutManager = (LinearLayoutManager) rightMenu.getLayoutManager();
         layoutManager.scrollToPositionWithOffset(sum,0);
         leftClickType = true;
+        Log.e("eeee",position+"");
         leftAdapter.setSelectedNum(position);
     }
 
@@ -370,6 +390,16 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
             totalPriceNumTextView.setText("" + shopCart.getShoppingAccount());
             shopingCartLayout.setBackgroundResource(R.drawable.circle_checked);
             shoppingCatCommitTextView.setVisibility(View.VISIBLE);
+            int priceInt= (int) (Double.valueOf(priceLimit)-shopCart.getShoppingTotalPrice());
+            if(priceInt>0){
+                shoppingCatCommitTextView.setText("还差 ￥ "+priceInt);
+                shoppingCatCommitTextView.setBackgroundColor(Color.parseColor("#666666"));
+                shoppingCatCommitTextView.setClickable(false);
+            }else {
+                shoppingCatCommitTextView.setText("去结算");
+                shoppingCatCommitTextView.setBackgroundColor(Color.parseColor("#f78648"));
+                shoppingCatCommitTextView.setClickable(true);
+            }
         }else {
             totalPriceTextView.setVisibility(View.GONE);
             totalPriceNumTextView.setVisibility(View.GONE);
@@ -380,10 +410,10 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
 
     private void showCart(View view) {
         if(shopCart!=null && shopCart.getShoppingAccount()>0){
-            ShopCartDialog dialog = new ShopCartDialog(this,shopCart,R.style.cartdialog);
+            ShopCartDialog dialog = new ShopCartDialog(this,shopCart,R.style.cartdialog,priceLimit);
             Window window = dialog.getWindow();
             dialog.setShopCartDialogImp(this);
-            dialog.setCanceledOnTouchOutside(false);
+            dialog.setCanceledOnTouchOutside(true);
             dialog.setCancelable(true);
             dialog.show();
             WindowManager.LayoutParams params = window.getAttributes();
@@ -396,14 +426,25 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
     }
 
     public void showCenterCart(View view,Product product) {
-        ShopCartCenterDialog dialog = new ShopCartCenterDialog(this, shopCart, product,R.style.CommonDialog);
+        ShopCartCenterDialog dialog = new ShopCartCenterDialog(this, shopCart, product,R.style.cartdialog);
+//        Window window = dialog.getWindow();
+//        WindowManager.LayoutParams lp = window.getAttributes();
+//        window.setGravity(Gravity.CENTER);
+//        dialog.setShopCartDialogImp(this);
+//        dialog.setCanceledOnTouchOutside(true);
+//        dialog.setCancelable(true);
+//        dialog.show();
         Window window = dialog.getWindow();
-        WindowManager.LayoutParams lp = window.getAttributes();
-        window.setGravity(Gravity.CENTER);
         dialog.setShopCartDialogImp(this);
         dialog.setCanceledOnTouchOutside(true);
         dialog.setCancelable(true);
         dialog.show();
+        WindowManager.LayoutParams params = window.getAttributes();
+        params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.gravity = Gravity.CENTER;
+        params.dimAmount =0.5f;
+        window.setAttributes(params);
     }
 
     @Override
@@ -441,6 +482,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getString("code").equals("0")) {
+                                priceLimit=jsonObject.getString("priceLimit");
                                 int rightPosition = 0;
                                 int leftPosition = 0;
                                 JSONArray infoArr=jsonObject.getJSONArray("info");
@@ -461,9 +503,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
                                     JSONArray dataArr=obj.getJSONArray("data");
                                     if(categoryId==obj.getInt("categoryId")){
                                         leftPosition=i;
-                                    }
-                                    if(productType==obj.getInt("categoryId")){
-                                        leftPosition=i;
+                                        leftPositionFlag=i;
                                     }
                                     ArrayList<Product> productList=new ArrayList<Product>();
                                     for(int j=0;j<dataArr.length();j++){
@@ -628,6 +668,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
                     list.add(map1);
                 }
                 map.put("shoppinglist", list);
+                mapParam=map;
                 shoppingcatList.add(map);
                 shoppingcatMap.put("shoppingcat",shoppingcatList);
                 Gson gson=new Gson();

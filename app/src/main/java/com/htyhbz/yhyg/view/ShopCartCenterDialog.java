@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.*;
 import com.htyhbz.yhyg.R;
@@ -48,6 +49,7 @@ public class ShopCartCenterDialog extends Dialog  {
         productNameTV.setText(product.getproductName());
         productDetailTV= (TextView) findViewById(R.id.productDetailTV);
         productDetailTV.setText(product.getproductDetail());
+        productDetailTV.setMovementMethod(ScrollingMovementMethod.getInstance());
         productPriceTV= (TextView) findViewById(R.id.productPriceTV);
         productPriceTV.setText("￥"+product.getproductPrice());
         collectIV= (ImageView) findViewById(R.id.collectIV);

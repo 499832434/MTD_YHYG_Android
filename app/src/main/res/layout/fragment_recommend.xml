@@ -4,14 +4,17 @@
         xmlns:custom="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#eeeeee"
+        android:fitsSystemWindows="true"
         android:id="@+id/Rl"
         >
+
+
 
     <com.aspsine.swipetoloadlayout.SwipeToLoadLayout
             android:id="@+id/swipeToLoadLayout"
             android:layout_width="match_parent"
             android:focusable="true"
+            android:background="#eeeeee"
             android:focusableInTouchMode="true"
             android:layout_height="match_parent"
             >
@@ -73,15 +76,14 @@
                                       android:id="@+id/yanhuaLL"
                                       android:orientation="horizontal"
                                       android:gravity="center_vertical"
-                                      android:paddingTop="10dp"
-                                      android:paddingBottom="10dp"
+                                      android:paddingTop="15dp"
+                                      android:paddingBottom="15dp"
                                       android:layout_height="wrap_content">
                             <ImageView
                                     android:layout_marginLeft="20dp"
                                     android:layout_marginRight="20dp"
                                     android:layout_width="40dp"
                                     android:id="@+id/yanhuaIV"
-                                    android:src="@drawable/icon_loading"
                                     android:layout_height="40dp"
                                     android:scaleType="centerInside"/>
                             <TextView
@@ -91,16 +93,16 @@
                                     android:textSize="16sp"
                                     android:id="@+id/yanhuaTV"
                                     android:textColor="#333333"
-                                    android:text="烟花"/>
+                                    android:text=""/>
                         </LinearLayout>
                         <View android:layout_width="0.5dp"
                               android:layout_height="match_parent"
                               android:background="#e1e1e1"/>
                         <LinearLayout android:layout_width="0dp"
                                       android:layout_weight="1"
-                                      android:paddingTop="10dp"
+                                      android:paddingTop="15dp"
                                       android:id="@+id/baozhuLL"
-                                      android:paddingBottom="10dp"
+                                      android:paddingBottom="15dp"
                                       android:orientation="horizontal"
                                       android:gravity="center_vertical"
                                       android:layout_height="wrap_content">
@@ -109,7 +111,6 @@
                                     android:layout_marginRight="20dp"
                                     android:id="@+id/baozhuIV"
                                     android:layout_width="40dp"
-                                    android:src="@drawable/icon_loading"
                                     android:layout_height="40dp"
                                     android:scaleType="centerInside"/>
                             <TextView
@@ -119,7 +120,7 @@
                                     android:layout_height="wrap_content"
                                     android:textSize="16sp"
                                     android:textColor="#333333"
-                                    android:text="爆竹"/>
+                                    android:text=""/>
                         </LinearLayout>
                     </LinearLayout>
                     <View android:layout_width="match_parent"
@@ -134,15 +135,14 @@
                                       android:id="@+id/taocanLL"
                                       android:orientation="horizontal"
                                       android:gravity="center_vertical"
-                                      android:paddingTop="10dp"
-                                      android:paddingBottom="10dp"
+                                      android:paddingTop="15dp"
+                                      android:paddingBottom="15dp"
                                       android:layout_height="wrap_content">
                             <ImageView
                                     android:layout_width="40dp"
                                     android:layout_marginLeft="20dp"
                                     android:layout_marginRight="20dp"
                                     android:id="@+id/taocanIV"
-                                    android:src="@drawable/icon_loading"
                                     android:layout_height="40dp"
                                     android:scaleType="centerInside"/>
                             <TextView
@@ -152,16 +152,16 @@
                                     android:textSize="16sp"
                                     android:id="@+id/taocanTV"
                                     android:textColor="#333333"
-                                    android:text="套餐类"/>
+                                    android:text=""/>
                         </LinearLayout>
                         <View android:layout_width="0.5dp"
                               android:layout_height="match_parent"
                               android:background="#e1e1e1"/>
                         <LinearLayout android:layout_width="0dp"
                                       android:layout_weight="1"
-                                      android:paddingTop="10dp"
+                                      android:paddingTop="15dp"
                                       android:id="@+id/xiaoyanhuaLL"
-                                      android:paddingBottom="10dp"
+                                      android:paddingBottom="15dp"
                                       android:orientation="horizontal"
                                       android:gravity="center_vertical"
                                       android:layout_height="wrap_content">
@@ -170,7 +170,6 @@
                                     android:layout_marginRight="20dp"
                                     android:layout_width="40dp"
                                     android:id="@+id/xiaoyanhuaIV"
-                                    android:src="@drawable/icon_loading"
                                     android:layout_height="40dp"
                                     android:scaleType="centerInside"/>
                             <TextView
@@ -180,7 +179,7 @@
                                     android:textSize="16sp"
                                     android:id="@+id/xiaoyanhuaTV"
                                     android:textColor="#333333"
-                                    android:text="小烟花"/>
+                                    android:text=""/>
                         </LinearLayout>
                     </LinearLayout>
                     <View android:layout_width="match_parent"
@@ -198,16 +197,24 @@
                               android:background="#d2d2d2"
                               android:layout_weight="1"
                                 />
-                        <TextView android:layout_width="0dp"
-                                  android:layout_height="wrap_content"
-                                  android:textSize="14sp"
-                                  android:text="热销产品"
-                                  android:layout_gravity="center_vertical"
-                                  android:textColor="#adadad"
-                                  android:layout_weight="1"
-                                  android:singleLine="true"
-                                  android:gravity="center_horizontal"
-                                />
+                        <LinearLayout android:layout_width="0dp"
+                                      android:layout_weight="1"
+                                      android:gravity="center_horizontal"
+                                      android:orientation="horizontal"
+                                      android:layout_height="match_parent">
+                            <TextView android:layout_width="wrap_content"
+                                      android:layout_height="wrap_content"
+                                      android:textSize="14sp"
+                                      android:text="热销产品"
+                                      android:layout_gravity="center"
+                                      android:textColor="#adadad"
+                                      android:drawablePadding="5dp"
+                                      android:drawableLeft="@drawable/icon_xiaoyanhua"
+                                      android:singleLine="true"
+                                      android:gravity="center_horizontal"
+                            />
+                        </LinearLayout>
+
                         <View android:layout_width="0dp"
                               android:layout_height="0.5dp"
                               android:layout_marginLeft="5dp"

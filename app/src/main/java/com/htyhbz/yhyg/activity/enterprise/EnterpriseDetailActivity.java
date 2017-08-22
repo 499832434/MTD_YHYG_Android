@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
@@ -44,6 +45,7 @@ public class EnterpriseDetailActivity extends BaseActivity{
     private String title="";
     private int enterpriseID;
     private TextView nameTV,addressTV,phoneTV,personTV;
+    private String phone="";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +78,14 @@ public class EnterpriseDetailActivity extends BaseActivity{
         nameTV= (TextView) findViewById(R.id.nameTV);
         addressTV= (TextView) findViewById(R.id.addressTV);
         phoneTV= (TextView) findViewById(R.id.phoneTV);
+        phoneTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!TextUtils.isEmpty(phone)){
+                    callPhone(phone);
+                }
+            }
+        });
         personTV= (TextView) findViewById(R.id.personTV);
 
         currentViewPager = (ViewPager) findViewById(R.id.currentViewPager);
@@ -204,6 +214,7 @@ public class EnterpriseDetailActivity extends BaseActivity{
                                 nameTV.setText(obj.getString("enterpriseName"));
                                 addressTV.setText("地址:"+obj.getString("enterpriseAddress"));
                                 phoneTV.setText("电话:"+obj.getString("enterprisePhone"));
+                                phone=obj.getString("enterprisePhone");
                                 personTV.setText("联系人:"+obj.getString("enterpriseContactPerson"));
 
                                 adapter.addFragment(EnIntroductFragment.newInstance(obj.getString("enterpriseIntroduction")));

@@ -2,6 +2,7 @@ package com.htyhbz.yhyg.fragment;
 
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.htyhbz.yhyg.R;
+import com.htyhbz.yhyg.view.StatusBarCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,7 @@ public class OrderFragment extends Fragment {
         initView();
         return currentView;
     }
+
 
 
     private void initView() {

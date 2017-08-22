@@ -1,11 +1,16 @@
 package com.htyhbz.yhyg.activity.search;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 import com.android.volley.Request;
@@ -47,6 +52,36 @@ public class ProductSearchActivity extends BaseActivity{
     }
     private void initView(){
         searchET= (ClearEditText) findViewById(R.id.searchET);
+        searchET.setFocusable(true);
+        searchET.setFocusableInTouchMode(true);
+        searchET.requestFocus();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+
+
+        searchET.setOnKeyListener(new View.OnKeyListener() {
+
+            @Override
+
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    // 先隐藏键盘
+                    ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+                            .hideSoftInputFromWindow(getCurrentFocus()
+                                    .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    //进行搜索操作的方法，在该方法中可以加入mEditSearchUser的非空判断
+                    if(TextUtils.isEmpty(searchET.getText().toString().trim())){
+                        toast(ProductSearchActivity.this,"请输入关键字");
+                    }else{
+                        getSearchProduction(searchET.getText().toString().trim());
+                    }
+                }
+                return false;
+            }
+        });
+
+
+
         searchTV= (TextView) findViewById(R.id.searchTV);
         searchTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,8 +148,9 @@ public class ProductSearchActivity extends BaseActivity{
                                     productList.add(product);
                                 }
                                 if(productList.size()>0){
-
+                                    findViewById(R.id.LL).setVisibility(View.VISIBLE);
                                 }else{
+                                    findViewById(R.id.LL).setVisibility(View.GONE);
                                     toast(ProductSearchActivity.this,"无相关搜索结果");
                                 }
                                 adapter.notifyDataSetChanged();

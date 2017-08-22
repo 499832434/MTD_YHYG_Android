@@ -56,10 +56,12 @@ public class AccountFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onClick(View view) {
                 mActivity.clearLoginInfo();
+                mActivity.toast(mActivity,"已退出账号");
                 startActivity(new Intent(mActivity,LoginActivity.class));
                 mActivity.finish();
             }
         });
+        ((TextView) currentView.findViewById(R.id.accountTV)).setText("账号:"+mActivity.getUserInfo(8));
         currentView.findViewById(R.id.integralLiftingRL).setOnClickListener(this);
         currentView.findViewById(R.id.orderSummaryRL).setOnClickListener(this);
         currentView.findViewById(R.id.currentRecordRL).setOnClickListener(this);

@@ -1,7 +1,9 @@
 package com.htyhbz.yhyg.fragment;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,9 +15,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 import com.baidu.mapapi.map.*;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.navi.BaiduMapAppNotSupportNaviException;
+import com.baidu.mapapi.navi.BaiduMapNavigation;
+import com.baidu.mapapi.navi.NaviParaOption;
+import com.baidu.mapapi.utils.OpenClientUtil;
 import com.htyhbz.yhyg.R;
 import com.htyhbz.yhyg.activity.enterprise.EnterpriseDetailActivity;
 
@@ -33,6 +40,8 @@ public class EnAddressFragment extends Fragment {
     private BaiduMap mBaiduMap;
     BitmapDescriptor bdA = BitmapDescriptorFactory
             .fromResource(R.drawable.icon_marka);
+    private Marker mMarkerA;
+    private String enterpriseLongitude,enterpriseLatitude;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,8 +60,9 @@ public class EnAddressFragment extends Fragment {
     }
 
     private void initView() {
-        String enterpriseLongitude = getArguments().getString(LONGITUDE);
-        String enterpriseLatitude = getArguments().getString(LATITUDE);
+        mActivity.getPositon();
+        enterpriseLongitude = getArguments().getString(LONGITUDE);
+        enterpriseLatitude = getArguments().getString(LATITUDE);
         if(TextUtils.isEmpty(enterpriseLongitude)||TextUtils.isEmpty(enterpriseLatitude)){
             return;
         }
@@ -82,7 +92,15 @@ public class EnAddressFragment extends Fragment {
                     mBaiduMap = map.getMapView().getMap();
                     MarkerOptions ooA = new MarkerOptions().position(p).icon(bdA)
                             .zIndex(9).draggable(true);
-                    mBaiduMap.addOverlay(ooA);
+                    mMarkerA= (Marker) mBaiduMap.addOverlay(ooA);
+                    mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
+                        public boolean onMarkerClick(final Marker marker) {
+                            if (marker == mMarkerA) {
+                                startNavi();
+                            }
+                            return true;
+                        }
+                    });
                 }
 
             }
@@ -93,6 +111,54 @@ public class EnAddressFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.mActivity= (EnterpriseDetailActivity)context;
+    }
+
+
+    /**
+     * 启动百度地图导航(Native)
+     */
+    public void startNavi() {
+        LatLng pt1 = new LatLng(Double.parseDouble(mActivity.getUserInfo(7)),Double.parseDouble(mActivity.getUserInfo(6)));
+        LatLng pt2 = new LatLng(Double.parseDouble(enterpriseLatitude),Double.parseDouble(enterpriseLongitude));
+
+        // 构建 导航参数
+        NaviParaOption para = new NaviParaOption()
+                .startPoint(pt1).endPoint(pt2)
+                .startName("天安门").endName("百度大厦");
+
+        try {
+            BaiduMapNavigation.openBaiduMapNavi(para, mActivity);
+        } catch (BaiduMapAppNotSupportNaviException e) {
+            e.printStackTrace();
+            showDialog();
+        }
+
+    }
+
+    /**
+     * 提示未安装百度地图app或app版本过低
+     */
+    public void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        builder.setMessage("您尚未安装百度地图app或app版本过低，点击确认安装？");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                OpenClientUtil.getLatestBaiduMapApp(mActivity);
+            }
+        });
+
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
+
     }
 
 

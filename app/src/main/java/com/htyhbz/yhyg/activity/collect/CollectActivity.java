@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -18,6 +19,7 @@ import com.htyhbz.yhyg.R;
 import com.htyhbz.yhyg.activity.BaseActivity;
 import com.htyhbz.yhyg.activity.MainActivity;
 import com.htyhbz.yhyg.activity.enterprise.EnterpriseMainActivity;
+import com.htyhbz.yhyg.activity.shoppingcat.ShoppingCatActivity;
 import com.htyhbz.yhyg.adapter.HomeProductAdapter;
 import com.htyhbz.yhyg.net.HighRequest;
 import com.htyhbz.yhyg.net.NetworkUtils;
@@ -61,6 +63,15 @@ public class CollectActivity extends BaseActivity implements OnRefreshListener, 
         collectGV= (GridView) findViewById(R.id.swipe_target);
         adapter=new HomeProductAdapter(CollectActivity.this,productList);
         collectGV.setAdapter(adapter);
+        collectGV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent1 = new Intent(CollectActivity.this, ShoppingCatActivity.class);
+                intent1.putExtra("productId", productList.get(i).getproductId());
+                intent1.putExtra("productType", productList.get(i).getproductType());
+                startActivity(intent1);
+            }
+        });
 
         swipeToLoadLayout = (SwipeToLoadLayout) findViewById(R.id.swipeToLoadLayout);
         swipeToLoadLayout.setOnRefreshListener(this);

@@ -58,20 +58,38 @@ public class OrderTypeAdapter extends BaseAdapter{
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        final ViewHolder holder;
-        if (convertView == null) {
-            holder = new ViewHolder();
-            convertView = mInflater.inflate(R.layout.item_order_type, null);
-            holder.orderIDTV = (TextView) convertView.findViewById(R.id.orderIDTV);
-            holder.orderSendTimeTV = (TextView) convertView.findViewById(R.id.orderSendTimeTV);
-            holder.countTV = (TextView) convertView.findViewById(R.id.countTV);
-            holder.deleteOrderTV = (TextView) convertView.findViewById(R.id.deleteOrderTV);
-            holder.checkOrderTV = (TextView) convertView.findViewById(R.id.checkOrderTV);
-            holder.orderMLV = (MyListView) convertView.findViewById(R.id.orderMLV);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
+//        final ViewHolder holder;
+//        if (convertView == null) {
+//            holder = new ViewHolder();
+//            convertView = mInflater.inflate(R.layout.item_order_type, null);
+//            holder.orderIDTV = (TextView) convertView.findViewById(R.id.orderIDTV);
+//            holder.orderSendTimeTV = (TextView) convertView.findViewById(R.id.orderSendTimeTV);
+//            holder.countTV = (TextView) convertView.findViewById(R.id.countTV);
+//            holder.deleteOrderTV = (TextView) convertView.findViewById(R.id.deleteOrderTV);
+//            holder.checkOrderTV = (TextView) convertView.findViewById(R.id.checkOrderTV);
+//            holder.orderMLV = (MyListView) convertView.findViewById(R.id.orderMLV);
+//            convertView.setTag(holder);
+//        } else {
+//            holder = (ViewHolder) convertView.getTag();
+//        }
+
+        final View view;
+        ViewHolder holder;
+
+        if (convertView==null) {
+            view =mInflater.inflate(R.layout.item_order_type, parent, false);
+            setViewHolder(view);
         }
+        else if (((ViewHolder)convertView.getTag()).needInflate) {
+            view = mInflater.inflate(R.layout.item_order_type, parent, false);
+            setViewHolder(view);
+        }
+        else {
+            view = convertView;
+        }
+
+        holder = (ViewHolder)view.getTag();
+
         if(mData.get(position).getList().size()>0){
             holder.orderMLV.setAdapter(new OrderTypeContentAdapter((FragmentActivity) context, mData.get(position).getList()));
         }
@@ -100,6 +118,7 @@ public class OrderTypeAdapter extends BaseAdapter{
                     Intent intent = new Intent(context, OrderSettlementActivity.class);
                     intent.putExtra("flag", "order");
                     intent.putExtra("map", str);
+                    intent.putExtra("orderId", mData.get(position).getOrderID());
                     intent.putExtra("userinfo", mData1.get(position));
                     context.startActivity(intent);
                 } else {
@@ -117,9 +136,9 @@ public class OrderTypeAdapter extends BaseAdapter{
             holder.deleteOrderTV.setVisibility(View.VISIBLE);
             holder.deleteOrderTV.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View v) {
                     try{
-                        ((MainActivity)context).getOrderFragment().getFragments().get(0).deleteOrder(mData.get(position).getOrderID());
+                        ((MainActivity)context).getOrderFragment().getFragments().get(0).deleteOrder(mData.get(position).getOrderID(),view,position);
                     }catch (Exception e){
 
                     }
@@ -131,14 +150,34 @@ public class OrderTypeAdapter extends BaseAdapter{
         holder.orderIDTV.setText("订单号:"+mData.get(position).getOrderID());
         holder.orderSendTimeTV.setText("提交时间:"+mData.get(position).getOrderSendTime());
         holder.countTV.setText("¥"+mData.get(position).getOrderAllPrice());
-        return convertView;
+        return view;
     }
 
-    public final class ViewHolder {
+//    public final class ViewHolder {
+//        public TextView orderIDTV;
+//        public TextView orderSendTimeTV;
+//        public MyListView orderMLV;
+//        public TextView countTV,deleteOrderTV,checkOrderTV;
+//    }
+
+    public class ViewHolder {
         public TextView orderIDTV;
         public TextView orderSendTimeTV;
         public MyListView orderMLV;
         public TextView countTV,deleteOrderTV,checkOrderTV;
+        public boolean needInflate;
+    }
+
+    private void setViewHolder(View view) {
+        ViewHolder vh = new ViewHolder();
+        vh.orderIDTV = (TextView) view.findViewById(R.id.orderIDTV);
+        vh.orderSendTimeTV = (TextView) view.findViewById(R.id.orderSendTimeTV);
+        vh.countTV = (TextView) view.findViewById(R.id.countTV);
+        vh.deleteOrderTV = (TextView) view.findViewById(R.id.deleteOrderTV);
+        vh.checkOrderTV = (TextView) view.findViewById(R.id.checkOrderTV);
+        vh.orderMLV = (MyListView) view.findViewById(R.id.orderMLV);
+        vh.needInflate = false;
+        view.setTag(vh);
     }
 
 }

@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
+              android:fitsSystemWindows="true"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <RelativeLayout android:layout_width="match_parent"
                     android:id="@+id/searchRL"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginBottom="10dp"
                     android:paddingLeft="15dp"
@@ -17,7 +20,7 @@
                 android:layout_height="38dp"
                 android:background="@drawable/ic_bg_search_product_view1"
                 android:hint="输入烟花爆竹名称进行搜索"
-                android:textColorHint="#bcbcbc"
+                android:textColorHint="#b5b5b5"
                 android:imeOptions="actionSearch"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
@@ -37,10 +40,42 @@
                 android:layout_height="38dp"
                 android:layout_alignParentRight="true"
                 android:text="搜索"
-                android:textColor="#9f9f9f"
+                android:textColor="#4d4d4d"
                 android:textSize="16sp"/>
     </RelativeLayout>
-
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="60dp"
+                  android:id="@+id/LL"
+                  android:visibility="gone"
+                  android:orientation="horizontal"
+    >
+        <View android:layout_width="0dp"
+              android:layout_height="0.5dp"
+              android:layout_marginLeft="16dp"
+              android:layout_marginRight="5dp"
+              android:layout_gravity="center_vertical"
+              android:background="#d2d2d2"
+              android:layout_weight="1"
+        />
+        <TextView android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:textSize="14sp"
+                  android:text="搜索结果"
+                  android:layout_gravity="center_vertical"
+                  android:textColor="#adadad"
+                  android:layout_weight="1"
+                  android:singleLine="true"
+                  android:gravity="center_horizontal"
+        />
+        <View android:layout_width="0dp"
+              android:layout_height="0.5dp"
+              android:layout_marginLeft="5dp"
+              android:layout_marginRight="16dp"
+              android:layout_gravity="center_vertical"
+              android:background="#d2d2d2"
+              android:layout_weight="1"
+        />
+    </LinearLayout>
     <GridView
             android:layout_width="match_parent"
             android:numColumns="2"

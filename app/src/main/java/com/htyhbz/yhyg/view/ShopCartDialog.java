@@ -5,16 +5,20 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.htyhbz.yhyg.R;
+import com.htyhbz.yhyg.activity.BaseActivity;
 import com.htyhbz.yhyg.adapter.PopupDishAdapter;
 import com.htyhbz.yhyg.imp.ShopCartImp;
+import com.htyhbz.yhyg.utils.DensityUtil;
 import com.htyhbz.yhyg.vo.ShopCart;
 
 /**
@@ -30,10 +34,14 @@ public class ShopCartDialog  extends Dialog implements View.OnClickListener,Shop
     private RecyclerView recyclerView;
     private PopupDishAdapter dishAdapter;
     private ShopCartDialogImp shopCartDialogImp;
+    private Context context;
+    private String priceLimit;
 
-    public ShopCartDialog(Context context, ShopCart shopCart,int themeResId) {
+    public ShopCartDialog(Context context, ShopCart shopCart,int themeResId,String priceLimit) {
         super(context,themeResId);
         this.shopCart = shopCart;
+        this.context=context;
+        this.priceLimit=priceLimit;
     }
 
     @Override
@@ -52,7 +60,9 @@ public class ShopCartDialog  extends Dialog implements View.OnClickListener,Shop
         shopingcartLayout.setOnClickListener(this);
         bottomLayout.setOnClickListener(this);
         clearLayout.setOnClickListener(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+//        layoutManager.setAutoMeasureEnabled(true);
+        recyclerView.setLayoutManager( new LinearLayoutManager(getContext()));
         dishAdapter = new PopupDishAdapter(getContext(),shopCart);
         recyclerView.setAdapter(dishAdapter);
         dishAdapter.setShopCartImp(this);
@@ -65,6 +75,18 @@ public class ShopCartDialog  extends Dialog implements View.OnClickListener,Shop
                 dismiss();
             }
         });
+        RelativeLayout mainRL= (RelativeLayout) findViewById(R.id.mainRL);
+        android.view.ViewGroup.LayoutParams params= mainRL.getLayoutParams();
+        if(shopCart.getShoppingSingleMap().size()==1){
+            params.height= DensityUtil.dip2px(getContext(),90+50);
+        }else if(shopCart.getShoppingSingleMap().size()==2){
+            params.height=DensityUtil.dip2px(getContext(),90+50*2);
+        }else if(shopCart.getShoppingSingleMap().size()==3){
+            params.height=DensityUtil.dip2px(getContext(),90+50*3);
+        }else{
+            params.height=DensityUtil.dip2px(getContext(),90+50*4);
+        }
+        mainRL.setLayoutParams(params);
     }
 
     @Override
@@ -86,6 +108,16 @@ public class ShopCartDialog  extends Dialog implements View.OnClickListener,Shop
             totalPriceNumTextView.setText("" + shopCart.getShoppingAccount());
             shopingcartLayout.setBackgroundResource(R.drawable.circle_checked);
             shoppingCatCommitTextView.setVisibility(View.VISIBLE);
+            int priceInt= (int) (Double.valueOf(priceLimit)-shopCart.getShoppingTotalPrice());
+            if(priceInt>0){
+                shoppingCatCommitTextView.setText("还差 ￥ "+priceInt);
+                shoppingCatCommitTextView.setBackgroundColor(Color.parseColor("#666666"));
+                shoppingCatCommitTextView.setClickable(false);
+            }else {
+                shoppingCatCommitTextView.setText("去结算");
+                shoppingCatCommitTextView.setBackgroundColor(Color.parseColor("#f78648"));
+                shoppingCatCommitTextView.setClickable(true);
+            }
         }else {
             totalPriceTextView.setVisibility(View.GONE);
             totalPriceNumTextView.setVisibility(View.GONE);
@@ -181,5 +213,6 @@ public class ShopCartDialog  extends Dialog implements View.OnClickListener,Shop
         if(shopCart.getShoppingAccount()==0){
             this.dismiss();
         }
+        ((BaseActivity)context).toast(context,"已清空购物车");
     }
 }

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="260dp"
         android:background="#ffffff"
-        android:layout_height="400dp">
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
 
     <ImageView android:layout_width="match_parent"
-               android:layout_height="250dp"
-               android:src="@drawable/zzz"
+               android:layout_height="200dp"
+               android:src="@drawable/icon_loading"
                android:scaleType="fitXY"
                android:id="@+id/topIV"
     />
     <RelativeLayout android:layout_width="match_parent"
-                    android:layout_below="@+id/topIV"
                     android:layout_marginRight="15dp"
                     android:layout_marginLeft="15dp"
                     android:id="@+id/centerRL"
@@ -47,8 +47,6 @@
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="5dp"
-                    android:layout_above="@+id/bottomRL"
-                    android:layout_below="@+id/centerRL"
                     android:layout_marginLeft="15dp"
                     android:layout_height="wrap_content">
         <TextView android:layout_width="wrap_content"
@@ -58,23 +56,21 @@
                   android:textSize="14sp"
                   android:layout_marginRight="5dp"
                   android:text="简介:"/>
-        <ScrollView android:layout_width="match_parent"
-                    android:layout_toRightOf="@+id/tTV"
-                    android:layout_height="wrap_content">
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:textColor="#999999"
-                      android:maxLines="4"
-                      android:minLines="1"
-                      android:id="@+id/productDetailTV"
-                      android:textSize="14sp"
-                      android:text=""/>
-        </ScrollView>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textColor="#999999"
+                  android:maxLines="6"
+                  android:layout_toRightOf="@+id/tTV"
+                  android:scrollbars="vertical"
+                  android:minLines="1"
+                  android:id="@+id/productDetailTV"
+                  android:textSize="14sp"
+                  android:text=""/>
 
     </RelativeLayout>
     <RelativeLayout android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
                     android:id="@+id/bottomRL"
-                    android:layout_alignParentBottom="true"
                     android:background="#f6f6f6"
                     android:paddingLeft="15dp"
                     android:layout_height="50dp">
@@ -142,4 +138,4 @@
                     android:src="@drawable/ic_add_circle_blue"/>
         </RelativeLayout>
     </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>

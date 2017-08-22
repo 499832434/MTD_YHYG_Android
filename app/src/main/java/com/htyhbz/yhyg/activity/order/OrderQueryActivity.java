@@ -5,12 +5,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 import com.htyhbz.yhyg.R;
 import com.htyhbz.yhyg.activity.BaseActivity;
 import com.htyhbz.yhyg.fragment.OrderQueryFragment;
+import com.htyhbz.yhyg.view.CustomTitleBar;
 import com.htyhbz.yhyg.view.CustomViewPager;
 
 import java.util.ArrayList;
@@ -36,6 +38,12 @@ public class OrderQueryActivity extends BaseActivity{
 
 
     private void initView() {
+        ((CustomTitleBar)findViewById(R.id.customTitleBar)).setLeftImageOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         currentViewPager = (ViewPager) findViewById(R.id.currentViewPager);
         navRadioGroup = (RadioGroup) findViewById(R.id.navRadioGroup);
 
