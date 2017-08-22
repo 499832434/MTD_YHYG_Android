@@ -60,7 +60,7 @@ public class CollectActivity extends BaseActivity implements OnRefreshListener, 
                 finish();
             }
         });
-        collectGV= (GridView) findViewById(R.id.swipe_target);
+        collectGV= (GridView) findViewById(R.id.girdView);
         adapter=new HomeProductAdapter(CollectActivity.this,productList);
         collectGV.setAdapter(adapter);
         collectGV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -139,7 +139,23 @@ public class CollectActivity extends BaseActivity implements OnRefreshListener, 
                                     productList.add(product);
                                 }
                                 if(productList.size()>0){
+                                    collectGV.setVisibility(View.VISIBLE);
+                                    findViewById(R.id.layoutError).setVisibility(View.GONE);
                                     adapter.notifyDataSetChanged();
+                                }else{
+                                    collectGV.setVisibility(View.GONE);
+                                    findViewById(R.id.layoutError).setVisibility(View.VISIBLE);
+                                    showErrorLayout(findViewById(R.id.layoutError), new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            swipeToLoadLayout.post(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    swipeToLoadLayout.setRefreshing(true);
+                                                }
+                                            });
+                                        }
+                                    },4);
                                 }
                             }else{
                                 toast(CollectActivity.this,jsonObject.getString("msg"));

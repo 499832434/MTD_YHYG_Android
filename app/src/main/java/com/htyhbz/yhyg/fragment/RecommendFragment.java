@@ -292,12 +292,19 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getString("code").equals("0")) {
                                 JSONArray array=jsonObject.getJSONArray("info");
+                                JSONArray array1=new JSONArray();
+                                for(int i=0;i<array.length();i++){
+                                    JSONObject obj=array.getJSONObject(i);
+                                    if(1==obj.getInt("showInHomepage")){
+                                        array1.put(obj);
+                                    }
+                                }
                                 int num=4;
-                                if(array.length()<4){
-                                    num=array.length();
+                                if(array1.length()<4){
+                                    num=array1.length();
                                 }
                                 for(int i=0;i<num;i++){
-                                    JSONObject obj=array.getJSONObject(i);
+                                    JSONObject obj=array1.getJSONObject(i);
                                     switch (i){
                                         case 0:
                                             yanhuaTV.setText(obj.getString("catalog"));
