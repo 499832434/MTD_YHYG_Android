@@ -28,6 +28,7 @@ import com.htyhbz.yhyg.activity.MainActivity;
 import com.htyhbz.yhyg.adapter.OrderTypeAdapter;
 import com.htyhbz.yhyg.net.HighRequest;
 import com.htyhbz.yhyg.net.NetworkUtils;
+import com.htyhbz.yhyg.view.MyListView;
 import com.htyhbz.yhyg.vo.OrderInfo;
 import com.htyhbz.yhyg.vo.Product;
 import com.htyhbz.yhyg.vo.UserInfo;
@@ -44,7 +45,7 @@ import java.util.List;
  */
 public class OrderTypeFragment extends ErrorsFragment implements OnRefreshListener, OnLoadMoreListener {
     private View currentView = null;
-    private ListView orderTypeLV;
+    private MyListView orderTypeLV;
     private OrderTypeAdapter adapter;
     private List<OrderInfo>  orderInfoList=new ArrayList<OrderInfo>();
     private List<UserInfo>  userInfoList=new ArrayList<UserInfo>();
@@ -71,7 +72,7 @@ public class OrderTypeFragment extends ErrorsFragment implements OnRefreshListen
 
     private void initView() {
         orderType=getArguments().getInt(ORDERTYPE);
-        orderTypeLV= (ListView) currentView.findViewById(R.id.swipe_target);
+        orderTypeLV= (MyListView) currentView.findViewById(R.id.listView);
         adapter=new OrderTypeAdapter(mActivity,orderInfoList,userInfoList);
         orderTypeLV.setAdapter(adapter);
 
@@ -168,17 +169,21 @@ public class OrderTypeFragment extends ErrorsFragment implements OnRefreshListen
                                     userInfoList.add(userInfo);
                                 }
                                 if(orderInfoList.size()==0){
-                                    swipeToLoadLayout.setVisibility(View.GONE);
+                                    orderTypeLV.setVisibility(View.GONE);
                                     currentView.findViewById(R.id.layoutError).setVisibility(View.VISIBLE);
                                     showErrorLayout(currentView.findViewById(R.id.layoutError), new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            pageIndex=1;
-                                            request();
+                                            swipeToLoadLayout.post(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    swipeToLoadLayout.setRefreshing(true);
+                                                }
+                                            });
                                         }
                                     },4);
                                 }else {
-                                    swipeToLoadLayout.setVisibility(View.VISIBLE);
+                                    orderTypeLV.setVisibility(View.VISIBLE);
                                     currentView.findViewById(R.id.layoutError).setVisibility(View.GONE);
                                 }
                                 adapter.notifyDataSetChanged();
@@ -256,15 +261,21 @@ public class OrderTypeFragment extends ErrorsFragment implements OnRefreshListen
                 OrderTypeAdapter.ViewHolder vh = (OrderTypeAdapter.ViewHolder)v.getTag();
                 vh.needInflate = true;
                 if (orderInfoList.size() > 0) {
+                    orderTypeLV.setVisibility(View.VISIBLE);
+                    currentView.findViewById(R.id.layoutError).setVisibility(View.GONE);
                     adapter.notifyDataSetChanged();
                 } else {
-                    swipeToLoadLayout.setVisibility(View.GONE);
+                    orderTypeLV.setVisibility(View.GONE);
                     currentView.findViewById(R.id.layoutError).setVisibility(View.VISIBLE);
                     showErrorLayout(currentView.findViewById(R.id.layoutError), new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            pageIndex=1;
-                            request();
+                            swipeToLoadLayout.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    swipeToLoadLayout.setRefreshing(true);
+                                }
+                            });
                         }
                     },4);
                 }

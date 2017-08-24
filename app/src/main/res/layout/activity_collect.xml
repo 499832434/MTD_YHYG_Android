@@ -22,19 +22,34 @@
         <include
                 android:id="@id/swipe_refresh_header"
                 layout="@layout/layout_recommend_header"/>
-        <GridView android:layout_width="match_parent"
-                  android:numColumns="2"
-                  android:layout_marginTop="10dp"
-                  android:scrollbars="none"
-                  android:id="@+id/swipe_target"
-                  android:layout_marginBottom="10dp"
-                  android:horizontalSpacing="10dp"
-                  android:verticalSpacing="10dp"
-                  android:layout_marginLeft="10dp"
-                  android:layout_marginRight="10dp"
-                  android:layout_height="wrap_content">
 
-        </GridView>
+        <ScrollView android:layout_width="match_parent"
+                    android:id="@+id/swipe_target"
+                    android:fillViewport="true"
+                    android:layout_height="match_parent">
+            <LinearLayout android:layout_width="match_parent"
+                          android:orientation="vertical"
+                          android:layout_height="match_parent">
+                <com.htyhbz.yhyg.view.MyGridView android:layout_width="match_parent"
+                          android:numColumns="2"
+                          android:layout_marginTop="10dp"
+                          android:scrollbars="none"
+                          android:id="@+id/girdView"
+                          android:layout_marginBottom="10dp"
+                          android:horizontalSpacing="10dp"
+                          android:verticalSpacing="10dp"
+                          android:layout_marginLeft="10dp"
+                          android:layout_marginRight="10dp"
+                          android:layout_height="wrap_content">
+
+                </com.htyhbz.yhyg.view.MyGridView>
+                <include layout="@layout/activity_errors"
+                         android:id="@+id/layoutError"/>
+            </LinearLayout>
+
+        </ScrollView>
+
+
 
 
 

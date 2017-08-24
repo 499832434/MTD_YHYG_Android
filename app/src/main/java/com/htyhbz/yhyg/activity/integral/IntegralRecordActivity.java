@@ -18,6 +18,7 @@ import com.htyhbz.yhyg.adapter.RecordAdapter;
 import com.htyhbz.yhyg.net.HighRequest;
 import com.htyhbz.yhyg.net.NetworkUtils;
 import com.htyhbz.yhyg.view.CustomTitleBar;
+import com.htyhbz.yhyg.view.MyListView;
 import com.htyhbz.yhyg.vo.Product;
 import com.htyhbz.yhyg.vo.WithDrawal;
 import org.json.JSONArray;
@@ -32,7 +33,7 @@ import java.util.List;
  * Created by zongshuo on 2017/7/17.
  */
 public class IntegralRecordActivity extends BaseActivity implements OnRefreshListener, OnLoadMoreListener {
-    private ListView recordLV;
+    private MyListView recordLV;
     private List<WithDrawal> list=new ArrayList<WithDrawal>();
     private RecordAdapter adapter;
     private SwipeToLoadLayout swipeToLoadLayout;
@@ -53,7 +54,7 @@ public class IntegralRecordActivity extends BaseActivity implements OnRefreshLis
             }
         });
         swipeToLoadLayout = (SwipeToLoadLayout) findViewById(R.id.swipeToLoadLayout);
-        recordLV= (ListView) findViewById(R.id.swipe_target);
+        recordLV= (MyListView) findViewById(R.id.listView);
         adapter=new RecordAdapter(IntegralRecordActivity.this,list);
         recordLV.setAdapter(adapter);
         swipeToLoadLayout.setOnRefreshListener(this);
@@ -115,7 +116,23 @@ public class IntegralRecordActivity extends BaseActivity implements OnRefreshLis
                                     list.add(withDrawal);
                                 }
                                 if(list.size()>0){
+                                    recordLV.setVisibility(View.VISIBLE);
+                                    findViewById(R.id.layoutError).setVisibility(View.GONE);
                                     adapter.notifyDataSetChanged();
+                                }else{
+                                    recordLV.setVisibility(View.GONE);
+                                    findViewById(R.id.layoutError).setVisibility(View.VISIBLE);
+                                    showErrorLayout(findViewById(R.id.layoutError), new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            swipeToLoadLayout.post(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    swipeToLoadLayout.setRefreshing(true);
+                                                }
+                                            });
+                                        }
+                                    },4);
                                 }
                             }else{
 //                                toast(IntegralRecordActivity.this,jsonObject.getString("msg"));

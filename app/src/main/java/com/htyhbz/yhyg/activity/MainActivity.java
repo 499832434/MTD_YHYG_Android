@@ -20,7 +20,6 @@ import com.htyhbz.yhyg.view.CustomViewPager;
  */
 public class MainActivity extends BaseActivity {
 
-
     public MyFragAdapter mAdapter;
     private FragmentManager mFragmentManager;
     public CustomViewPager masterViewPager;

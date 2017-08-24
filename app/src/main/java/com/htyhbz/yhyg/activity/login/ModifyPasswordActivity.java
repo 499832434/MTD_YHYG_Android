@@ -125,8 +125,8 @@ public class ModifyPasswordActivity extends BaseActivity{
 
         final HashMap<String,String> params=getNetworkRequestHashMap();
         params.put("userID", getUserInfo(0));
-        params.put("originalPassword", originalPassword);
-        params.put("newPassword", newPassword);
+        params.put("originalPassword", InitApp.getSHA256StrJava(originalPassword) );
+        params.put("newPassword",  InitApp.getSHA256StrJava(newPassword));
         String url= InitApp.getUrlByParameter(ApiConstants.CHANGE_PASSWORD_API, params, true);
         Log.e("ModifyPasswordURl", url);
 

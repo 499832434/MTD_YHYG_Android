@@ -38,7 +38,7 @@ public class ErrorsFragment extends Fragment {
 //                setErrorLayout(view, R.drawable.no_network_error, "没有连接网络", "请连接之后，点击屏幕刷新", errorListener);
 //                break;
             case 4:
-                setErrorLayout(view, R.drawable.no_collect_error, "无相关内容展示", "点击屏幕刷新", errorListener);
+                setErrorLayout(view, R.drawable.icon_empty, "无相关内容展示", "点击屏幕刷新", errorListener);
                 break;
             case 5:
                 setErrorLayout(view, R.drawable.no_collect_error, "您尚未收藏内容", "", errorListener);

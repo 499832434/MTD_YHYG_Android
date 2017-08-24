@@ -24,6 +24,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.InvalidKeyException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
@@ -169,7 +170,7 @@ public class InitApp extends Application {
         for (String item : reqParams) {
             sb.append(item);
         }
-        Log.e("eee",sb.toString());
+        Log.e("eee", sb.toString());
         return sb.toString();
     }
 
@@ -231,4 +232,62 @@ public class InitApp extends Application {
             return "";
         }
     }
+
+    public static String HMACSHA256(byte[] data)
+    {
+        try  {
+            SecretKeySpec signingKey = new SecretKeySpec(PUBLIC_KEY.getBytes(), "HmacSHA256");
+            Mac mac = Mac.getInstance("HmacSHA256");
+            mac.init(signingKey);
+            return byte2hex(mac.doFinal(data));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String byte2hex(byte[] b)
+    {
+        StringBuilder hs = new StringBuilder();
+        String stmp;
+        for (int n = 0; b!=null && n < b.length; n++) {
+            stmp = Integer.toHexString(b[n] & 0XFF);
+            if (stmp.length() == 1)
+                hs.append('0');
+            hs.append(stmp);
+        }
+        return hs.toString().toUpperCase();
+    }
+
+    public static String getSHA256StrJava(String str){
+        MessageDigest messageDigest;
+        String encodeStr = "";
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-256");
+            messageDigest.update(str.getBytes("UTF-8"));
+            encodeStr = byte2Hex(messageDigest.digest());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return encodeStr;
+    }
+
+    private static String byte2Hex(byte[] bytes){
+        StringBuffer stringBuffer = new StringBuffer();
+        String temp = null;
+        for (int i=0;i<bytes.length;i++){
+            temp = Integer.toHexString(bytes[i] & 0xFF);
+            if (temp.length()==1){
+                //1得到一位的进行补0操作
+                stringBuffer.append("0");
+            }
+            stringBuffer.append(temp);
+        }
+        return stringBuffer.toString();
+    }
+
 }

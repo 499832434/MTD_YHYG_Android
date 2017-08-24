@@ -78,7 +78,8 @@ public class LoginActivity extends BaseActivity{
 
         HashMap<String, String> params =getNetworkRequestHashMap();
         params.put("phoneNumber", phoneNumber);
-        params.put("password", password);
+        params.put("password", InitApp.getSHA256StrJava(password));
+//        Log.e("password", InitApp.getSHA256StrJava(password));
         String url=InitApp.getUrlByParameter(ApiConstants.PHONE_LOGIN_API,params,true);
         Log.e("loginUrl",url);
         HighRequest request = new HighRequest(Request.Method.GET, url,
