@@ -147,20 +147,20 @@ public class OrderSettlementActivity extends BaseActivity{
         countTV.setText("¥"+shoppingTotalPrice+"");
         scoreIV= (ImageView) findViewById(R.id.scoreIV);
         scoreIV.setTag("0");
-        scoreIV.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.scoreRL).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ("0".equals(view.getTag())) {
-                    view.setTag("1");
-                    view.setBackgroundResource(R.drawable.icon_xuanzhong);
+                if ("0".equals(scoreIV.getTag())) {
+                    scoreIV.setTag("1");
+                    scoreIV.setBackgroundResource(R.drawable.icon_xuanzhong);
                     int count = shoppingTotalPrice - (Integer.parseInt(getUserInfo(2)) / Integer.parseInt(getUserInfo(3)));
                     if (count < 0) {
                         count = 0;
                     }
                     countTV.setText("¥" + count + "");
                 } else {
-                    view.setTag("0");
-                    view.setBackgroundResource(R.drawable.icon_weixuanzhong);
+                    scoreIV.setTag("0");
+                    scoreIV.setBackgroundResource(R.drawable.icon_weixuanzhong);
                     countTV.setText("¥" + shoppingTotalPrice + "");
                 }
             }

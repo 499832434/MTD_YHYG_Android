@@ -383,7 +383,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
     }
 
     public void showTotalPrice(){
-        if(shopCart!=null && shopCart.getShoppingTotalPrice()>0){
+        if(shopCart!=null && shopCart.getShoppingSingleMap().size()>0){
             totalPriceTextView.setVisibility(View.VISIBLE);
             totalPriceTextView.setText("共￥ " + shopCart.getShoppingTotalPrice());
             totalPriceNumTextView.setVisibility(View.VISIBLE);

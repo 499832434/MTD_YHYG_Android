@@ -41,7 +41,7 @@ import java.util.List;
 /**
  * Created by zongshuo on 2017/7/6.
  */
-public class EnProductFragment extends Fragment implements OnRefreshListener, OnLoadMoreListener {
+public class EnProductFragment extends ErrorsFragment implements OnRefreshListener, OnLoadMoreListener {
     private View currentView = null;
     private EnterpriseDetailActivity mActivity;
     private ListView productLV;
@@ -72,7 +72,7 @@ public class EnProductFragment extends Fragment implements OnRefreshListener, On
     private void initView() {
         enterpriseID = getArguments().getString(ENTERPRISEID);
         flag = getArguments().getString(FLAG);
-        productLV= (ListView) currentView.findViewById(R.id.swipe_target);
+        productLV= (ListView) currentView.findViewById(R.id.listView);
         adapter=new EnterpriseProductAdapter(mActivity,productList);
         productLV.setAdapter(adapter);
         productLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -167,8 +167,27 @@ public class EnProductFragment extends Fragment implements OnRefreshListener, On
                                     }
                                     productList.add(product);
                                 }
+//                                if(productList.size()>0){
+//                                    adapter.notifyDataSetChanged();
+//                                }
                                 if(productList.size()>0){
+                                    productLV.setVisibility(View.VISIBLE);
+                                    currentView.findViewById(R.id.layoutError).setVisibility(View.GONE);
                                     adapter.notifyDataSetChanged();
+                                }else{
+                                    productLV.setVisibility(View.GONE);
+                                    currentView.findViewById(R.id.layoutError).setVisibility(View.VISIBLE);
+                                    showErrorLayout(currentView.findViewById(R.id.layoutError), new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            swipeToLoadLayout.post(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    swipeToLoadLayout.setRefreshing(true);
+                                                }
+                                            });
+                                        }
+                                    },4);
                                 }
                             }else{
                                 mActivity.toast(mActivity, jsonObject.getString("msg"));

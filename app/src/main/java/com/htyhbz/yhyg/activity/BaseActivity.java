@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
@@ -28,6 +30,8 @@ import com.htyhbz.yhyg.net.HighRequest;
 import com.htyhbz.yhyg.net.NetworkUtils;
 import com.htyhbz.yhyg.service.LocationService;
 import com.htyhbz.yhyg.utils.PrefUtils;
+import com.htyhbz.yhyg.view.ShopCartDialog;
+import com.htyhbz.yhyg.view.ShopLoginOutDialog;
 import com.htyhbz.yhyg.view.StatusBarCompat;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -280,6 +284,21 @@ public abstract class BaseActivity extends AppCompatActivity {
         ((TextView) view.findViewById(R.id.errorTextView)).setText(errorText);
         if (errorListener != null)
             view.setOnClickListener(errorListener);
+    }
+
+
+    public void showLoginOutDialog() {
+        ShopLoginOutDialog dialog = new ShopLoginOutDialog(this,R.style.cartdialog);
+        Window window = dialog.getWindow();
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCancelable(true);
+        dialog.show();
+        WindowManager.LayoutParams params = window.getAttributes();
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.gravity = Gravity.BOTTOM;
+        params.dimAmount =0.5f;
+        window.setAttributes(params);
     }
 
 }

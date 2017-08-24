@@ -54,10 +54,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener{
         unLoginTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mActivity.clearLoginInfo();
-                mActivity.toast(mActivity,"已退出账号");
-                startActivity(new Intent(mActivity,LoginActivity.class));
-                mActivity.finish();
+                mActivity.showLoginOutDialog();
             }
         });
         ((TextView) currentView.findViewById(R.id.accountTV)).setText("账号:"+mActivity.getUserInfo(8));
@@ -100,7 +97,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener{
     /**
      * 网络请求
      */
-    private void getUserIntegral() {
+    public void getUserIntegral() {
         if (!NetworkUtils.isNetworkAvailable(mActivity)) {
             return;
         }
