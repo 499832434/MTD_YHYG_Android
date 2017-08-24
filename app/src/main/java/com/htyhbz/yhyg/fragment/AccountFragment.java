@@ -45,7 +45,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         currentView = inflater.inflate(R.layout.fragment_account, container, false);
         initView();
-        getUserIntegral();
         return currentView;
     }
 
@@ -138,5 +137,11 @@ public class AccountFragment extends Fragment implements View.OnClickListener{
         }
         );
         InitApp.initApp.addToRequestQueue(request);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getUserIntegral();
     }
 }
