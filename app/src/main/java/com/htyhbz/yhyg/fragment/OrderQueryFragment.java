@@ -214,10 +214,10 @@ public class OrderQueryFragment extends ErrorsFragment {
                                     info.setOrderID(obj.getString("orderID"));
                                     info.setOrderSendTime(obj.getString("orderTime"));
                                     info.setUseIntegralCount(obj.getString("useIntegralCount"));
-                                    info.setOrderAllPrice(obj.getInt("orderAllPrice")+"");
+                                    info.setOrderAllPrice(obj.getDouble("orderAllPrice")+"");
                                     priceCount+=obj.getInt("orderAllPrice");
                                     info.setOrderType(obj.getString("orderType"));
-                                    info.setActualPayPrice(obj.getInt("actualPayPrice")+"");
+                                    info.setActualPayPrice(obj.getDouble("actualPayPrice")+"");
                                     JSONArray productArr=obj.getJSONArray("orderProductions");
                                     List<Product> productList=new ArrayList<Product>();
                                     for(int j=0;j<productArr.length();j++){
@@ -225,7 +225,7 @@ public class OrderQueryFragment extends ErrorsFragment {
                                         Product product=new Product();
                                         product.setproductId(obj3.getInt("productId"));
                                         product.setproductName(obj3.getString("productName"));
-                                        product.setproductPrice(obj3.getInt("productPrice"));
+                                        product.setProductPrice(obj3.getDouble("productPrice"));
                                         if(TextUtils.isEmpty(obj3.getString("productPictureUrl"))||"null".equals(obj3.getString("productPictureUrl"))){
                                             product.setproductPictureUrl("");
                                         }else{

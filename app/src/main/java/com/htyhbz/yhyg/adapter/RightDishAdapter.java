@@ -94,7 +94,7 @@ public class RightDishAdapter extends RecyclerView.Adapter {
 
                 final Product product = getDishByPosition(position);
                 dishholder.right_dish_name_tv.setText(product.getproductName());
-                dishholder.right_dish_price_tv.setText(product.getproductPrice() + "");
+                dishholder.right_dish_price_tv.setText(product.getProductPrice() + "");
                 dishholder.right_dish_layout.setContentDescription(position + "");
                 if(!TextUtils.isEmpty(product.getproductPictureUrl())){
                     ((BaseActivity)mContext).getNetWorkPicture(product.getproductPictureUrl(),dishholder.pictureIV);

@@ -6,7 +6,7 @@ package com.htyhbz.yhyg.vo;
 public class Product {
 
     private String productName;
-    private int productPrice;
+    private double productPrice;
     private int productAmount=100000;//产品可增加最大数
     private int productRemain=100000;//产品可删除最大数
     private int productId;
@@ -93,11 +93,11 @@ public class Product {
         this.productName = productName;
     }
 
-    public int getproductPrice() {
+    public double getProductPrice() {
         return productPrice;
     }
 
-    public void setproductPrice(int productPrice) {
+    public void setProductPrice(double productPrice) {
         this.productPrice = productPrice;
     }
 

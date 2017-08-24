@@ -51,7 +51,7 @@ public class ShopCartCenterDialog extends Dialog  {
         productDetailTV.setText(product.getproductDetail());
         productDetailTV.setMovementMethod(ScrollingMovementMethod.getInstance());
         productPriceTV= (TextView) findViewById(R.id.productPriceTV);
-        productPriceTV.setText("￥"+product.getproductPrice());
+        productPriceTV.setText("￥"+product.getProductPrice());
         collectIV= (ImageView) findViewById(R.id.collectIV);
         if(0==product.getIsCollected()){
             collectIV.setImageResource(R.drawable.icon_collection_grey);

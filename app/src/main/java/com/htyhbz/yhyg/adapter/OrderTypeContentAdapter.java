@@ -62,7 +62,7 @@ public class OrderTypeContentAdapter extends BaseAdapter{
         }
         holder.productNameTV.setText(mData.get(position).getproductName());
         holder.orderProductionsCountTV.setText("×"+mData.get(position).getorderProductCount() + "");
-        holder.productPriceTV.setText("¥" + (int) mData.get(position).getproductPrice() + "");
+        holder.productPriceTV.setText("¥" +  mData.get(position).getProductPrice() + "");
         if(!TextUtils.isEmpty(mData.get(position).getproductPictureUrl())){
             ((BaseActivity)context).getNetWorkPicture(mData.get(position).getproductPictureUrl(), holder.pictureIV);
         }else{

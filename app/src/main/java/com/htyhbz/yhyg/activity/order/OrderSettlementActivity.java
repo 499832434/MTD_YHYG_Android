@@ -33,6 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -48,7 +49,7 @@ public class OrderSettlementActivity extends BaseActivity{
     private int mDay;
     private List<String> townList=new ArrayList<String>();
     private int townPosition=0;
-    private int shoppingTotalPrice;
+    private double shoppingTotalPrice;
     private String flag="";
     private TextView gprsTV,scoreTV,countTV;
     private ImageView scoreIV;
@@ -81,14 +82,14 @@ public class OrderSettlementActivity extends BaseActivity{
             String map=getIntent().getStringExtra("map");
             Log.e("map",map);
             JSONObject jsonObject=new JSONObject(map);
-            shoppingTotalPrice=jsonObject.getInt("shoppingTotalPrice");
+            shoppingTotalPrice=jsonObject.getDouble("shoppingTotalPrice");
             JSONArray array=jsonObject.getJSONArray("shoppinglist");
             for(int i=0;i<array.length();i++){
                 JSONObject obj=array.getJSONObject(i);
                 Product product=new Product();
                 product.setproductId(obj.getInt("productId"));
                 product.setproductName(obj.getString("productName"));
-                product.setproductPrice(obj.getInt("productPrice"));
+                product.setProductPrice(obj.getDouble("productPrice"));
                 product.setproductPictureUrl(obj.getString("productPictureUrl"));
                 product.setorderProductCount(obj.getInt("shoppingsingleTotal"));
                 orderProductionsID.append(obj.getInt("productId") + ",");
@@ -153,7 +154,8 @@ public class OrderSettlementActivity extends BaseActivity{
                 if ("0".equals(scoreIV.getTag())) {
                     scoreIV.setTag("1");
                     scoreIV.setBackgroundResource(R.drawable.icon_xuanzhong);
-                    int count = shoppingTotalPrice - (Integer.parseInt(getUserInfo(2)) / Integer.parseInt(getUserInfo(3)));
+                    double count=(new BigDecimal(Double.toString(shoppingTotalPrice))).subtract(new BigDecimal(Double.toString((Double.parseDouble(getUserInfo(2)) / Double.parseDouble(getUserInfo(3)))))).doubleValue();
+                    //double count = shoppingTotalPrice - (Double.parseDouble(getUserInfo(2)) / Double.parseDouble(getUserInfo(3)));
                     if (count < 0) {
                         count = 0;
                     }
@@ -419,8 +421,15 @@ public class OrderSettlementActivity extends BaseActivity{
         if("0".equals(scoreIV.getTag())){
             count1=0;
         }else{
-            count1=shoppingTotalPrice/Integer.parseInt(getUserInfo(3));
+            double cc=shoppingTotalPrice*Double.parseDouble(getUserInfo(3));
+            String str=Double.toString(cc).substring(0,Double.toString(cc).indexOf("."));
+            if(cc%1==0){
+                count1=Integer.valueOf(str);
+            }else{
+                count1=Integer.valueOf(str)+1;
+            }
         }
+        Log.e("useIntegralCount",count1+"");
         params.put("useIntegralCount", count1+"");
         boolean b=alipayRadioBtn.isChecked();
         if(b){
@@ -428,12 +437,13 @@ public class OrderSettlementActivity extends BaseActivity{
         }else {
             payType=2;
         }
-        params.put("payType", payType+"");
-        int count;
+        params.put("payType", "1");
+        double count;
         if("0".equals(scoreIV.getTag())){
             count=shoppingTotalPrice;
         }else{
-            count = shoppingTotalPrice - (Integer.parseInt(getUserInfo(2)) / Integer.parseInt(getUserInfo(3)));
+            count=(new BigDecimal(Double.toString(shoppingTotalPrice))).subtract(new BigDecimal(Double.toString((Double.parseDouble(getUserInfo(2)) / Double.parseDouble(getUserInfo(3)))))).doubleValue();
+//            count = shoppingTotalPrice - (Double.parseDouble(getUserInfo(2)) / Double.parseDouble(getUserInfo(3)));
             if (count < 0) {
                 count = 0;
             }

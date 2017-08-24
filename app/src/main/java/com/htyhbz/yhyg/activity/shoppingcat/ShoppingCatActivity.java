@@ -47,6 +47,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -78,7 +79,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
 
     private JSONArray shoppinglist=new JSONArray();
     private  int shoppingAccount;
-    private double shoppingTotalPrice;
+    private double shoppingTotalPrice=0;
     private HashMap<String,Object> mapParam=new HashMap<String, Object>();
     private String priceLimit="0";
     private int leftPositionFlag;
@@ -119,14 +120,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
         shoppingCatCommitTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mapToString();
-                Intent intent=new Intent(ShoppingCatActivity.this,OrderSettlementActivity.class);
-                intent.putExtra("flag","shoppingcat");
-                Gson gson=new Gson();
-                String str=gson.toJson(mapParam);
-                intent.putExtra("map",str);
-                Log.e("str",str);
-                startActivity(intent);
+               commit();
 
             }
         });
@@ -390,7 +384,8 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
             totalPriceNumTextView.setText("" + shopCart.getShoppingAccount());
             shopingCartLayout.setBackgroundResource(R.drawable.circle_checked);
             shoppingCatCommitTextView.setVisibility(View.VISIBLE);
-            int priceInt= (int) (Double.valueOf(priceLimit)-shopCart.getShoppingTotalPrice());
+//            double priceInt= (Double.valueOf(priceLimit)-shopCart.getShoppingTotalPrice());
+            double priceInt=(new BigDecimal(priceLimit)).subtract(new BigDecimal(Double.toString(shopCart.getShoppingTotalPrice()))).doubleValue();
             if(priceInt>0){
                 shoppingCatCommitTextView.setText("还差 ￥ "+priceInt);
                 shoppingCatCommitTextView.setBackgroundColor(Color.parseColor("#666666"));
@@ -527,7 +522,8 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
                                         }else{
                                             product.setProductVideoUrl(ApiConstants.BASE_URL + data.getString("productVideoUrl"));
                                         }
-                                        product.setproductPrice(data.getInt("productPrice"));
+                                        Log.e("aaaaaaa",data.getDouble("productPrice")+"");
+                                        product.setProductPrice(data.getDouble("productPrice"));
                                         productList.add(product);
 
                                         for(int z=0;z<shoppinglist.length();z++){
@@ -664,7 +660,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
                     map1.put("productId",product.getproductId());
                     map1.put("productName",product.getproductName());
                     map1.put("productPictureUrl",product.getproductPictureUrl());
-                    map1.put("productPrice",product.getproductPrice());
+                    map1.put("productPrice",product.getProductPrice());
                     list.add(map1);
                 }
                 map.put("shoppinglist", list);
@@ -696,7 +692,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
                         map1.put("productId",product.getproductId());
                         map1.put("productName",product.getproductName());
                         map1.put("productPictureUrl",product.getproductPictureUrl());
-                        map1.put("productPrice",product.getproductPrice());
+                        map1.put("productPrice",product.getProductPrice());
                         list.add(map1);
                     }
                     m1.put("shoppinglist", list);
@@ -738,7 +734,7 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
                     map1.put("productId",product.getproductId());
                     map1.put("productName",product.getproductName());
                     map1.put("productPictureUrl",product.getproductPictureUrl());
-                    map1.put("productPrice",product.getproductPrice());
+                    map1.put("productPrice",product.getProductPrice());
                     list.add(map1);
                 }
                 m3.put("shoppinglist", list);
@@ -830,5 +826,16 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
         }catch (Exception e){
 
         }
+    }
+
+    public void commit(){
+        mapToString();
+        Intent intent=new Intent(ShoppingCatActivity.this,OrderSettlementActivity.class);
+        intent.putExtra("flag","shoppingcat");
+        Gson gson=new Gson();
+        String str=gson.toJson(mapParam);
+        intent.putExtra("map",str);
+        Log.e("str",str);
+        startActivity(intent);
     }
 }

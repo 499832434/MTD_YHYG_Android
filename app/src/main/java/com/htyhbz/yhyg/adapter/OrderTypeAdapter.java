@@ -107,7 +107,7 @@ public class OrderTypeAdapter extends BaseAdapter{
                     map1.put("productId", product.getproductId());
                     map1.put("productName", product.getproductName());
                     map1.put("productPictureUrl", product.getproductPictureUrl());
-                    map1.put("productPrice", product.getproductPrice());
+                    map1.put("productPrice", product.getProductPrice());
                     list.add(map1);
                 }
                 map.put("shoppinglist", list);
