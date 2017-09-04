@@ -1,11 +1,17 @@
 package com.htyhbz.yhyg.activity;
 
+import android.app.Dialog;
+import android.app.DownloadManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,12 +29,14 @@ import com.android.volley.VolleyError;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.htyhbz.yhyg.ApiConstants;
 import com.htyhbz.yhyg.InitApp;
 import com.htyhbz.yhyg.R;
 import com.htyhbz.yhyg.net.HighRequest;
 import com.htyhbz.yhyg.net.NetworkUtils;
 import com.htyhbz.yhyg.service.LocationService;
+import com.htyhbz.yhyg.utils.PackageUtils;
 import com.htyhbz.yhyg.utils.PrefUtils;
 import com.htyhbz.yhyg.view.ShopCartDialog;
 import com.htyhbz.yhyg.view.ShopLoginOutDialog;
@@ -36,6 +44,7 @@ import com.htyhbz.yhyg.view.StatusBarCompat;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.HashMap;
 
 /**
@@ -154,7 +163,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void getNetWorkPicture(String url,ImageView imageView){
-        Glide.with(BaseActivity.this).load(url).into(imageView);
+        Glide.with(BaseActivity.this).load(url).diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
     }
 
 
@@ -301,4 +311,124 @@ public abstract class BaseActivity extends AppCompatActivity {
         window.setAttributes(params);
     }
 
+
+    /**
+     * 检查更新
+     *
+     * @param isShowDialog 如果已经是最新版本，是否显示提示信息 ， true 显示 ，false 不显示
+     */
+    public void checkUpdate(final Context context, final boolean isShowDialog) {
+        if (!NetworkUtils.isNetworkAvailable(context)) {
+            return;
+        }
+
+        final HashMap<String,String> params=getNetworkRequestHashMap();
+        String url= InitApp.getUrlByParameter(ApiConstants.GET_VERSION_API, params, true);
+        Log.e("checkUpdateURl", url);
+
+        HighRequest request = new HighRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("checkUpdateRe", response);
+                        try {
+                            JSONObject jo = new JSONObject(response);
+                            if ("0".equalsIgnoreCase(jo.getString("code"))) {
+                                if (!TextUtils.isEmpty(jo.getString("info"))) {
+                                    JSONObject info = jo.getJSONObject("info");
+                                    String memo = info.getString("appVersionMsg");
+                                    int vcode = info.getInt("appVersion");
+                                    if (vcode > PackageUtils.getAppVersionCode(context)) {
+                                        final String url = info.getString("appUrl");
+                                        StringBuffer sb = new StringBuffer();
+//                                        sb.append("新版本将会有更好的服务和用户体验，建议您下载升级新版本。");
+                                        String[] memos = null;
+                                        if (memo != null) {
+                                            memos = memo.split("&&");
+                                        }
+                                        for (String m : memos) {
+                                            if (!"".equals(m)) {
+                                                sb.append("\n");
+                                                sb.append(m);
+                                            }
+                                        }
+                                        Dialog dialog = new AlertDialog.Builder(context)
+                                                .setTitle("客户端升级")
+                                                .setMessage(sb.toString())
+                                                .setPositiveButton("确定",// 设置确定按钮
+                                                        new DialogInterface.OnClickListener() {
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                dialog.dismiss();
+                                                                update(context, url);
+                                                            }
+                                                        })
+                                                .setNegativeButton("以后再说",
+                                                        new DialogInterface.OnClickListener() {
+                                                            public void onClick(DialogInterface dialog, int whichButton) {
+                                                                dialog.dismiss();
+                                                            }
+                                                        }).create();
+                                        dialog.show();
+                                    } else {
+                                        if (isShowDialog)
+                                            Toast.makeText(context, "已是最新版本", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            } else {
+                                Toast.makeText(context, jo.getString("msg"), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }
+        );
+        InitApp.initApp.addToRequestQueue(request);
+    }
+
+    /**
+     * 更新下载
+     */
+    private void update(Context context, String url) {
+        try {
+            if (!Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+                Toast.makeText(context, "存储卡暂时不可用，无法下载", Toast.LENGTH_LONG).show();
+                return;
+            }
+            int state = context.getPackageManager().getApplicationEnabledSetting("com.android.providers.downloads");
+            if (state == PackageManager.COMPONENT_ENABLED_STATE_DISABLED || state == PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                startActivity(intent);
+            } else {
+                DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+                String name = Environment.getExternalStorageDirectory().getAbsolutePath();
+                name += "/scidownload/";
+                File dir = new File(name);
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+                Uri dest = Uri.fromFile(new File(name + PackageUtils.getPackageName(context) + ".apk"));
+                request.setDestinationUri(dest);
+                request.setTitle("正在下载新版本烟花易购客户端");
+                request.setDescription("烟花易购客户端升级，更精彩");
+                request.setMimeType("application/vnd.android.package-archive");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                }
+                long downloadId = downloadManager.enqueue(request);
+                PrefUtils.putLong(context, InitApp.DOWNLOAD_TASK_PREF, InitApp.DOWNLOAD_TASK_ID_KEY, downloadId);
+            }
+        } catch (Exception e) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            context.startActivity(intent);
+        }
+    }
 }

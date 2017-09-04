@@ -23,6 +23,8 @@ import com.baidu.mapapi.navi.BaiduMapAppNotSupportNaviException;
 import com.baidu.mapapi.navi.BaiduMapNavigation;
 import com.baidu.mapapi.navi.NaviParaOption;
 import com.baidu.mapapi.utils.OpenClientUtil;
+import com.baidu.mapapi.utils.route.BaiduMapRoutePlan;
+import com.baidu.mapapi.utils.route.RouteParaOption;
 import com.htyhbz.yhyg.R;
 import com.htyhbz.yhyg.activity.enterprise.EnterpriseDetailActivity;
 
@@ -121,10 +123,9 @@ public class EnAddressFragment extends Fragment {
         LatLng pt1 = new LatLng(Double.parseDouble(mActivity.getUserInfo(7)),Double.parseDouble(mActivity.getUserInfo(6)));
         LatLng pt2 = new LatLng(Double.parseDouble(enterpriseLatitude),Double.parseDouble(enterpriseLongitude));
 
-        // 构建 导航参数
-        NaviParaOption para = new NaviParaOption()
-                .startPoint(pt1).endPoint(pt2)
+        NaviParaOption para = new NaviParaOption().startPoint(pt1).endPoint(pt2)
                 .startName("天安门").endName("百度大厦");
+
 
         try {
             BaiduMapNavigation.openBaiduMapNavi(para, mActivity);

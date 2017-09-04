@@ -3,6 +3,7 @@ package com.htyhbz.yhyg.activity.order;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.InputType;
@@ -10,6 +11,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+import com.alipay.sdk.pay.util.AlipayCommonLibSignFromServerActivity;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -34,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
+import java.net.URLDecoder;
 import java.util.*;
 
 /**
@@ -466,11 +469,9 @@ public class OrderSettlementActivity extends BaseActivity{
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getString("code").equals("0")) {
-                                toast(OrderSettlementActivity.this, "下单成功");
-                                if("shoppingcat".equals(flag)){
-                                    EventBus.getDefault().post(new ShoppingcatRefreshEvent());
-                                }
-                                finish();
+                                Intent intent = new Intent(OrderSettlementActivity.this, AlipayCommonLibSignFromServerActivity.class);
+                                intent.putExtra("payInfo",jsonObject.getString("orderStr"));
+                                startActivityForResult(intent, 1);
                             }else{
                                 OrderSettlementActivity.this.toast(OrderSettlementActivity.this, jsonObject.getString("msg"));
                             }
@@ -488,5 +489,13 @@ public class OrderSettlementActivity extends BaseActivity{
         InitApp.initApp.addToRequestQueue(request);
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1 && resultCode == RESULT_OK) {
+            toast(OrderSettlementActivity.this, "支付成功");
+            EventBus.getDefault().post(new ShoppingcatRefreshEvent());
+            finish();
+        }
+    }
 }

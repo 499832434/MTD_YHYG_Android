@@ -32,10 +32,11 @@ import java.util.HashMap;
 public class ForgotPasswordActivity extends BaseActivity{
 
     private EditText telephoneET;
-    private TextView verificationCodeET;
+    private EditText verificationCodeET;
     private Button commitB;
     private TimesUtils timesUtils=null;
     private TextView verificationCodeTV;
+    private String code="";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +62,7 @@ public class ForgotPasswordActivity extends BaseActivity{
                     toast(ForgotPasswordActivity.this,"请输入正确的联系方式");
                     return;
                 }
-                if(TextUtils.isEmpty(verificationCodeET.getText().toString())){
+                if(TextUtils.isEmpty(verificationCodeET.getText().toString())||!code.equals(verificationCodeET.getText().toString())){
                     toast(ForgotPasswordActivity.this,"请输入正确的验证码");
                     return;
                 }
@@ -73,7 +74,7 @@ public class ForgotPasswordActivity extends BaseActivity{
             }
         });
         telephoneET= (EditText) findViewById(R.id.telephoneET);
-        verificationCodeET= (TextView) findViewById(R.id.verificationCodeET);
+        verificationCodeET= (EditText) findViewById(R.id.verificationCodeET);
         telephoneET.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -129,7 +130,7 @@ public class ForgotPasswordActivity extends BaseActivity{
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getString("code").equals("0")) {
-                                verificationCodeET.setText(jsonObject.getJSONObject("info").getString("verificationcode"));
+                                code=jsonObject.getJSONObject("info").getString("verificationcode");
                                 commitB.setBackgroundResource(R.drawable.ic_bg_login_button);
                                 commitB.setClickable(true);
                             }else{

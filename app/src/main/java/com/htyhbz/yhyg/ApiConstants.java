@@ -31,5 +31,6 @@ public interface ApiConstants {
     String QUERY_ORDER_API="http://59.110.163.137/api/queryOrder?";//查询订单
     String GET_VERIFY_API="http://59.110.163.137/api/verifyVerificationcode?";//获取验证码
     String FORGOT_PASSWORD_API="http://59.110.163.137/api/forgetPassword?";//获取验证码
+    String GET_VERSION_API="http://59.110.163.137/api/getversion?";//获取验证码
 
 }

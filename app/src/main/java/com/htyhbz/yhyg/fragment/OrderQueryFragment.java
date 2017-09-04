@@ -26,6 +26,7 @@ import com.htyhbz.yhyg.activity.order.OrderQueryActivity;
 import com.htyhbz.yhyg.adapter.OrderTypeAdapter;
 import com.htyhbz.yhyg.net.HighRequest;
 import com.htyhbz.yhyg.net.NetworkUtils;
+import com.htyhbz.yhyg.utils.Arith;
 import com.htyhbz.yhyg.vo.OrderInfo;
 import com.htyhbz.yhyg.vo.Product;
 import com.htyhbz.yhyg.vo.UserInfo;
@@ -33,6 +34,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -206,7 +208,7 @@ public class OrderQueryFragment extends ErrorsFragment {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getString("code").equals("0")) {
                                 JSONArray infoArr=jsonObject.getJSONArray("info");
-                                int priceCount = 0;
+                                double priceCount = 0;
                                 for(int i=0;i<infoArr.length();i++){
                                     JSONObject obj1= (JSONObject) infoArr.get(i);
                                     JSONObject obj=obj1.getJSONObject("orderInfo");
@@ -215,7 +217,8 @@ public class OrderQueryFragment extends ErrorsFragment {
                                     info.setOrderSendTime(obj.getString("orderTime"));
                                     info.setUseIntegralCount(obj.getString("useIntegralCount"));
                                     info.setOrderAllPrice(obj.getDouble("orderAllPrice")+"");
-                                    priceCount+=obj.getInt("orderAllPrice");
+//                                    priceCount+=obj.getDouble("orderAllPrice");
+                                    priceCount= Arith.add(priceCount,obj.getDouble("orderAllPrice"));
                                     info.setOrderType(obj.getString("orderType"));
                                     info.setActualPayPrice(obj.getDouble("actualPayPrice")+"");
                                     JSONArray productArr=obj.getJSONArray("orderProductions");
