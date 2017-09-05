@@ -123,10 +123,10 @@ public class EnAddressFragment extends Fragment {
 
         // 构建 导航参数
         NaviParaOption para = new NaviParaOption()
-                .startPoint(pt1).endPoint(pt2)
-                .startName("天安门").endName("百度大厦");
+                .startPoint(pt1).endPoint(pt2);
 
         try {
+            BaiduMapNavigation.setSupportWebNavi(true);
             BaiduMapNavigation.openBaiduMapNavi(para, mActivity);
         } catch (BaiduMapAppNotSupportNaviException e) {
             e.printStackTrace();
