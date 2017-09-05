@@ -2,6 +2,7 @@ package com.htyhbz.yhyg.vo;
 
 import android.util.Log;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,7 +56,9 @@ public class ShopCart  {
         shoppingSingle.put(product,num);
 //        Log.e("TAG", "addShoppingSingle: " + shoppingSingle.size()+"=="+product.getproductId());
 
-        shoppingTotalPrice += product.getproductPrice();
+//        shoppingTotalPrice += product.getProductPrice();
+        shoppingTotalPrice=(new BigDecimal(Double.toString(shoppingTotalPrice))).add(new BigDecimal(Double.toString(product.getProductPrice()))).doubleValue();
+        Log.e("bbbb",shoppingTotalPrice+"==="+product.getProductPrice());
         shoppingAccount++;
         Log.e("TAG+",shoppingAccount+"");
         return true;
@@ -73,7 +76,9 @@ public class ShopCart  {
         shoppingSingle.put(product,num);
         if (num ==0) shoppingSingle.remove(product);
 
-        shoppingTotalPrice -= product.getproductPrice();
+//        shoppingTotalPrice -= product.getProductPrice();
+        shoppingTotalPrice=(new BigDecimal(Double.toString(shoppingTotalPrice))).subtract(new BigDecimal(Double.toString(product.getProductPrice()))).doubleValue();
+        Log.e("cccc",shoppingTotalPrice+"==="+product.getProductPrice());
         shoppingAccount--;
         Log.e("TAG-",shoppingAccount+"");
         return true;

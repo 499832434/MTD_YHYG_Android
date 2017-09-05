@@ -15,13 +15,25 @@
         <include
                 android:id="@id/swipe_refresh_header"
                 layout="@layout/layout_recommend_header"/>
-        <ListView android:layout_width="match_parent"
-                  android:divider="#e1e1e1"
-                  android:id="@+id/swipe_target"
-                  android:dividerHeight="1dp"
-                  android:layout_height="match_parent">
+        <ScrollView android:layout_width="match_parent"
+                    android:id="@+id/swipe_target"
+                    android:fillViewport="true"
+                    android:layout_height="match_parent">
+            <LinearLayout android:layout_width="match_parent"
+                          android:orientation="vertical"
+                          android:layout_height="match_parent">
+                <com.htyhbz.yhyg.view.MyListView
+                        android:id="@+id/listView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clipToPadding="false"
+                        android:divider="#eeeeee"
+                        android:dividerHeight="1dp"/>
+                <include layout="@layout/activity_errors"
+                         android:id="@+id/layoutError"/>
+            </LinearLayout>
 
-        </ListView>
+        </ScrollView>
 
 
 

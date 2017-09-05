@@ -45,6 +45,10 @@ public class InitApp extends Application {
     public static final String LATITUDE_KEY = "LATITUDE_KEY";//纬度
     public static final String USER_PREMISSION_KEY = "USER_PREMISSION_KEY";//用户权限
 
+    public static final String DOWNLOAD_TASK_PREF = "DOWNLOAD_TASK_PREF";
+    public static final String DOWNLOAD_TASK_ID_KEY = "DOWNLOAD_TASK_ID_KEY";
+    public static final String DOWNLOAD_ERCODE_TASK_ID_KEY = "DOWNLOAD_ERCODE_TASK_ID_KEY";
+
     public static LocationService locationService;
     public Vibrator mVibrator;
     public static InitApp initApp;

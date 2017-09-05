@@ -90,4 +90,5 @@
     <color name="light_black">#fd383838</color>
     <color name="bg_light_gray">#F2F2F2</color>
     <color name="red_base">#FB5B81</color>
+    <color name="cube_mints_white">#ffffff</color>
 </resources>

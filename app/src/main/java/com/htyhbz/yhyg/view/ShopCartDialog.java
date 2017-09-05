@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.htyhbz.yhyg.R;
 import com.htyhbz.yhyg.activity.BaseActivity;
+import com.htyhbz.yhyg.activity.shoppingcat.ShoppingCatActivity;
 import com.htyhbz.yhyg.adapter.PopupDishAdapter;
 import com.htyhbz.yhyg.imp.ShopCartImp;
 import com.htyhbz.yhyg.utils.DensityUtil;
@@ -35,6 +36,7 @@ public class ShopCartDialog  extends Dialog implements View.OnClickListener,Shop
     private PopupDishAdapter dishAdapter;
     private ShopCartDialogImp shopCartDialogImp;
     private Context context;
+    private RelativeLayout mainRL;
     private String priceLimit;
 
     public ShopCartDialog(Context context, ShopCart shopCart,int themeResId,String priceLimit) {
@@ -60,10 +62,9 @@ public class ShopCartDialog  extends Dialog implements View.OnClickListener,Shop
         shopingcartLayout.setOnClickListener(this);
         bottomLayout.setOnClickListener(this);
         clearLayout.setOnClickListener(this);
-//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-//        layoutManager.setAutoMeasureEnabled(true);
+        mainRL= (RelativeLayout) findViewById(R.id.mainRL);
         recyclerView.setLayoutManager( new LinearLayoutManager(getContext()));
-        dishAdapter = new PopupDishAdapter(getContext(),shopCart);
+        dishAdapter = new PopupDishAdapter(getContext(),shopCart,mainRL);
         recyclerView.setAdapter(dishAdapter);
         dishAdapter.setShopCartImp(this);
         shoppingCatCommitTextView.setOnClickListener(this);
@@ -75,18 +76,9 @@ public class ShopCartDialog  extends Dialog implements View.OnClickListener,Shop
                 dismiss();
             }
         });
-        RelativeLayout mainRL= (RelativeLayout) findViewById(R.id.mainRL);
-        android.view.ViewGroup.LayoutParams params= mainRL.getLayoutParams();
-        if(shopCart.getShoppingSingleMap().size()==1){
-            params.height= DensityUtil.dip2px(getContext(),90+50);
-        }else if(shopCart.getShoppingSingleMap().size()==2){
-            params.height=DensityUtil.dip2px(getContext(),90+50*2);
-        }else if(shopCart.getShoppingSingleMap().size()==3){
-            params.height=DensityUtil.dip2px(getContext(),90+50*3);
-        }else{
-            params.height=DensityUtil.dip2px(getContext(),90+50*4);
-        }
-        mainRL.setLayoutParams(params);
+
+        setmainRL();
+
     }
 
     @Override
@@ -101,7 +93,7 @@ public class ShopCartDialog  extends Dialog implements View.OnClickListener,Shop
     }
 
     private void showTotalPrice(){
-        if(shopCart!=null && shopCart.getShoppingTotalPrice()>0){
+        if(shopCart!=null && shopCart.getShoppingSingleMap().size()>0){
             totalPriceTextView.setVisibility(View.VISIBLE);
             totalPriceTextView.setText("共￥ " + shopCart.getShoppingTotalPrice());
             totalPriceNumTextView.setVisibility(View.VISIBLE);
@@ -178,6 +170,8 @@ public class ShopCartDialog  extends Dialog implements View.OnClickListener,Shop
                 clear();
                 break;
             case R.id.shopping_cart_commit_tv:
+                ((ShoppingCatActivity)context).commit();
+                this.dismiss();
                 break;
         }
     }
@@ -214,5 +208,19 @@ public class ShopCartDialog  extends Dialog implements View.OnClickListener,Shop
             this.dismiss();
         }
         ((BaseActivity)context).toast(context,"已清空购物车");
+    }
+
+    public void setmainRL(){
+        android.view.ViewGroup.LayoutParams params= mainRL.getLayoutParams();
+        if(shopCart.getShoppingSingleMap().size()==1){
+            params.height= DensityUtil.dip2px(getContext(),90+50);
+        }else if(shopCart.getShoppingSingleMap().size()==2){
+            params.height=DensityUtil.dip2px(getContext(),90+50*2);
+        }else if(shopCart.getShoppingSingleMap().size()==3){
+            params.height=DensityUtil.dip2px(getContext(),90+50*3);
+        }else{
+            params.height=DensityUtil.dip2px(getContext(),90+50*4);
+        }
+        mainRL.setLayoutParams(params);
     }
 }

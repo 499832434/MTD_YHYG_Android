@@ -8,9 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.htyhbz.yhyg.R;
+import com.htyhbz.yhyg.activity.shoppingcat.ShoppingCatActivity;
 import com.htyhbz.yhyg.imp.ShopCartImp;
+import com.htyhbz.yhyg.utils.DensityUtil;
 import com.htyhbz.yhyg.vo.Product;
 import com.htyhbz.yhyg.vo.ShopCart;
 
@@ -27,12 +30,14 @@ public class PopupDishAdapter extends RecyclerView.Adapter{
     private int itemCount;
     private ArrayList<Product> productList;
     private ShopCartImp shopCartImp;
+    private RelativeLayout mainRL;
 
-    public PopupDishAdapter(Context context, ShopCart shopCart){
+    public PopupDishAdapter(Context context, ShopCart shopCart,RelativeLayout mainRL){
         this.shopCart = shopCart;
         this.context = context;
         this.itemCount = shopCart.getProductAccount();
         this.productList = new ArrayList<Product>();
+        this.mainRL=mainRL;
         productList.addAll(shopCart.getShoppingSingleMap().keySet());
         Log.e(TAG, "PopupDishAdapter: " + this.itemCount);
     }
@@ -50,7 +55,7 @@ public class PopupDishAdapter extends RecyclerView.Adapter{
         final Product product = getDishByPosition(position);
         if(product !=null) {
             dishholder.right_dish_name_tv.setText(product.getproductName());
-            dishholder.right_dish_price_tv.setText(product.getproductPrice() + "");
+            dishholder.right_dish_price_tv.setText(product.getProductPrice() + "");
             int num = shopCart.getShoppingSingleMap().get(product);
             dishholder.right_dish_account_tv.setText(num+"");
 
@@ -75,6 +80,17 @@ public class PopupDishAdapter extends RecyclerView.Adapter{
                         notifyDataSetChanged();
                         if(shopCartImp!=null)
                             shopCartImp.remove(view,position);
+//                        android.view.ViewGroup.LayoutParams params= mainRL.getLayoutParams();
+//                        if(shopCart.getShoppingSingleMap().size()==1){
+//                            params.height= DensityUtil.dip2px(context,90+50);
+//                        }else if(shopCart.getShoppingSingleMap().size()==2){
+//                            params.height=DensityUtil.dip2px(context,90+50*2);
+//                        }else if(shopCart.getShoppingSingleMap().size()==3){
+//                            params.height=DensityUtil.dip2px(context,90+50*3);
+//                        }else{
+//                            params.height=DensityUtil.dip2px(context,90+50*4);
+//                        }
+//                        mainRL.setLayoutParams(params);
                     }
                 }
             });

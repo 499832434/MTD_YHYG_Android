@@ -3,6 +3,7 @@ package com.htyhbz.yhyg.activity.order;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.InputType;
@@ -10,6 +11,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+import com.alipay.sdk.pay.util.AlipayCommonLibSignFromServerActivity;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -33,6 +35,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
+import java.net.URLDecoder;
 import java.util.*;
 
 /**
@@ -48,7 +52,7 @@ public class OrderSettlementActivity extends BaseActivity{
     private int mDay;
     private List<String> townList=new ArrayList<String>();
     private int townPosition=0;
-    private int shoppingTotalPrice;
+    private double shoppingTotalPrice;
     private String flag="";
     private TextView gprsTV,scoreTV,countTV;
     private ImageView scoreIV;
@@ -81,14 +85,14 @@ public class OrderSettlementActivity extends BaseActivity{
             String map=getIntent().getStringExtra("map");
             Log.e("map",map);
             JSONObject jsonObject=new JSONObject(map);
-            shoppingTotalPrice=jsonObject.getInt("shoppingTotalPrice");
+            shoppingTotalPrice=jsonObject.getDouble("shoppingTotalPrice");
             JSONArray array=jsonObject.getJSONArray("shoppinglist");
             for(int i=0;i<array.length();i++){
                 JSONObject obj=array.getJSONObject(i);
                 Product product=new Product();
                 product.setproductId(obj.getInt("productId"));
                 product.setproductName(obj.getString("productName"));
-                product.setproductPrice(obj.getInt("productPrice"));
+                product.setProductPrice(obj.getDouble("productPrice"));
                 product.setproductPictureUrl(obj.getString("productPictureUrl"));
                 product.setorderProductCount(obj.getInt("shoppingsingleTotal"));
                 orderProductionsID.append(obj.getInt("productId") + ",");
@@ -147,20 +151,21 @@ public class OrderSettlementActivity extends BaseActivity{
         countTV.setText("¥"+shoppingTotalPrice+"");
         scoreIV= (ImageView) findViewById(R.id.scoreIV);
         scoreIV.setTag("0");
-        scoreIV.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.scoreRL).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ("0".equals(view.getTag())) {
-                    view.setTag("1");
-                    view.setBackgroundResource(R.drawable.icon_xuanzhong);
-                    int count = shoppingTotalPrice - (Integer.parseInt(getUserInfo(2)) / Integer.parseInt(getUserInfo(3)));
+                if ("0".equals(scoreIV.getTag())) {
+                    scoreIV.setTag("1");
+                    scoreIV.setBackgroundResource(R.drawable.icon_xuanzhong);
+                    double count=(new BigDecimal(Double.toString(shoppingTotalPrice))).subtract(new BigDecimal(Double.toString((Double.parseDouble(getUserInfo(2)) / Double.parseDouble(getUserInfo(3)))))).doubleValue();
+                    //double count = shoppingTotalPrice - (Double.parseDouble(getUserInfo(2)) / Double.parseDouble(getUserInfo(3)));
                     if (count < 0) {
                         count = 0;
                     }
                     countTV.setText("¥" + count + "");
                 } else {
-                    view.setTag("0");
-                    view.setBackgroundResource(R.drawable.icon_weixuanzhong);
+                    scoreIV.setTag("0");
+                    scoreIV.setBackgroundResource(R.drawable.icon_weixuanzhong);
                     countTV.setText("¥" + shoppingTotalPrice + "");
                 }
             }
@@ -419,8 +424,15 @@ public class OrderSettlementActivity extends BaseActivity{
         if("0".equals(scoreIV.getTag())){
             count1=0;
         }else{
-            count1=shoppingTotalPrice/Integer.parseInt(getUserInfo(3));
+            double cc=shoppingTotalPrice*Double.parseDouble(getUserInfo(3));
+            String str=Double.toString(cc).substring(0,Double.toString(cc).indexOf("."));
+            if(cc%1==0){
+                count1=Integer.valueOf(str);
+            }else{
+                count1=Integer.valueOf(str)+1;
+            }
         }
+        Log.e("useIntegralCount",count1+"");
         params.put("useIntegralCount", count1+"");
         boolean b=alipayRadioBtn.isChecked();
         if(b){
@@ -428,12 +440,13 @@ public class OrderSettlementActivity extends BaseActivity{
         }else {
             payType=2;
         }
-        params.put("payType", payType+"");
-        int count;
+        params.put("payType", "1");
+        double count;
         if("0".equals(scoreIV.getTag())){
             count=shoppingTotalPrice;
         }else{
-            count = shoppingTotalPrice - (Integer.parseInt(getUserInfo(2)) / Integer.parseInt(getUserInfo(3)));
+            count=(new BigDecimal(Double.toString(shoppingTotalPrice))).subtract(new BigDecimal(Double.toString((Double.parseDouble(getUserInfo(2)) / Double.parseDouble(getUserInfo(3)))))).doubleValue();
+//            count = shoppingTotalPrice - (Double.parseDouble(getUserInfo(2)) / Double.parseDouble(getUserInfo(3)));
             if (count < 0) {
                 count = 0;
             }
@@ -456,11 +469,9 @@ public class OrderSettlementActivity extends BaseActivity{
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getString("code").equals("0")) {
-                                toast(OrderSettlementActivity.this, "下单成功");
-                                if("shoppingcat".equals(flag)){
-                                    EventBus.getDefault().post(new ShoppingcatRefreshEvent());
-                                }
-                                finish();
+                                Intent intent = new Intent(OrderSettlementActivity.this, AlipayCommonLibSignFromServerActivity.class);
+                                intent.putExtra("payInfo",jsonObject.getString("orderStr"));
+                                startActivityForResult(intent, 1);
                             }else{
                                 OrderSettlementActivity.this.toast(OrderSettlementActivity.this, jsonObject.getString("msg"));
                             }
@@ -478,5 +489,13 @@ public class OrderSettlementActivity extends BaseActivity{
         InitApp.initApp.addToRequestQueue(request);
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1 && resultCode == RESULT_OK) {
+            toast(OrderSettlementActivity.this, "支付成功");
+            EventBus.getDefault().post(new ShoppingcatRefreshEvent());
+            finish();
+        }
+    }
 }

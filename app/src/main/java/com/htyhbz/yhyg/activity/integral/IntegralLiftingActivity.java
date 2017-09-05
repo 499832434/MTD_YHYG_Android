@@ -28,7 +28,7 @@ import java.util.HashMap;
  */
 public class IntegralLiftingActivity extends BaseActivity{
     private EditText moneyET;
-    private int more;
+    private double more;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +44,8 @@ public class IntegralLiftingActivity extends BaseActivity{
                 finish();
             }
         });
-        more=Integer.parseInt(getUserInfo(2))/Integer.parseInt(getUserInfo(3));
-        ((TextView)findViewById(R.id.moreTV)).setText("最多可提现:  "+more+"元");
+        more=Double.parseDouble(getUserInfo(2))/Double.parseDouble(getUserInfo(3));
+        ((TextView)findViewById(R.id.moreTV)).setText("最多可提现:  "+more+"元(可用积分"+Integer.parseInt(getUserInfo(2))+")");
         ((TextView)findViewById(R.id.ruleTV)).setText("兑换规则:  "+getUserInfo(3)+"积分=1元");
         moneyET=((EditText) findViewById(R.id.moneyET));
         findViewById(R.id.commitB).setOnClickListener(new View.OnClickListener() {
@@ -54,7 +54,7 @@ public class IntegralLiftingActivity extends BaseActivity{
                 if (TextUtils.isEmpty(moneyET.getText().toString().trim())) {
                     toast(IntegralLiftingActivity.this, "金额不能为空");
                 } else {
-                    int money = Integer.parseInt(moneyET.getText().toString().trim());
+                    double money = Double.parseDouble(moneyET.getText().toString().trim());
                     if (money > more) {
                         toast(IntegralLiftingActivity.this, "金额超过上限");
                     } else {
@@ -68,7 +68,7 @@ public class IntegralLiftingActivity extends BaseActivity{
     /**
      * 网络请求
      */
-    private void request(int money) {
+    private void request(double money) {
         if (!NetworkUtils.isNetworkAvailable(IntegralLiftingActivity.this)) {
             return;
         }

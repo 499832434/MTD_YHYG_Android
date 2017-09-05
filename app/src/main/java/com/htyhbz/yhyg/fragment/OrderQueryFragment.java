@@ -26,6 +26,7 @@ import com.htyhbz.yhyg.activity.order.OrderQueryActivity;
 import com.htyhbz.yhyg.adapter.OrderTypeAdapter;
 import com.htyhbz.yhyg.net.HighRequest;
 import com.htyhbz.yhyg.net.NetworkUtils;
+import com.htyhbz.yhyg.utils.Arith;
 import com.htyhbz.yhyg.vo.OrderInfo;
 import com.htyhbz.yhyg.vo.Product;
 import com.htyhbz.yhyg.vo.UserInfo;
@@ -33,6 +34,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -206,7 +208,7 @@ public class OrderQueryFragment extends ErrorsFragment {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getString("code").equals("0")) {
                                 JSONArray infoArr=jsonObject.getJSONArray("info");
-                                int priceCount = 0;
+                                double priceCount = 0;
                                 for(int i=0;i<infoArr.length();i++){
                                     JSONObject obj1= (JSONObject) infoArr.get(i);
                                     JSONObject obj=obj1.getJSONObject("orderInfo");
@@ -214,10 +216,11 @@ public class OrderQueryFragment extends ErrorsFragment {
                                     info.setOrderID(obj.getString("orderID"));
                                     info.setOrderSendTime(obj.getString("orderTime"));
                                     info.setUseIntegralCount(obj.getString("useIntegralCount"));
-                                    info.setOrderAllPrice(obj.getInt("orderAllPrice")+"");
-                                    priceCount+=obj.getInt("orderAllPrice");
+                                    info.setOrderAllPrice(obj.getDouble("orderAllPrice")+"");
+//                                    priceCount+=obj.getDouble("orderAllPrice");
+                                    priceCount= Arith.add(priceCount,obj.getDouble("orderAllPrice"));
                                     info.setOrderType(obj.getString("orderType"));
-                                    info.setActualPayPrice(obj.getInt("actualPayPrice")+"");
+                                    info.setActualPayPrice(obj.getDouble("actualPayPrice")+"");
                                     JSONArray productArr=obj.getJSONArray("orderProductions");
                                     List<Product> productList=new ArrayList<Product>();
                                     for(int j=0;j<productArr.length();j++){
@@ -225,7 +228,7 @@ public class OrderQueryFragment extends ErrorsFragment {
                                         Product product=new Product();
                                         product.setproductId(obj3.getInt("productId"));
                                         product.setproductName(obj3.getString("productName"));
-                                        product.setproductPrice(obj3.getInt("productPrice"));
+                                        product.setProductPrice(obj3.getDouble("productPrice"));
                                         if(TextUtils.isEmpty(obj3.getString("productPictureUrl"))||"null".equals(obj3.getString("productPictureUrl"))){
                                             product.setproductPictureUrl("");
                                         }else{

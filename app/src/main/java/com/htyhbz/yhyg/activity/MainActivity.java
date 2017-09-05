@@ -24,6 +24,7 @@ public class MainActivity extends BaseActivity {
     private FragmentManager mFragmentManager;
     public CustomViewPager masterViewPager;
     public  OrderFragment orderFragment;
+    private AccountFragment accountFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 masterViewPager.setCurrentItem(2);
+                accountFragment.getUserIntegral();
             }
         });
     }
@@ -88,7 +90,7 @@ public class MainActivity extends BaseActivity {
                 orderFragment=new OrderFragment();
                 return orderFragment;
             } else if (position == 2) {
-                return new AccountFragment();
+                return accountFragment=new AccountFragment();
             }
             return null;
         }

@@ -104,10 +104,7 @@ public class EnterpriseMainActivity extends BaseActivity implements OnRefreshLis
         findViewById(R.id.unLoginTV).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                toast(EnterpriseMainActivity.this,"已退出账号");
-                clearLoginInfo();
-                startActivity(new Intent(EnterpriseMainActivity.this,LoginActivity.class));
-                finish();
+                showLoginOutDialog();
             }
         });
         swipeToLoadLayout = (SwipeToLoadLayout) findViewById(R.id.swipeToLoadLayout);
