@@ -269,6 +269,7 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
         }
     }
 
+
     /**
      * 网络请求
      */
