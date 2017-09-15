@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal"
+        android:background="@drawable/bg_dialog_style_n">
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:orientation="vertical"
+                  android:gravity="center"
+                  android:layout_marginTop="20dp"
+                  android:layout_height="wrap_content" android:layout_marginLeft="5dp" android:layout_marginRight="5dp">
+        <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#393939"
+                android:textSize="18sp"
+                android:text=""
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal"
+                />
+        <TextView
+                android:id="@+id/messageTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#393939"
+                android:visibility="gone"
+                android:layout_marginTop="5dp"
+                android:textSize="18sp"/>
+    </LinearLayout>
+
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#e1e1e1"
+            android:layout_marginTop="20dp"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+        <TextView
+                android:id="@+id/leftTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:textColor="#3784B5"
+                android:background="#00000000"
+                android:gravity="center"/>
+
+        <View
+                android:id="@+id/lineView"
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="#e1e1e1"/>
+        <TextView
+                android:id="@+id/rightTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:textColor="#3784B5"
+                android:background="#00000000"
+                android:gravity="center"/>
+    </LinearLayout>
+
+</LinearLayout>

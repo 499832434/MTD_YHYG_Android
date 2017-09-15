@@ -5,6 +5,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.htyhbz.yhyg.InitApp;
 import com.htyhbz.yhyg.R;
 import com.htyhbz.yhyg.activity.BaseActivity;
 import com.htyhbz.yhyg.activity.shoppingcat.ShoppingCatActivity;
@@ -21,6 +23,7 @@ import com.htyhbz.yhyg.adapter.PopupDishAdapter;
 import com.htyhbz.yhyg.imp.ShopCartImp;
 import com.htyhbz.yhyg.utils.DensityUtil;
 import com.htyhbz.yhyg.vo.ShopCart;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by zongshuo on 2017/7/12.
@@ -167,7 +170,14 @@ public class ShopCartDialog  extends Dialog implements View.OnClickListener,Shop
                 this.dismiss();
                 break;
             case R.id.clear_layout:
-                clear();
+                ((BaseActivity)context).showAlertDialog(context, "确认要清空购物车吗?", "",
+                        "取消", "确认", null, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ((BaseActivity)context).hideAlertDialog();
+                                clear();
+                            }
+                        }, null, true);
                 break;
             case R.id.shopping_cart_commit_tv:
                 ((ShoppingCatActivity)context).commit();

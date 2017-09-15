@@ -123,11 +123,11 @@ public class EnAddressFragment extends Fragment {
         LatLng pt1 = new LatLng(Double.parseDouble(mActivity.getUserInfo(7)),Double.parseDouble(mActivity.getUserInfo(6)));
         LatLng pt2 = new LatLng(Double.parseDouble(enterpriseLatitude),Double.parseDouble(enterpriseLongitude));
 
-        NaviParaOption para = new NaviParaOption().startPoint(pt1).endPoint(pt2)
-                .startName("天安门").endName("百度大厦");
+        NaviParaOption para = new NaviParaOption().startPoint(pt1).endPoint(pt2);
 
 
         try {
+            BaiduMapNavigation.setSupportWebNavi(true);
             BaiduMapNavigation.openBaiduMapNavi(para, mActivity);
         } catch (BaiduMapAppNotSupportNaviException e) {
             e.printStackTrace();

@@ -92,6 +92,7 @@
                   android:textColor="#ffffff"
                   android:drawablePadding="5dp"
                   android:paddingRight="5dp"
+                  android:paddingLeft="5dp"
                   android:visibility="gone"
                   android:layout_marginRight="14dp"
                   android:drawableLeft="@drawable/ic_shopping_cart_white_24dp"

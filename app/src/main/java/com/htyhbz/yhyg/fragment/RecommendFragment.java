@@ -277,7 +277,10 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
         if (!NetworkUtils.isNetworkAvailable(mActivity)) {
             return;
         }
-
+        yanhuaLL.setVisibility(View.INVISIBLE);
+        baozhuLL.setVisibility(View.INVISIBLE);
+        taocanLL.setVisibility(View.INVISIBLE);
+        xiaoyanhuaLL.setVisibility(View.INVISIBLE);
         HashMap<String,String> params=mActivity.getNetworkRequestHashMap();
         params.put("userID", mActivity.getUserInfo(0));
         params.put("areaID", mActivity.getUserInfo(1));
@@ -311,21 +314,25 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
                                             yanhuaTV.setText(obj.getString("catalog"));
                                             mActivity.getNetWorkPicture(ApiConstants.BASE_URL + obj.getString("categoryImageUrl"), yanhuaIV);
                                             yanhuaLL.setTag(obj.getInt("categoryId"));
+                                            yanhuaLL.setVisibility(View.VISIBLE);
                                             break;
                                         case 1:
                                             baozhuTV.setText(obj.getString("catalog"));
                                             mActivity.getNetWorkPicture(ApiConstants.BASE_URL + obj.getString("categoryImageUrl"), baozhuIV);
                                             baozhuLL.setTag(obj.getInt("categoryId"));
+                                            baozhuLL.setVisibility(View.VISIBLE);
                                             break;
                                         case 2:
                                             taocanTV.setText(obj.getString("catalog"));
                                             mActivity.getNetWorkPicture(ApiConstants.BASE_URL + obj.getString("categoryImageUrl"), taocanIV);
                                             taocanLL.setTag(obj.getInt("categoryId"));
+                                            taocanLL.setVisibility(View.VISIBLE);
                                             break;
                                         case 3:
                                             xiaoyanhuaTV.setText(obj.getString("catalog"));
                                             mActivity.getNetWorkPicture(ApiConstants.BASE_URL + obj.getString("categoryImageUrl"), xiaoyanhuaIV);
                                             xiaoyanhuaLL.setTag(obj.getInt("categoryId"));
+                                            xiaoyanhuaLL.setVisibility(View.VISIBLE);
                                             break;
                                     }
                                 }
@@ -406,5 +413,6 @@ public class RecommendFragment extends Fragment implements OnRefreshListener,MyS
         );
         InitApp.initApp.addToRequestQueue(request);
     }
+
 
 }

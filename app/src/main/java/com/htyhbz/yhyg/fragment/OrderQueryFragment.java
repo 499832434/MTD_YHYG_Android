@@ -336,7 +336,7 @@ public class OrderQueryFragment extends ErrorsFragment {
         builder.setTitle("请选择城镇");
         int size = list.size();
         final String[] arr = (String[])list.toArray(new String[size]);//
-        builder.setSingleChoiceItems(arr, 0, new DialogInterface.OnClickListener()
+        builder.setSingleChoiceItems(arr, townPosition, new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialog, int which)

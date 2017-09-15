@@ -97,4 +97,6 @@ public class OrderFragment extends Fragment {
     public List<OrderTypeFragment> getFragments() {
         return fragments;
     }
+
+
 }

@@ -74,6 +74,7 @@
                         <LinearLayout android:layout_width="0dp"
                                       android:layout_weight="1"
                                       android:id="@+id/yanhuaLL"
+                                      android:visibility="invisible"
                                       android:orientation="horizontal"
                                       android:gravity="center_vertical"
                                       android:paddingTop="15dp"
@@ -102,6 +103,7 @@
                                       android:layout_weight="1"
                                       android:paddingTop="15dp"
                                       android:id="@+id/baozhuLL"
+                                      android:visibility="invisible"
                                       android:paddingBottom="15dp"
                                       android:orientation="horizontal"
                                       android:gravity="center_vertical"
@@ -136,6 +138,7 @@
                                       android:orientation="horizontal"
                                       android:gravity="center_vertical"
                                       android:paddingTop="15dp"
+                                      android:visibility="invisible"
                                       android:paddingBottom="15dp"
                                       android:layout_height="wrap_content">
                             <ImageView
@@ -161,6 +164,7 @@
                                       android:layout_weight="1"
                                       android:paddingTop="15dp"
                                       android:id="@+id/xiaoyanhuaLL"
+                                      android:visibility="invisible"
                                       android:paddingBottom="15dp"
                                       android:orientation="horizontal"
                                       android:gravity="center_vertical"

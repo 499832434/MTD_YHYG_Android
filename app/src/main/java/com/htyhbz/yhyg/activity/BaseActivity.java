@@ -15,10 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,6 +27,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.gyf.barlibrary.ImmersionBar;
 import com.htyhbz.yhyg.ApiConstants;
 import com.htyhbz.yhyg.InitApp;
 import com.htyhbz.yhyg.R;
@@ -41,10 +39,14 @@ import com.htyhbz.yhyg.utils.PrefUtils;
 import com.htyhbz.yhyg.view.ShopCartDialog;
 import com.htyhbz.yhyg.view.ShopLoginOutDialog;
 import com.htyhbz.yhyg.view.StatusBarCompat;
+import com.htyhbz.yhyg.view.StatusBarUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -52,18 +54,16 @@ import java.util.HashMap;
  */
 public abstract class BaseActivity extends AppCompatActivity {
     private LocationService locationService;
-
-
+    private static Dialog dialog;
+    protected ImmersionBar mImmersionBar;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            StatusBarCompat.setStatusBarColor(this, Color.parseColor("#F4A100"));
-//            StatusBarCompat.translucentStatusBar(this);
-//        }
+//        setStatusBar();
     }
 
-
+    protected void setStatusBar() {
+        StatusBarUtil.setColor(BaseActivity.this, Color.parseColor("#000000"));
+    }
 
 
     /**
@@ -431,4 +431,97 @@ public abstract class BaseActivity extends AppCompatActivity {
             context.startActivity(intent);
         }
     }
+
+
+    public static void showAlertDialog(Context context, String title, String message, String leftBtnText, String rightBtnText,
+                                       View.OnClickListener leftBtnListener, View.OnClickListener rightBtnListener,
+                                       DialogInterface.OnDismissListener onDismissListener, boolean canceledOnToucheOutside) {
+        hideAlertDialog();
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_style_nn, null);
+        //AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.CommonDialog);
+        //builder.setView(view);
+        //设置标题
+        if (title != null && title.length() != 0)
+            ((TextView) view.findViewById(R.id.titleTextView)).setText(title);
+
+        //设置信息 参数为空则隐藏组件
+        if (message != null && message.length() != 0){
+            ((TextView) view.findViewById(R.id.messageTextView)).setText(message);
+            view.findViewById(R.id.messageTextView).setVisibility(View.VISIBLE);
+        }
+        else
+            view.findViewById(R.id.messageTextView).setVisibility(View.GONE);
+
+        //设置取消按钮
+        if (leftBtnListener == null) {
+            ((TextView) view.findViewById(R.id.leftTextView)).setText(leftBtnText);
+            view.findViewById(R.id.leftTextView).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    hideAlertDialog();
+                }
+            });
+        } else {
+            ((TextView) view.findViewById(R.id.leftTextView)).setText(leftBtnText);
+            view.findViewById(R.id.leftTextView).setOnClickListener(leftBtnListener);
+        }
+
+        //设置确定按钮  监听为空则隐藏确定按钮
+        if (rightBtnListener == null) {
+            view.findViewById(R.id.rightTextView).setVisibility(View.GONE);
+            view.findViewById(R.id.lineView).setVisibility(View.GONE);
+        } else {
+            ((TextView) view.findViewById(R.id.rightTextView)).setText(rightBtnText);
+            view.findViewById(R.id.rightTextView).setOnClickListener(rightBtnListener);
+        }
+
+        //dialog = builder.create();
+        dialog = new Dialog(context, R.style.CommonDialog);
+        dialog.setContentView(view);
+        if (onDismissListener != null) {
+            dialog.setOnDismissListener(onDismissListener);
+        }
+        dialog.setCanceledOnTouchOutside(canceledOnToucheOutside);
+        if (!canceledOnToucheOutside) {
+            dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                @Override
+                public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        return true;
+                    } else {
+                        return false; //默认返回 false
+                    }
+                }
+            });
+        }
+
+        dialog.show();
+    }
+
+    public static void hideAlertDialog() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
+
+
+    public static int compare_date(String DATE1, String DATE2) {
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date dt1 = df.parse(DATE1);
+            Date dt2 = df.parse(DATE2);
+            if (dt1.getTime() >= dt2.getTime()) {
+                System.out.println("dt1 在dt2前");
+                return 1;
+            } else {
+                System.out.println("dt1在dt2后");
+                return 0;
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return 1;
+    }
+
 }

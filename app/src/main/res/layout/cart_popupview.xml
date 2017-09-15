@@ -84,7 +84,7 @@
             android:text="120"
             android:textColor="@color/white"
             android:textAlignment="center"
-            android:textSize="@dimen/shopping_cart_total_price_word_size"
+            android:textSize="16sp"
             android:visibility="gone"
             android:layout_marginLeft="@dimen/shopping_cart_total_price_left_magrin"/>
         <LinearLayout android:layout_width="match_parent"
@@ -101,7 +101,7 @@
                     android:background="#f78648"
                     android:textColor="@color/white"
                     android:textAlignment="center"
-                    android:textSize="15sp"
+                    android:textSize="16sp"
                     android:visibility="gone"/>
         </LinearLayout>
 
@@ -114,11 +114,11 @@
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_above="@+id/lineview"
         android:clickable="true"
-        android:background="@drawable/circle_uncheck">
+        android:background="@drawable/circle_checked">
         <ImageView
             android:id="@+id/shopping_cart"
-            android:layout_width="@dimen/shopping_cart_image_height"
-            android:layout_height="@dimen/shopping_cart_image_height"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_shopping_cart_white_24dp"/>
     </FrameLayout>

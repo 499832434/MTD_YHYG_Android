@@ -32,6 +32,7 @@ import com.htyhbz.yhyg.event.ShoppingcatRefreshEvent;
 import com.htyhbz.yhyg.imp.ShopCartImp;
 import com.htyhbz.yhyg.net.HighRequest;
 import com.htyhbz.yhyg.net.NetworkUtils;
+import com.htyhbz.yhyg.utils.Arith;
 import com.htyhbz.yhyg.utils.PointFTypeEvaluator;
 import com.htyhbz.yhyg.utils.PrefUtils;
 import com.htyhbz.yhyg.view.CustomTitleBar;
@@ -200,8 +201,6 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
                 for(int i=0;i<shoppingcatArr.length();i++){
                     JSONObject obj=shoppingcatArr.getJSONObject(i);
                     if(obj.getString("userid").equals(getUserInfo(0))){
-                        shoppingTotalPrice=obj.getDouble("shoppingTotalPrice");
-                        shoppingAccount=obj.getInt("shoppingAccount");
                         shoppinglist=obj.getJSONArray("shoppinglist");
                         flag=false;
                         break;
@@ -265,7 +264,9 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        leftAdapter.removeItemSelectedListener(this);
+        if(leftAdapter!=null){
+            leftAdapter.removeItemSelectedListener(this);
+        }
         EventBus.getDefault().unregister(this);
     }
 
@@ -396,10 +397,14 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
                 shoppingCatCommitTextView.setClickable(true);
             }
         }else {
-            totalPriceTextView.setVisibility(View.GONE);
+//            totalPriceTextView.setVisibility(View.GONE);
+            totalPriceTextView.setText("购物车是空的");
             totalPriceNumTextView.setVisibility(View.GONE);
-            shopingCartLayout.setBackgroundResource(R.drawable.circle_uncheck);
-            shoppingCatCommitTextView.setVisibility(View.GONE);
+            shopingCartLayout.setBackgroundResource(R.drawable.circle_checked);
+//            shoppingCatCommitTextView.setVisibility(View.GONE);
+            shoppingCatCommitTextView.setText("去结算");
+            shoppingCatCommitTextView.setBackgroundColor(Color.parseColor("#666666"));
+            shoppingCatCommitTextView.setClickable(false);
         }
     }
 
@@ -483,6 +488,8 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
                                 JSONArray infoArr=jsonObject.getJSONArray("info");
                                 int num=0;
                                 Map<Product,Integer> shoppingSingle=new HashMap<Product, Integer>();
+                                int totalNum=0;
+                                double totalPrice=0;
                                 for(int i=0;i<infoArr.length();i++){
                                     num+=1;
                                     ProductMenu menu=new ProductMenu();
@@ -522,14 +529,19 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
                                         }else{
                                             product.setProductVideoUrl(ApiConstants.BASE_URL + data.getString("productVideoUrl"));
                                         }
-                                        Log.e("aaaaaaa",data.getDouble("productPrice")+"");
-                                        product.setProductPrice(data.getDouble("productPrice"));
+                                        if((!TextUtils.isEmpty(data.getString("productPrice"))&&(!"null".equals(data.getString("productPrice"))))){
+                                            product.setProductPrice(data.getDouble("productPrice"));
+                                        }
+                                        //Log.e("aaaaaaa",data.getDouble("productPrice")+"");
+                                        //product.setProductPrice(data.getDouble("productPrice"));
                                         productList.add(product);
 
                                         for(int z=0;z<shoppinglist.length();z++){
                                             JSONObject json=shoppinglist.getJSONObject(z);
                                             if(json.getInt("productId")==data.getInt("productId")){
                                                 shoppingSingle.put(product,json.getInt("shoppingsingleTotal"));
+                                                totalNum+=json.getInt("shoppingsingleTotal");
+                                                totalPrice=Arith.add(totalPrice,product.getProductPrice()*json.getInt("shoppingsingleTotal"));
                                                 break;
                                             }
                                         }
@@ -538,6 +550,8 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
                                     menu.setProductList(productList);
                                     productMenuList.add(menu);
                                 }
+                                shoppingTotalPrice=totalPrice;
+                                shoppingAccount=totalNum;
                                 shopCart = new ShopCart(shoppingAccount,shoppingTotalPrice,shoppingSingle);
                                 if(productMenuList.size()>0){
                                   initAdapter(leftPosition, rightPosition);
@@ -638,6 +652,9 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
     }
 
     private String mapToString(){
+        if(rightAdapter.getShopCart()==null){
+            return "";
+        }
         ShopCart cat=rightAdapter.getShopCart();
         if(cat.getProductAccount()==0||cat.getShoppingSingleMap().size()==0){
             clearData();
@@ -751,27 +768,6 @@ public class ShoppingCatActivity extends BaseActivity implements LeftMenuAdapter
             return "";
         }
 
-
-
-//        HashMap<String,Object> map=new HashMap<String, Object>();
-//        map.put("shoppingAccount",cat.getShoppingAccount());
-//        map.put("shoppingTotalPrice", cat.getShoppingTotalPrice());
-//        Map<Product,Integer> shoppingSingle=cat.getShoppingSingleMap();
-//        ArrayList<HashMap> list=new ArrayList<HashMap>();
-//        for(Product product:shoppingSingle.keySet()){
-//            HashMap<String,Object> map1=new HashMap<String, Object>();
-//            map1.put("shoppingsingleTotal",shoppingSingle.get(product));
-//            map1.put("productId",product.getproductId());
-//            map1.put("productName",product.getproductName());
-//            map1.put("productPictureUrl",product.getproductPictureUrl());
-//            map1.put("productPrice",product.getproductPrice());
-//            list.add(map1);
-//        }
-//        map.put("shoppinglist", list);
-//
-//        Gson gson=new Gson();
-//        String str=gson.toJson(map);
-//        return str;
     }
 
     public void onEvent(ShoppingcatRefreshEvent event) {

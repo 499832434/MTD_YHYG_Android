@@ -37,6 +37,8 @@ import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.net.URLDecoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -54,7 +56,7 @@ public class OrderSettlementActivity extends BaseActivity{
     private int townPosition=0;
     private double shoppingTotalPrice;
     private String flag="";
-    private TextView gprsTV,scoreTV,countTV;
+    private TextView gprsTV,scoreTV,countTV,commitTV;
     private ImageView scoreIV;
     private int payType=1;
     private RadioButton alipayRadioBtn, wechatRadioBtn;
@@ -62,6 +64,7 @@ public class OrderSettlementActivity extends BaseActivity{
     private StringBuffer orderProductionsID,orderProductionsCount;
     private UserInfo userInfo;
     private String orderId="";
+    private DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -175,7 +178,8 @@ public class OrderSettlementActivity extends BaseActivity{
         orderMLV.setAdapter(adapter);
 
         townET= (EditText) findViewById(R.id.townET);
-        findViewById(R.id.commitTV).setOnClickListener(new View.OnClickListener() {
+        commitTV= (TextView) findViewById(R.id.commitTV);
+        commitTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 commit();
@@ -243,9 +247,15 @@ public class OrderSettlementActivity extends BaseActivity{
      */
 
     private void updateDisplay() {
-        orderSendTimeET.setText(new StringBuilder().append(mYear).append("-").append(
+        String str=new StringBuilder().append(mYear).append("-").append(
                 (mMonth + 1) < 10 ? "0" + (mMonth + 1) : (mMonth + 1)).append("-").append(
-                (mDay < 10) ? "0" + mDay : mDay));
+                (mDay < 10) ? "0" + mDay : mDay).toString();
+        int i=compare_date(str, df.format(new Date()));
+        if(i==0){
+            Toast.makeText(OrderSettlementActivity.this,"请选择当天或以后日期",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        orderSendTimeET.setText(str);
     }
 
     /**
@@ -309,7 +319,7 @@ public class OrderSettlementActivity extends BaseActivity{
         builder.setTitle("请选择城镇");
         int size = list.size();
         final String[] arr = (String[])list.toArray(new String[size]);//
-        builder.setSingleChoiceItems(arr, 0, new DialogInterface.OnClickListener()
+        builder.setSingleChoiceItems(arr, townPosition, new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialog, int which)
@@ -380,6 +390,7 @@ public class OrderSettlementActivity extends BaseActivity{
         if (!NetworkUtils.isNetworkAvailable(OrderSettlementActivity.this)) {
             return;
         }
+        commitTV.setClickable(false);
         if(gprsTV.getText().toString().indexOf("请选择乡镇")!=-1){
             toast(OrderSettlementActivity.this,"请选择乡镇");
             return;
@@ -469,20 +480,42 @@ public class OrderSettlementActivity extends BaseActivity{
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getString("code").equals("0")) {
-                                Intent intent = new Intent(OrderSettlementActivity.this, AlipayCommonLibSignFromServerActivity.class);
-                                intent.putExtra("payInfo",jsonObject.getString("orderStr"));
-                                startActivityForResult(intent, 1);
+                                if(jsonObject.has("orderStr")){
+                                    Intent intent = new Intent(OrderSettlementActivity.this, AlipayCommonLibSignFromServerActivity.class);
+                                    intent.putExtra("payInfo",jsonObject.getString("orderStr"));
+                                    startActivityForResult(intent, 1);
+                                }else{
+                                    showAlertDialog(OrderSettlementActivity.this, "恭喜您", "支付成功,请至已支付订单列表查看",
+                                            "取消", "确认",  new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    hideAlertDialog();
+                                                    EventBus.getDefault().post(new ShoppingcatRefreshEvent());
+                                                    finish();
+                                                }
+                                            }, new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    hideAlertDialog();
+                                                    EventBus.getDefault().post(new ShoppingcatRefreshEvent());
+                                                    finish();
+                                                }
+                                            }, null, true);
+                                }
+
                             }else{
                                 OrderSettlementActivity.this.toast(OrderSettlementActivity.this, jsonObject.getString("msg"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
+                        }finally {
+                            commitTV.setClickable(true);
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                commitTV.setClickable(true);
             }
         }
         );
@@ -493,9 +526,23 @@ public class OrderSettlementActivity extends BaseActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1 && resultCode == RESULT_OK) {
-            toast(OrderSettlementActivity.this, "支付成功");
-            EventBus.getDefault().post(new ShoppingcatRefreshEvent());
-            finish();
+            showAlertDialog(OrderSettlementActivity.this, "恭喜您", "支付成功,请至已支付订单列表查看",
+                    "取消", "确认",  new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            hideAlertDialog();
+                            EventBus.getDefault().post(new ShoppingcatRefreshEvent());
+                            finish();
+                        }
+                    }, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            hideAlertDialog();
+                            EventBus.getDefault().post(new ShoppingcatRefreshEvent());
+                            finish();
+                        }
+                    }, null, true);
+
         }
     }
 }

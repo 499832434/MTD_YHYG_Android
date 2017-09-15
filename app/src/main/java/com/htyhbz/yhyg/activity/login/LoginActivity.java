@@ -80,8 +80,8 @@ public class LoginActivity extends BaseActivity{
         params.put("phoneNumber", phoneNumber);
         params.put("password", InitApp.getSHA256StrJava(password));
 //        Log.e("password", InitApp.getSHA256StrJava(password));
-        String url=InitApp.getUrlByParameter(ApiConstants.PHONE_LOGIN_API,params,true);
-        Log.e("loginUrl",url);
+        String url=InitApp.getUrlByParameter(ApiConstants.PHONE_LOGIN_API, params, true);
+        Log.e("loginUrl", url);
         HighRequest request = new HighRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -99,18 +99,22 @@ public class LoginActivity extends BaseActivity{
                                 String userPermission=info.getString("userPermission");
                                 if("6".equals(userPermission)||"7".equals(userPermission)){
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                    finish();
                                 }else if("3".equals(userPermission)){
                                     Intent intent = new Intent(LoginActivity.this, EnterpriseMainActivity.class);
                                     intent.putExtra("flag", "3");
                                     startActivity(intent);
+                                    finish();
                                 }else if("2".equals(userPermission)){
                                     Intent intent = new Intent(LoginActivity.this, EnterpriseMainActivity.class);
                                     intent.putExtra("flag", "2");
                                     startActivity(intent);
+                                    finish();
+                                }else{
+                                    toast(LoginActivity.this,"您的账号无法在APP登录");
                                 }
-                                finish();
                             }else{
-                                toast(LoginActivity.this,jsonObject.getString("info"));
+                                toast(LoginActivity.this,jsonObject.getString("msg"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

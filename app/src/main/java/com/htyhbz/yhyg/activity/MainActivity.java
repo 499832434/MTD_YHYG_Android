@@ -7,13 +7,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.SparseArray;
 import android.view.*;
+import com.gyf.barlibrary.ImmersionBar;
 import com.htyhbz.yhyg.R;
 import com.htyhbz.yhyg.fragment.AccountFragment;
 import com.htyhbz.yhyg.fragment.OrderFragment;
 import com.htyhbz.yhyg.fragment.RecommendFragment;
 import com.htyhbz.yhyg.view.CustomViewPager;
+import com.htyhbz.yhyg.view.StatusBarUtil;
+
+import java.util.Random;
 
 /**
  * Created by zongshuo on 2017/7/3.
@@ -25,6 +30,7 @@ public class MainActivity extends BaseActivity {
     public CustomViewPager masterViewPager;
     public  OrderFragment orderFragment;
     private AccountFragment accountFragment;
+    private RecommendFragment recommendFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,7 +91,7 @@ public class MainActivity extends BaseActivity {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return new RecommendFragment();
+                return recommendFragment=new RecommendFragment();
             } else if (position == 1) {
                 orderFragment=new OrderFragment();
                 return orderFragment;
@@ -133,5 +139,6 @@ public class MainActivity extends BaseActivity {
     public OrderFragment getOrderFragment() {
         return orderFragment;
     }
+
 
 }
